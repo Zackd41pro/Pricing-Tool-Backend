@@ -110,6 +110,13 @@ Attribute VB_Name = "DTS_V1_DEV"
 
         End Enum
         
+        Private Function get_global_unit_cost_refresh_ignore_trigger() As String
+            get_global_unit_cost_refresh_ignore_trigger = "<skip>"
+        End Function
+        
+        Private Function get_global_decoder_symbol() As String
+            get_global_decoder_symbol = "-"
+        End Function
         
         Private Function Check_DTS_Table_V0_01A() As Boolean
         'currently functional as of (8/7/2020) checked by: (zdaugherty)
@@ -619,7 +626,7 @@ dts_cant_find_goalpost:
                 'setup variables
                     'na
                 'start check
-                    condition = DTS_V1_DEV.check
+                    condition = DTS_V1_DEV.check(True)
                 'check for check pass and if so run command else throw error
                     If (condition = True) Then
                         Select Case choice
@@ -643,12 +650,37 @@ Dts_error_run_check_not_passed:
 '-----------------------------------------------------------------------------------------------------------------------------------------------
 'START OF private routines belonging to Run()
 '-----------------------------------------------------------------------------------------------------------------------------------------------
-            Private Function check() As Boolean
-                        MsgBox ("need to add green text: Dts_v1_dev")
-                        Stop
-                        MsgBox ("need to add show_instructions")
-                        Stop
+            Private Function check(Optional dont_show_information As Boolean) As Boolean
+                'currently functional as of (9/3/2020) checked by: (Zachary Daugherty)
+                'Created By (Zachary Daugherty)(9/3/2020)
+                'Purpose Case & notes:
+                    'this function is a check function on if data is stored in the proper place before updates or data is manipulated for the dts page
+                'Library Refrences required
+                    'workbook.object
+                'Modules Required
+                    'string_v1
+                'Inputs
+                    'Internal:
+                        'na
+                    'required:
+                        'na
+                    'optional:
+                        'na
+                'returned outputs
+                    'true if check is passed
+                    'false if stuff should not be updated
+                'code start
+                    'check for dont_show_information
+                        If (dont_show_information = False) Then
+                            MsgBox ("_________________String_Vx.check instructions_________________" & String_V1.get_Special_Char_V1(carriage_return, True) & _
+                            "function is called to make sure all the keystone locations of the data set are anchored to the right positions. data sets that should be checked are the " & _
+                            "following: DTS Tables and SP Tables. if either of these do not pass checks there will be errors generated to fix the positional data of the file")
+                            Stop
+                            Exit Function
+                        End If
+                    'define variables
                         Dim condition As Boolean
+                    'run
                         condition = DTS_V1_DEV.Check_DTS_Table_V0_01A
                         If (condition = True) Then
                             condition = False
@@ -660,6 +692,11 @@ Dts_error_run_check_not_passed:
                         End If
                         
                         check = condition
+                'code end
+                    Exit Function
+                'error handle
+                    'na
+                'end error handle
                     End Function
                     
                     
@@ -673,6 +710,7 @@ Dts_error_run_check_not_passed:
                         'Modules Required
                             'SP_V1
                             'String_v1
+                            'array_V1
                         'Inputs
                             'Internal:
                                 'na
@@ -689,10 +727,6 @@ Dts_error_run_check_not_passed:
                                     "--------------------------------------------------------------------" & String_V1.get_Special_Char_V1(carriage_return, True) & _
                                     "Take the indexed information from the Steel preset data tables and apply the new unit cost to the DTS table. " & _
                                     "This function is private and should normally be called thru the RUN function to prevent mistakes" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                                    "--------------------------------------------------------------------" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                                    "function is using:" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                                    "SP_V1_DEV ( ! )" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                                    "String_V1" & String_V1.get_Special_Char_V1(carriage_return, True) & _
                                     "")
                                     Stop
                                     Exit Function
@@ -708,6 +742,7 @@ Dts_error_run_check_not_passed:
                                     Dim Memory_Main() As String
                                     Dim SP_decoder_A() As String
                                     Dim SP_decoder_B() As String
+                                    Dim Lookup() As String
                                     Dim size_of_dts As Long
                                     Dim size_of_sp_A As Long
                                     Dim size_of_sp_B As Long
@@ -718,6 +753,8 @@ Dts_error_run_check_not_passed:
                                 'containers
                                     Dim L As Long
                                     Dim L_2 As Long
+                                    Dim s As String
+                                    Dim condition As Boolean
                             'setup variables
                                 'setup pos
                                     Set wb = ActiveWorkbook
@@ -727,6 +764,7 @@ Dts_error_run_check_not_passed:
                                     On Error GoTo 0                                             'returns error handler to default
                                     row = -1
                                     col = -1
+                                    s = "empty"
                                 'setup array tables
                                     'check for valid sizes and get sizes
                                         'get size of DTS
@@ -739,6 +777,13 @@ Dts_error_run_check_not_passed:
                                         ReDim Memory_Main(0 To size_of_dts, 0 To DTS_POS.DTS_Q_number_of_tracked_locations)
                                         ReDim SP_decoder_A(0 To size_of_sp_A, 1 To SP_POS.SP_Q_Number_total_A_Tracked_Cells)
                                         ReDim SP_decoder_B(0 To size_of_sp_B, 1 To SP_POS.SP_Q_Number_total_B_Tracked_Cells)
+                                        'lookup setup
+                                            ReDim Lookup(0 To size_of_sp_A + size_of_sp_B, 0 To 3)
+                                            'address assignment
+                                                Lookup(0, 0) = "Lookup Code"
+                                                Lookup(0, 1) = "Sheet its on"
+                                                Lookup(0, 2) = "What table its on"
+                                                Lookup(0, 3) = "address in array"
                                 'setup globals
                                     'dts
                                         On Error GoTo dts_unit_cost_refresh_cant_find_DTS_SHEET
@@ -755,24 +800,22 @@ Dts_error_run_check_not_passed:
                                         home_pos.Activate
                             'load tables
                                 'dts main
-                                    On Error GoTo dts_unit_cost_refresh_cant_find_DTS_SHEET
-                                        Set current_sht = wb.Sheets("DTS")
-                                        'set row col
-                                            row = DTS_POS.DTS_I_part_number_row
+                                    'set focus
+                                        On Error GoTo dts_unit_cost_refresh_cant_find_DTS_SHEET
+                                            Set current_sht = wb.Sheets("DTS")
+                                            'set row col
+                                                row = DTS_POS.DTS_I_part_number_row
+                                                col = DTS_POS.DTS_I_part_number_col
+                                        On Error GoTo 0
+                                    'get
+                                        For L = 0 To size_of_dts
+                                            For L_2 = 1 To DTS_POS.DTS_Q_number_of_tracked_locations
+                                                Memory_Main(L, L_2) = current_sht.Cells(row, col).value
+                                                col = DTS_POS.DTS_I_part_number_col + L_2
+                                            Next L_2
+                                            row = DTS_POS.DTS_I_part_number_row + L + 1
                                             col = DTS_POS.DTS_I_part_number_col
-                                    On Error GoTo 0
-                                    'debug
-                                        current_sht.Activate
-                                        Stop
-                                    '~
-                                    For L = 0 To size_of_dts
-                                        For L_2 = 1 To DTS_POS.DTS_Q_number_of_tracked_locations
-                                            Memory_Main(L, L_2) = current_sht.Cells(row, col).value
-                                            col = DTS_POS.DTS_I_part_number_col + L_2
-                                        Next L_2
-                                        row = DTS_POS.DTS_I_part_number_row + L + 1
-                                        col = DTS_POS.DTS_I_part_number_col
-                                    Next L
+                                        Next L
                                     'cleanup
                                         row = -1
                                         col = -1
@@ -780,10 +823,173 @@ Dts_error_run_check_not_passed:
                                         L_2 = -1
                                         Set current_sht = Nothing
                                 'SP_DECODER_A
-                                    Stop
+                                    'set focus
+                                        On Error GoTo dts_unit_cost_refresh_cant_find_SP_sheet
+                                            Set current_sht = wb.Sheets("Steel Presets")
+                                            'set row col
+                                                row = SP_POS.SP_I_A_Prefix_row
+                                                col = SP_POS.SP_I_A_Prefix_col
+                                        On Error GoTo 0
+                                    'get
+                                        For L = 0 To size_of_sp_A
+                                            For L_2 = 1 To SP_POS.SP_Q_Number_total_A_Tracked_Cells
+                                                SP_decoder_A(L, L_2) = current_sht.Cells(row, col).value
+                                                col = SP_POS.SP_I_A_Prefix_col + L_2
+                                            Next L_2
+                                        row = SP_POS.SP_I_A_Prefix_row + L + 1
+                                        col = SP_POS.SP_I_A_Prefix_col
+                                    Next L
+                                    'cleanup
+                                        row = -1
+                                        col = -1
+                                        L = -1
+                                        L_2 = -1
+                                        Set current_sht = Nothing
                                 'SP_DECODER_B
+                                    'set focus
+                                        On Error GoTo dts_unit_cost_refresh_cant_find_SP_sheet
+                                            Set current_sht = wb.Sheets("Steel Presets")
+                                            'set row col
+                                                row = SP_POS.SP_I_B_Prefix_row
+                                                col = SP_POS.SP_I_B_Prefix_col
+                                        On Error GoTo 0
+                                    'get
+                                        For L = 0 To size_of_sp_B
+                                            For L_2 = 1 To SP_POS.SP_Q_Number_total_B_Tracked_Cells
+                                                SP_decoder_B(L, L_2) = current_sht.Cells(row, col).value
+                                                col = SP_POS.SP_I_B_Prefix_col + L_2
+                                            Next L_2
+                                        row = SP_POS.SP_I_B_Prefix_row + L + 1
+                                        col = SP_POS.SP_I_B_Prefix_col
+                                        Next L
+                                    'cleanup
+                                        row = -1
+                                        col = -1
+                                        L = -1
+                                        L_2 = -1
+                                        Set current_sht = Nothing
+                                        home_pos.Activate
+                            'assemble lookup table
+                                'initialize variables
+                                    L = 0
+                                    L_2 = 1
+                                'start
+                                    Array_V1.ArrayDimensions_Alpha 'use this function for array bounds
                                     Stop
-                            'compair entrys
+                                    For L = 0 To (UBound(Lookup(), 1) - LBound(Lookup(), 1))
+                                        'check to see where table data should be grabed from note will fill in table A first then B
+                                            'section for table a
+                                                If (L > 0) Then
+                                                    If (L <= size_of_sp_A - 1) Then '-1 is included on the end to skip the goalpost of the table
+                                                        Lookup(L, 0) = SP_decoder_A(L, 1)
+                                                        Lookup(L, 1) = SP_V1_DEV.get_sheet_name(True)
+                                                        Lookup(L, 2) = "A"
+                                                        Lookup(L, 3) = L
+                                                    Else
+                                                        'fall through marker
+                                                            Lookup(L, 0) = DTS_V1_DEV.get_global_unit_cost_refresh_ignore_trigger
+                                                            Lookup(L, 1) = DTS_V1_DEV.get_global_unit_cost_refresh_ignore_trigger
+                                                            Lookup(L, 2) = DTS_V1_DEV.get_global_unit_cost_refresh_ignore_trigger
+                                                            Lookup(L, 3) = DTS_V1_DEV.get_global_unit_cost_refresh_ignore_trigger
+                                                    End If
+                                                End If
+                                            'section for table b
+                                                If (L > 0) Then
+                                                    If ((L > size_of_sp_A) And (L < size_of_sp_A + size_of_sp_B)) Then
+                                                        L_2 = L - size_of_sp_A
+                                                        Lookup(L, 0) = SP_decoder_B(L_2, 1)
+                                                        Lookup(L, 1) = SP_V1_DEV.get_sheet_name(True)
+                                                        Lookup(L, 2) = "B"
+                                                        Lookup(L, 3) = L_2
+                                                    Else
+                                                        'fall through marker
+                                                            If (L > size_of_sp_A) Then
+                                                                Lookup(L, 0) = DTS_V1_DEV.get_global_unit_cost_refresh_ignore_trigger
+                                                                Lookup(L, 1) = DTS_V1_DEV.get_global_unit_cost_refresh_ignore_trigger
+                                                                Lookup(L, 2) = DTS_V1_DEV.get_global_unit_cost_refresh_ignore_trigger
+                                                                Lookup(L, 3) = DTS_V1_DEV.get_global_unit_cost_refresh_ignore_trigger
+                                                            End If
+                                                    End If
+                                                End If
+                                    Next L
+                                'cleanup
+                                    L = -1
+                                    L_2 = -1
+                            'check lookup table for duplicate entrys
+                                'initialize variable
+                                    L = 0
+                                    L_2 = 0
+                                    s = ""
+                                    condition = False
+                                'start
+                                    Array_V1.ArrayDimensions_Alpha 'use this function for array bounds
+                                    Stop
+                                    'loop through lookup tbale
+                                        For L = 1 To (UBound(Lookup(), 1) - LBound(Lookup(), 1))
+                                            'value to search by
+                                                'if set to empty skip
+                                                    If (Lookup(L, 1) = DTS_V1_DEV.get_global_unit_cost_refresh_ignore_trigger) Then
+                                                        GoTo unit_cost_refresh_ignore_entry
+                                                    End If
+                                            'compair against all other entrys
+                                                For L_2 = 1 To (UBound(Lookup(), 1) - LBound(Lookup(), 1))
+                                                    'check to see if index is the same if so skip check
+                                                        If (L = L_2) Then
+                                                            GoTo unit_cost_refresh_skip_check
+                                                        End If
+                                                    'set value to check thru
+                                                        s = Lookup(L, 0)
+                                                    'do check
+                                                        condition = String_V1.is_same_V1(s, Lookup(L_2, 0), True)
+                                                    'if condition is true then throw error
+                                                        If (condition = True) Then
+                                                            GoTo unit_cost_refresh_duplicate_lookups
+                                                        End If
+                                                    'goto
+unit_cost_refresh_skip_check:
+                                                Next L_2
+                                            'goto
+unit_cost_refresh_ignore_entry:
+                                        Next L
+                                'cleanup
+                                    L = -1
+                                    L_2 = -1
+                                    s = "empty"
+                                    condition = False
+                            'do update
+                                Stop
+                                'initalize variables
+                                    Set current_sht = wb.Sheets("DTS")
+                                    row = DTS_POS.DTS_I_part_number_row
+                                    col = DTS_POS.DTS_I_part_number_col
+                                    L = 0
+                                    'debug
+                                        current_sht.Activate
+                                    '~
+                                'run
+                                    Stop
+                                    'iterate thru memory main
+                                        For L = 1 To size_of_dts
+                                            'set smart code
+                                                s = Memory_Main(L, 2)
+                                            'check for empty or ignore trigger
+                                                If ((s <> DTS_V1_DEV.get_global_unit_cost_refresh_ignore_trigger) And (s <> "")) Then
+                                                    'decode smart code
+                                                        s = String_V1.Disassociate_by_Char_V1(get_global_decoder_symbol, s, Left, True)
+                                                    'search for key in lookup array
+                                                        Stop    'DONT RUN PAST HERE
+                                                        Stop    'DONT RUN PAST HERE
+                                                        Stop    'DONT RUN PAST HERE
+                                                        Stop    'DONT RUN PAST HERE
+                                                End If
+                                        Next L
+                                    
+                                'cleanup
+                                    Set current_sht = Nothing
+                                    row = -1
+                                    col = -1
+                                    L = -1
+                                    s = "empty"
                                 Stop
                         'code end
                             Stop
@@ -794,6 +1000,10 @@ dts_unit_cost_refresh_cant_find_DTS_SHEET:
                             Stop
 dts_unit_cost_refresh_cant_find_SP_sheet:
                             MsgBox ("Error: DTS_Vx: sub: unit_cost_refresh: was unable to find the sheet named 'Steel Presets' please check your code")
+                            Stop
+unit_cost_refresh_duplicate_lookups:
+                            Call MsgBox("Error: DTS_Vx: Function: Unit_cost_refresh: during the assembly of array:'lookup' there was duplicate lookup keywords found please make the nessasary changes to the tables to not have duplicate values", , "Fatal Error!")
+                            Stop
                     End Function
 
 '-----------------------------------------------------------------------------------------------------------------------------------------------

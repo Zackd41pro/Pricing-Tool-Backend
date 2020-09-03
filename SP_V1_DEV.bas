@@ -83,6 +83,35 @@ Attribute VB_Name = "SP_V1_DEV"
                         SP_I_B_Cost_per_lb_Wdrop_col = 10
         End Enum
         
+        Public Function get_sheet_name(Optional Dont_show_instructions As Boolean) As String
+            'currently functional as of (9/3/2020) checked by: (zachary daugherty)
+            'Created By (Zachary Daugherty)(9/3/2020)
+            'Purpose Case & notes:
+                'returns the sheet name associated with this module
+            'Library Refrences required
+                'workbook.object
+            'Modules Required
+                'string_v1
+            'inputs
+                'Internal:
+                    'na
+                'required:
+                    'na
+                'optional:
+                    'na
+            'returned outputs
+                'returns:
+                    'name of sheet as string
+        'code start
+            'check for instructions
+                If (Dont_show_instructions = False) Then
+                    MsgBox ("Showning instructions for: SP_Vx:get_expected_sheet_name.__ this function is designed to return the expected name of the sheet associated with this module")
+                    Stop
+                    Exit Function
+                End If
+            get_sheet_name = "Steel Presets"
+        End Function
+        
         Public Function Check_SP_A_Table_V0_01A() As Boolean
         'currently functional as of (8/11/2020) checked by: (zachary daugherty)
             'Created By (Zachary Daugherty)(8/11/2020)

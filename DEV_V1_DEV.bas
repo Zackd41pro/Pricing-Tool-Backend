@@ -87,7 +87,7 @@ Attribute VB_Name = "DEV_V1_DEV"
                     "            issues with revisions" & String_V1.get_Special_Char_V1(carriage_return, True) & _
                     "      more on next slide")
                     MsgBox ("DEV NOTES: (continued)" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "      need to add admin user interface in the future. need to do an audit on readonly opens")
+                    "      need to add admin user interface in the future. need to do an audit on readonly opens. need todo an audit of if a module is missing and the behavior that follows")
                     
             End If
         End Sub

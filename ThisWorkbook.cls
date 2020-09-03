@@ -54,6 +54,7 @@ Private Sub Workbook_Open()
     'welcome
         DEV_V1_DEV.welcome
         String_V1.STATUS
+        Array_V1.STATUS
         MsgBox ("NEED TO ADD STATUS FOR MODULES")
     'run startup checks
         DEV_V1_DEV.On_Startup_V0_01
