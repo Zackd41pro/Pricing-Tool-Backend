@@ -11,6 +11,9 @@ Attribute VB_Name = "notes_other"
 
 'refs
     'https://www.snb-vba.eu/inhoud_en.html
+	
+'zip files
+	'https://exceloffthegrid.com/vba-cod-to-zip-unzip/
 
 
 
