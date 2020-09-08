@@ -67,27 +67,30 @@ Attribute VB_Name = "DEV_V1_DEV"
 
         Public Sub welcome()
             If (ActiveWorkbook.ReadOnly = False) Then
-                MsgBox ("--------------------------------------------------------------------------------------------" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "________Welcome to the Product Sales Pricing Tool- Data Editor________" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "                          Version: Alpha 0.0.1 DEV environment" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "--------------------------------------------------------------------------------------------" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "          PLEASE NOTE IF YOU ARE USING DEV MODULES Contact AN" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "          ADMINISTRATOR" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "--------------------------------------------------------------------------------------------" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "Currently using Modules:" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "           String_v1: (S)" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "      DTS_V1_DEV: (D)" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "        SP_V1_DEV: (D)" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "--------------------------------------------------------------------------------------------" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "DEV NOTES:" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "      Makes sure read only opens are addressed as normal user" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "            functionality will be a read only open" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "      Add in dev a marker for keeping track of the sheets in the wb," & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "            this will allow marking for changes without having there be" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "            issues with revisions" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "      more on next slide")
-                    MsgBox ("DEV NOTES: (continued)" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "      need to add admin user interface in the future. need to do an audit on readonly opens. need todo an audit of if a module is missing and the behavior that follows")
+                MsgBox ("--------------------------------------------------------------------------------------------" & Chr(10) & _
+                    "________Welcome to the Product Sales Pricing Tool- Data Editor________" & Chr(10) & _
+                    "                          Version: Alpha 0.0.1 DEV environment" & Chr(10) & _
+                    "--------------------------------------------------------------------------------------------" & Chr(10) & _
+                    "          PLEASE NOTE IF YOU ARE USING DEV MODULES Contact AN" & Chr(10) & _
+                    "          ADMINISTRATOR" & Chr(10) & _
+                    "--------------------------------------------------------------------------------------------" & Chr(10) & _
+                    "Currently using Modules:" & Chr(10) & _
+                    "           String_v1: (Stable)" & Chr(10) & _
+                    "      DTS_V1_DEV: (DEV)" & Chr(10) & _
+                    "        SP_V1_DEV: (DEV)" & Chr(10) & _
+                    "             Array_v1: (ALPHA)" & Chr(10) & _
+                    "")
+                    
+                MsgBox ("--------------------------------------------------------------------------------------------" & Chr(10) & _
+                    "DEV NOTES:" & Chr(10) & _
+                    "      Makes sure read only opens are addressed as normal user" & Chr(10) & _
+                    "            functionality will be a read only open" & Chr(10) & _
+                    "      Add in dev a marker for keeping track of the sheets in the wb," & Chr(10) & _
+                    "            this will allow marking for changes without having there be" & Chr(10) & _
+                    "            issues with revisions" & Chr(10) & _
+                    "      need to add admin user interface in the future." & Chr(10) & _
+                    "      need to do an audit on readonly opens." & Chr(10) & _
+                    "      need todo an audit of if a module is missing and the behavior that follows.")
                     
             End If
         End Sub
