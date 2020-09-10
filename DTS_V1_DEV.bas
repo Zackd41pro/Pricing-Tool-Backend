@@ -151,7 +151,7 @@ Attribute VB_Name = "DTS_V1_DEV"
                 'memory
                     Dim arr() As String             'designed as ram storage
                     Dim condition As Boolean        'store T/F
-                    Dim I As Long                'iterator and int storage
+                    Dim i As Long                'iterator and int storage
                     Dim s As String                 'string storage
                 'cursor
                     Dim proj_wb As Workbook         'set local workbook
@@ -170,11 +170,6 @@ Attribute VB_Name = "DTS_V1_DEV"
                 On Error GoTo 0 'set error handler back to norm
                 cursor_row = 1
                 cursor_col = 1
-            'check for visual
-                If (Visualy = True) Then
-                    MsgBox ("not setup")
-                    Exit Function
-                End If
             'setup arr
                 'redefine size of the arr
                     ReDim arr(1 To DTS_POS.DTS_Q_number_of_tracked_locations, 1 To 5) 'see line below for definitions
@@ -187,256 +182,256 @@ Attribute VB_Name = "DTS_V1_DEV"
                             '(<specific index>,<5: conditional if match>)
                 'fill arr
                     'Collect information
-                        I = 0
+                        i = 0
                         '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
                         'NOTICE CODE IN THIS BLOCK IS STD AND THE OPERATIONS ARE THE SAME SO DEV NOTES ON THE FIRST FOLLOW THRU
                         '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
                         
                         'compair <part number> expected location
                             s = "DTS_Part_number"   'expected range name for search
-                            I = I + 1               'iterate arr position from x to x + 1 in the array
+                            i = i + 1               'iterate arr position from x to x + 1 in the array
                             On Error GoTo ERROR_FATAL_check_dts_range_error 'if specified range 'S' is unable to be found or set goto Error handler at bottom of this function
                                 Set ref_rng = Range(s)  'set range
                             On Error GoTo 0 'reset error handler
-                                arr(I, 1) = CStr(ref_rng.row)       'get range row pos
-                                arr(I, 2) = CStr(ref_rng.Column)    'get range col pos
-                                arr(I, 3) = DTS_POS.DTS_I_part_number_row    'get enum row pos
-                                arr(I, 4) = DTS_POS.DTS_I_part_number_col    'get enum col pos
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then   'compair rows to rows and cols to cols
-                                    arr(I, 5) = s & ": " & True 'if true report text
+                                arr(i, 1) = CStr(ref_rng.row)       'get range row pos
+                                arr(i, 2) = CStr(ref_rng.Column)    'get range col pos
+                                arr(i, 3) = DTS_POS.DTS_I_part_number_row    'get enum row pos
+                                arr(i, 4) = DTS_POS.DTS_I_part_number_col    'get enum col pos
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then   'compair rows to rows and cols to cols
+                                    arr(i, 5) = s & ": " & True 'if true report text
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair" 'if False report text
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair" 'if False report text
                                     condition = True    'if true at the end of the block throw error as there is a miss match
                                 End If
                         'compair <DTS_AKA> expected location
                             s = "DTS_AKA"
-                            I = I + 1
+                            i = i + 1
                             On Error GoTo ERROR_FATAL_check_dts_range_error
                             Set ref_rng = Range(s)
                             On Error GoTo 0
-                                arr(I, 1) = CStr(ref_rng.row)
-                                arr(I, 2) = CStr(ref_rng.Column)
-                                arr(I, 3) = DTS_POS.DTS_I_AKA_row
-                                arr(I, 4) = DTS_POS.DTS_I_AKA_col
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then
-                                    arr(I, 5) = s & ": " & True
+                                arr(i, 1) = CStr(ref_rng.row)
+                                arr(i, 2) = CStr(ref_rng.Column)
+                                arr(i, 3) = DTS_POS.DTS_I_AKA_row
+                                arr(i, 4) = DTS_POS.DTS_I_AKA_col
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
+                                    arr(i, 5) = s & ": " & True
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair"
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
                         'compair <DTS_Description> expected location
                             s = "DTS_Description"
-                            I = I + 1
+                            i = i + 1
                             On Error GoTo ERROR_FATAL_check_dts_range_error
                             Set ref_rng = Range(s)
                             On Error GoTo 0
-                                arr(I, 1) = CStr(ref_rng.row)
-                                arr(I, 2) = CStr(ref_rng.Column)
-                                arr(I, 3) = DTS_POS.DTS_I_Description_row
-                                arr(I, 4) = DTS_POS.DTS_I_Description_col
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then
-                                    arr(I, 5) = s & ": " & True
+                                arr(i, 1) = CStr(ref_rng.row)
+                                arr(i, 2) = CStr(ref_rng.Column)
+                                arr(i, 3) = DTS_POS.DTS_I_Description_row
+                                arr(i, 4) = DTS_POS.DTS_I_Description_col
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
+                                    arr(i, 5) = s & ": " & True
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair"
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
                         'compair <DTS_Unit_list> expected location
                             s = "DTS_Unit_list"
-                            I = I + 1
+                            i = i + 1
                             On Error GoTo ERROR_FATAL_check_dts_range_error
                             Set ref_rng = Range(s)
                             On Error GoTo 0
-                                arr(I, 1) = CStr(ref_rng.row)
-                                arr(I, 2) = CStr(ref_rng.Column)
-                                arr(I, 3) = DTS_POS.DTS_I_Unit_list_row
-                                arr(I, 4) = DTS_POS.DTS_I_Unit_list_col
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then
-                                    arr(I, 5) = s & ": " & True
+                                arr(i, 1) = CStr(ref_rng.row)
+                                arr(i, 2) = CStr(ref_rng.Column)
+                                arr(i, 3) = DTS_POS.DTS_I_Unit_list_row
+                                arr(i, 4) = DTS_POS.DTS_I_Unit_list_col
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
+                                    arr(i, 5) = s & ": " & True
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair"
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
                         'compair <DTS_Unit_cost> expected location
                             s = "DTS_Unit_cost"
-                            I = I + 1
+                            i = i + 1
                             On Error GoTo ERROR_FATAL_check_dts_range_error
                             Set ref_rng = Range(s)
                             On Error GoTo 0
-                                arr(I, 1) = CStr(ref_rng.row)
-                                arr(I, 2) = CStr(ref_rng.Column)
-                                arr(I, 3) = DTS_POS.DTS_I_Unit_cost_row
-                                arr(I, 4) = DTS_POS.DTS_I_Unit_cost_col
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then
-                                    arr(I, 5) = s & ": " & True
+                                arr(i, 1) = CStr(ref_rng.row)
+                                arr(i, 2) = CStr(ref_rng.Column)
+                                arr(i, 3) = DTS_POS.DTS_I_Unit_cost_row
+                                arr(i, 4) = DTS_POS.DTS_I_Unit_cost_col
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
+                                    arr(i, 5) = s & ": " & True
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair"
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
                         'compair <DTS_Adjusted_unit_cost> expected location
                             s = "DTS_Adjusted_unit_cost"
-                            I = I + 1
+                            i = i + 1
                             On Error GoTo ERROR_FATAL_check_dts_range_error
                             Set ref_rng = Range(s)
                             On Error GoTo 0
-                                arr(I, 1) = CStr(ref_rng.row)
-                                arr(I, 2) = CStr(ref_rng.Column)
-                                arr(I, 3) = DTS_POS.DTS_I_Adjusted_unit_cost_row
-                                arr(I, 4) = DTS_POS.DTS_I_Adjusted_unit_cost_col
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then
-                                    arr(I, 5) = s & ": " & True
+                                arr(i, 1) = CStr(ref_rng.row)
+                                arr(i, 2) = CStr(ref_rng.Column)
+                                arr(i, 3) = DTS_POS.DTS_I_Adjusted_unit_cost_row
+                                arr(i, 4) = DTS_POS.DTS_I_Adjusted_unit_cost_col
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
+                                    arr(i, 5) = s & ": " & True
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair"
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
                         'compair <DTS_Unit_weight> expected location
                             s = "DTS_Unit_weight"
-                            I = I + 1
+                            i = i + 1
                             On Error GoTo ERROR_FATAL_check_dts_range_error
                             Set ref_rng = Range(s)
                             On Error GoTo 0
-                                arr(I, 1) = CStr(ref_rng.row)
-                                arr(I, 2) = CStr(ref_rng.Column)
-                                arr(I, 3) = DTS_POS.DTS_I_Unit_weight_row
-                                arr(I, 4) = DTS_POS.DTS_I_Unit_weight_col
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then
-                                    arr(I, 5) = s & ": " & True
+                                arr(i, 1) = CStr(ref_rng.row)
+                                arr(i, 2) = CStr(ref_rng.Column)
+                                arr(i, 3) = DTS_POS.DTS_I_Unit_weight_row
+                                arr(i, 4) = DTS_POS.DTS_I_Unit_weight_col
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
+                                    arr(i, 5) = s & ": " & True
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair"
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
                         'compair <DTS_Shop_origin> expected location
                             s = "DTS_Shop_origin"
-                            I = I + 1
+                            i = i + 1
                             On Error GoTo ERROR_FATAL_check_dts_range_error
                             Set ref_rng = Range(s)
                             On Error GoTo 0
-                                arr(I, 1) = CStr(ref_rng.row)
-                                arr(I, 2) = CStr(ref_rng.Column)
-                                arr(I, 3) = DTS_POS.DTS_I_Shop_origin_row
-                                arr(I, 4) = DTS_POS.DTS_I_Shop_origin_col
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then
-                                    arr(I, 5) = s & ": " & True
+                                arr(i, 1) = CStr(ref_rng.row)
+                                arr(i, 2) = CStr(ref_rng.Column)
+                                arr(i, 3) = DTS_POS.DTS_I_Shop_origin_row
+                                arr(i, 4) = DTS_POS.DTS_I_Shop_origin_col
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
+                                    arr(i, 5) = s & ": " & True
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair"
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
                         'compair <DTS_Status> expected location
                             s = "DTS_Status"
-                            I = I + 1
+                            i = i + 1
                             On Error GoTo ERROR_FATAL_check_dts_range_error
                             Set ref_rng = Range(s)
                             On Error GoTo 0
-                                arr(I, 1) = CStr(ref_rng.row)
-                                arr(I, 2) = CStr(ref_rng.Column)
-                                arr(I, 3) = DTS_POS.DTS_I_Status_row
-                                arr(I, 4) = DTS_POS.DTS_I_Status_col
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then
-                                    arr(I, 5) = s & ": " & True
+                                arr(i, 1) = CStr(ref_rng.row)
+                                arr(i, 2) = CStr(ref_rng.Column)
+                                arr(i, 3) = DTS_POS.DTS_I_Status_row
+                                arr(i, 4) = DTS_POS.DTS_I_Status_col
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
+                                    arr(i, 5) = s & ": " & True
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair"
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
                         'compair <DTS_Job_other_info> expected location
                             s = "DTS_Job_other_info"
-                            I = I + 1
+                            i = i + 1
                             On Error GoTo ERROR_FATAL_check_dts_range_error
                             Set ref_rng = Range(s)
                             On Error GoTo 0
-                                arr(I, 1) = CStr(ref_rng.row)
-                                arr(I, 2) = CStr(ref_rng.Column)
-                                arr(I, 3) = DTS_POS.DTS_I_Job_other_info_row
-                                arr(I, 4) = DTS_POS.DTS_I_Job_other_info_col
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then
-                                    arr(I, 5) = s & ": " & True
+                                arr(i, 1) = CStr(ref_rng.row)
+                                arr(i, 2) = CStr(ref_rng.Column)
+                                arr(i, 3) = DTS_POS.DTS_I_Job_other_info_row
+                                arr(i, 4) = DTS_POS.DTS_I_Job_other_info_col
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
+                                    arr(i, 5) = s & ": " & True
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair"
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
                         'compair <DTS_Vendor_info> expected location
                             s = "DTS_Vendor_info"
-                            I = I + 1
+                            i = i + 1
                             On Error GoTo ERROR_FATAL_check_dts_range_error
                             Set ref_rng = Range(s)
                             On Error GoTo 0
-                                arr(I, 1) = CStr(ref_rng.row)
-                                arr(I, 2) = CStr(ref_rng.Column)
-                                arr(I, 3) = DTS_POS.DTS_I_Vendor_info_row
-                                arr(I, 4) = DTS_POS.DTS_I_Vendor_info_col
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then
-                                    arr(I, 5) = s & ": " & True
+                                arr(i, 1) = CStr(ref_rng.row)
+                                arr(i, 2) = CStr(ref_rng.Column)
+                                arr(i, 3) = DTS_POS.DTS_I_Vendor_info_row
+                                arr(i, 4) = DTS_POS.DTS_I_Vendor_info_col
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
+                                    arr(i, 5) = s & ": " & True
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair"
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
                         'compair <DTS_Vendor_phone> expected location
                             s = "DTS_Vendor_phone"
-                            I = I + 1
+                            i = i + 1
                             On Error GoTo ERROR_FATAL_check_dts_range_error
                             Set ref_rng = Range(s)
                             On Error GoTo 0
-                                arr(I, 1) = CStr(ref_rng.row)
-                                arr(I, 2) = CStr(ref_rng.Column)
-                                arr(I, 3) = DTS_POS.DTS_I_Vendor_phone_row
-                                arr(I, 4) = DTS_POS.DTS_I_Vendor_phone_col
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then
-                                    arr(I, 5) = s & ": " & True
+                                arr(i, 1) = CStr(ref_rng.row)
+                                arr(i, 2) = CStr(ref_rng.Column)
+                                arr(i, 3) = DTS_POS.DTS_I_Vendor_phone_row
+                                arr(i, 4) = DTS_POS.DTS_I_Vendor_phone_col
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
+                                    arr(i, 5) = s & ": " & True
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair"
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
                         'compair <DTS_Vendor_fax> expected location
                             s = "DTS_Vendor_fax"
-                            I = I + 1
+                            i = i + 1
                             On Error GoTo ERROR_FATAL_check_dts_range_error
                             Set ref_rng = Range(s)
                             On Error GoTo 0
-                                arr(I, 1) = CStr(ref_rng.row)
-                                arr(I, 2) = CStr(ref_rng.Column)
-                                arr(I, 3) = DTS_POS.DTS_I_Vendor_fax_row
-                                arr(I, 4) = DTS_POS.DTS_I_Vendor_fax_col
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then
-                                    arr(I, 5) = s & ": " & True
+                                arr(i, 1) = CStr(ref_rng.row)
+                                arr(i, 2) = CStr(ref_rng.Column)
+                                arr(i, 3) = DTS_POS.DTS_I_Vendor_fax_row
+                                arr(i, 4) = DTS_POS.DTS_I_Vendor_fax_col
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
+                                    arr(i, 5) = s & ": " & True
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair"
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
                         'compair <DTS_Vendor_part_number> expected location
                             s = "DTS_Vendor_part_number"
-                            I = I + 1
+                            i = i + 1
                             On Error GoTo ERROR_FATAL_check_dts_range_error
                             Set ref_rng = Range(s)
                             On Error GoTo 0
-                                arr(I, 1) = CStr(ref_rng.row)
-                                arr(I, 2) = CStr(ref_rng.Column)
-                                arr(I, 3) = DTS_POS.DTS_I_Vendor_part_number_row
-                                arr(I, 4) = DTS_POS.DTS_I_Vendor_part_number_col
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then
-                                    arr(I, 5) = s & ": " & True
+                                arr(i, 1) = CStr(ref_rng.row)
+                                arr(i, 2) = CStr(ref_rng.Column)
+                                arr(i, 3) = DTS_POS.DTS_I_Vendor_part_number_row
+                                arr(i, 4) = DTS_POS.DTS_I_Vendor_part_number_col
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
+                                    arr(i, 5) = s & ": " & True
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair"
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
                         'compair <DTS_Inflation_Const> expected location
                             s = "DTS_Inflation_Const"
-                            I = I + 1
+                            i = i + 1
                             On Error GoTo ERROR_FATAL_check_dts_range_error
                             Set ref_rng = Range(s)
                             On Error GoTo 0
-                                arr(I, 1) = CStr(ref_rng.row)
-                                arr(I, 2) = CStr(ref_rng.Column)
-                                arr(I, 3) = DTS_POS.DTS_I_Inflation_Const_row
-                                arr(I, 4) = DTS_POS.DTS_I_Inflation_Const_col
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then
-                                    arr(I, 5) = s & ": " & True
+                                arr(i, 1) = CStr(ref_rng.row)
+                                arr(i, 2) = CStr(ref_rng.Column)
+                                arr(i, 3) = DTS_POS.DTS_I_Inflation_Const_row
+                                arr(i, 4) = DTS_POS.DTS_I_Inflation_Const_col
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
+                                    arr(i, 5) = s & ": " & True
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair"
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
                         '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
                         '__________________________________________END of CODE BLOCK___________________________________________
                         '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
                         'cleanup
-                            I = 0
+                            i = 0
                             s = "Empty"
             'compile report
                 'check to see if failure condition is met
@@ -497,7 +492,7 @@ ERROR_CHECK_DTS_FAILED_POS_CHECK:
                     'const
                         Dim dist_to_goalpost As Long                'dist to goal from top of the table
                     'containers
-                        Dim I As Long       'int storage 1
+                        Dim i As Long       'int storage 1
                         Dim i_2 As Long     'int sotrage 2
                         Dim s As String     'string storage
                 'restart trigger
@@ -522,25 +517,25 @@ get_size_restart:               'goto flag
                             'arr(<X:true if cell empty, false if not>)
     
                 'all rows with data if there is no data in cell location mark for removal
-                    For I = 1 To dist_to_goalpost
+                    For i = 1 To dist_to_goalpost
                         row = row + 1
                         s = current_sht.Cells(row, col)
                         If (s = "") Then    'check the other cols in the row to see if any data is stored.
                             For i_2 = 1 To DTS_POS.DTS_Q_number_of_tracked_locations - 1
                                 s = current_sht.Cells(row, col + 1)
                                 If (s <> "") Then
-                                    arr(I) = False  'row does not need to be deleted as it has values in fields other than part number
+                                    arr(i) = False  'row does not need to be deleted as it has values in fields other than part number
                                     Exit For
                                 End If
                                 delete_empty_rows_condition = True
-                                arr(I) = True   'row is entirly empty so mark for delete
+                                arr(i) = True   'row is entirly empty so mark for delete
                             Next i_2
                         Else
-                            arr(I) = False  'row does not need to be deleted
+                            arr(i) = False  'row does not need to be deleted
                         End If
-                    Next I
+                    Next i
                     'cleanup
-                        I = -1
+                        i = -1
                         i_2 = -1
                         s = "empty"
                 'check for delete condition to be true\
@@ -553,10 +548,10 @@ get_size_restart:               'goto flag
                             col = DTS_POS.DTS_I_part_number_col
                             s = current_sht.Cells(row, col).value
                         'iterate through to find empty then delete by moving everything up eliminating the blank space
-                            For I = 1 To dist_to_goalpost
+                            For i = 1 To dist_to_goalpost
                                 row = row + 1
                                 s = current_sht.Cells(row, col).value
-                                If (arr(I) = "True") Then
+                                If (arr(i) = "True") Then
                                     Stop
                                     'setup
                                         On Error GoTo dts_get_cant_find_DTS_SHEET
@@ -575,9 +570,9 @@ get_size_restart:               'goto flag
                                     'delete row
                                         Rows(s).Select
                                         Selection.Delete Shift:=xlUp
-                                        I = I + 1
+                                        i = i + 1
                                 End If
-                            Next I
+                            Next i
                         'start updating
                             'restart if things were deleted, reset some variables then goto 'get_size_restart'
                                 If (delete_empty_rows_condition = True) Then
@@ -592,7 +587,7 @@ get_size_restart:               'goto flag
                                             row = -1
                                             col = -1
                                             dist_to_goalpost = -1
-                                            I = -1
+                                            i = -1
                                             i_2 = -1
                                             s = "empty"
                                             ReDim arr(0)
@@ -713,8 +708,8 @@ Dts_error_run_check_not_passed:
                             'workbook.object
                         'Modules Required
                             'SP_V1
-                            'String_v1
-                            'array_V1
+                            'String_V1
+                            'Matrix_V2
                         'Inputs
                             'Internal:
                                 'na
@@ -902,7 +897,8 @@ Dts_error_run_check_not_passed:
                                     L = 0
                                     L_2 = 1
                                 'start
-                                    Array_V1.ArrayDimensions_Alpha 'use this function for array bounds
+                                    Stop 'DEBUG NEED TO REPLACE
+                                    'Array_V1.ArrayDimensions_Alpha 'use this function for array bounds
                                     Stop
 incoding_of_table_names:
                                     For L = 0 To (UBound(Lookup(), 1) - LBound(Lookup(), 1))
@@ -951,7 +947,8 @@ incoding_of_table_names:
                                     s = ""
                                     condition = False
                                 'start
-                                    Array_V1.ArrayDimensions_Alpha 'use this function for array bounds
+                                    Stop 'NEED TO REPLACE
+                                    'Array_V1.ArrayDimensions_Alpha 'use this function for array bounds
                                     Stop
                                     'loop through lookup tbale
                                         For L = 1 To (UBound(Lookup(), 1) - LBound(Lookup(), 1))
@@ -1008,7 +1005,7 @@ unit_cost_refresh_ignore_entry:
                                                 If ((s <> DTS_V1_DEV.get_global_unit_cost_refresh_ignore_trigger) And (s <> "")) Then
                                                     'decode smart code
 unit_cost_refresh_part_numb_check:
-                                                        s = String_V1.Disassociate_by_Char_V1(get_global_decoder_symbol, s, Left, True)
+                                                        s = String_V1.Disassociate_by_Char_V1(get_global_decoder_symbol, s, Left_C, True)
                                                     'search for key in lookup array
                                                         For L_2 = 1 To (size_of_sp_A + size_of_sp_B)
                                                             If (s = Lookup(L_2, 0)) Then

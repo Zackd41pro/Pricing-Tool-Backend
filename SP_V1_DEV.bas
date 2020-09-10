@@ -140,7 +140,7 @@ Attribute VB_Name = "SP_V1_DEV"
                 'memory
                     Dim arr() As String             'designed as ram storage
                     Dim condition As Boolean        'store T/F
-                    Dim I As Long                'iterator and int storage
+                    Dim i As Long                'iterator and int storage
                     Dim s As String                 'string storage
                 'cursor
                     Dim proj_wb As Workbook         'set local workbook
@@ -172,112 +172,112 @@ Attribute VB_Name = "SP_V1_DEV"
                             '(<specific index>,<5: conditional if match>)
                 'fill arr
                     'Collect information
-                        I = 0
+                        i = 0
                         '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
                         'NOTICE CODE IN THIS BLOCK IS STD AND THE OPERATIONS ARE THE SAME SO DEV NOTES ON THE FIRST FOLLOW THRU
                         '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
                         
                         'compair <SP_GENERAL_PREFIX> expected location
                             s = "SP_GENERAL_PREFIX"   'expected range name for search
-                            I = I + 1               'iterate arr position from x to x + 1 in the array
+                            i = i + 1               'iterate arr position from x to x + 1 in the array
                             On Error GoTo ERROR_FATAL_check_sp_range_error_For_A 'if specified range 'S' is unable to be found or set goto Error handler at bottom of this function
                             Set ref_rng = Range(s)  'set range
                             On Error GoTo 0 'reset error handler
-                                arr(I, 1) = CStr(ref_rng.row)       'get range row pos
-                                arr(I, 2) = CStr(ref_rng.Column)    'get range col pos
-                                arr(I, 3) = SP_POS.SP_I_A_Prefix_row   'get enum row pos
-                                arr(I, 4) = SP_POS.SP_I_A_Prefix_col   'get enum col pos
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then   'compair rows to rows and cols to cols
-                                    arr(I, 5) = s & ": " & True 'if true report text
+                                arr(i, 1) = CStr(ref_rng.row)       'get range row pos
+                                arr(i, 2) = CStr(ref_rng.Column)    'get range col pos
+                                arr(i, 3) = SP_POS.SP_I_A_Prefix_row   'get enum row pos
+                                arr(i, 4) = SP_POS.SP_I_A_Prefix_col   'get enum col pos
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then   'compair rows to rows and cols to cols
+                                    arr(i, 5) = s & ": " & True 'if true report text
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair" 'if False report text
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair" 'if False report text
                                     condition = True    'if true at the end of the block throw error as there is a miss match
                                 End If
                         'compair <SP_GENERAL_DESCRIPTION> expected location
                             s = "SP_GENERAL_DESCRIPTION"
-                            I = I + 1
+                            i = i + 1
                             On Error GoTo ERROR_FATAL_check_sp_range_error_For_A
                             Set ref_rng = Range(s)
                             On Error GoTo 0
-                                arr(I, 1) = CStr(ref_rng.row)
-                                arr(I, 2) = CStr(ref_rng.Column)
-                                arr(I, 3) = SP_POS.SP_I_A_Description_row
-                                arr(I, 4) = SP_POS.SP_I_A_Description_col
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then
-                                    arr(I, 5) = s & ": " & True
+                                arr(i, 1) = CStr(ref_rng.row)
+                                arr(i, 2) = CStr(ref_rng.Column)
+                                arr(i, 3) = SP_POS.SP_I_A_Description_row
+                                arr(i, 4) = SP_POS.SP_I_A_Description_col
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
+                                    arr(i, 5) = s & ": " & True
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair"
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
                         'compair <SP_GENERAL_COST_PER_LB> expected location
                             s = "SP_GENERAL_COST_PER_LB"
-                            I = I + 1
+                            i = i + 1
                             On Error GoTo ERROR_FATAL_check_sp_range_error_For_A
                             Set ref_rng = Range(s)
                             On Error GoTo 0
-                                arr(I, 1) = CStr(ref_rng.row)
-                                arr(I, 2) = CStr(ref_rng.Column)
-                                arr(I, 3) = SP_POS.SP_I_A_Cost_per_lb_row
-                                arr(I, 4) = SP_POS.SP_I_A_Cost_per_lb_col
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then
-                                    arr(I, 5) = s & ": " & True
+                                arr(i, 1) = CStr(ref_rng.row)
+                                arr(i, 2) = CStr(ref_rng.Column)
+                                arr(i, 3) = SP_POS.SP_I_A_Cost_per_lb_row
+                                arr(i, 4) = SP_POS.SP_I_A_Cost_per_lb_col
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
+                                    arr(i, 5) = s & ": " & True
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair"
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
                         'compair <SP_GENERAL_COST_PER_LB_W_DROP> expected location
                             s = "SP_GENERAL_COST_PER_LB_W_DROP"
-                            I = I + 1
+                            i = i + 1
                             On Error GoTo ERROR_FATAL_check_sp_range_error_For_A
                             Set ref_rng = Range(s)
                             On Error GoTo 0
-                                arr(I, 1) = CStr(ref_rng.row)
-                                arr(I, 2) = CStr(ref_rng.Column)
-                                arr(I, 3) = SP_POS.SP_I_A_Cost_per_lb_Wdrop_row
-                                arr(I, 4) = SP_POS.SP_I_A_Cost_per_lb_Wdrop_col
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then
-                                    arr(I, 5) = s & ": " & True
+                                arr(i, 1) = CStr(ref_rng.row)
+                                arr(i, 2) = CStr(ref_rng.Column)
+                                arr(i, 3) = SP_POS.SP_I_A_Cost_per_lb_Wdrop_row
+                                arr(i, 4) = SP_POS.SP_I_A_Cost_per_lb_Wdrop_col
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
+                                    arr(i, 5) = s & ": " & True
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair"
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
                         'compair <SP_GLOBAL_PLATE> expected location
                             s = "SP_GLOBAL_PLATE"
-                            I = I + 1
+                            i = i + 1
                             On Error GoTo ERROR_FATAL_check_sp_range_error_For_A
                             Set ref_rng = Range(s)
                             On Error GoTo 0
-                                arr(I, 1) = CStr(ref_rng.row)
-                                arr(I, 2) = CStr(ref_rng.Column)
-                                arr(I, 3) = SP_POS.SP_I_Const_Plate_row
-                                arr(I, 4) = SP_POS.SP_I_Const_Plate_col
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then
-                                    arr(I, 5) = s & ": " & True
+                                arr(i, 1) = CStr(ref_rng.row)
+                                arr(i, 2) = CStr(ref_rng.Column)
+                                arr(i, 3) = SP_POS.SP_I_Const_Plate_row
+                                arr(i, 4) = SP_POS.SP_I_Const_Plate_col
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
+                                    arr(i, 5) = s & ": " & True
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair"
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
                         'compair <SP_GLOBAL_STRUCTURAL> expected location
                             s = "SP_GLOBAL_STRUCTURAL"
-                            I = I + 1
+                            i = i + 1
                             On Error GoTo ERROR_FATAL_check_sp_range_error_For_A
                             Set ref_rng = Range(s)
                             On Error GoTo 0
-                                arr(I, 1) = CStr(ref_rng.row)
-                                arr(I, 2) = CStr(ref_rng.Column)
-                                arr(I, 3) = SP_POS.SP_I_Const_Structural_row
-                                arr(I, 4) = SP_POS.SP_I_Const_Structural_col
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then
-                                    arr(I, 5) = s & ": " & True
+                                arr(i, 1) = CStr(ref_rng.row)
+                                arr(i, 2) = CStr(ref_rng.Column)
+                                arr(i, 3) = SP_POS.SP_I_Const_Structural_row
+                                arr(i, 4) = SP_POS.SP_I_Const_Structural_col
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
+                                    arr(i, 5) = s & ": " & True
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair"
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
                         '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
                         '__________________________________________END of CODE BLOCK___________________________________________
                         '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
                         'cleanup
-                            I = 0
+                            i = 0
                             s = "Empty"
             'compile report
                 'check to see if failure condition is met
@@ -333,7 +333,7 @@ Public Function Check_SP_B_Table_V0_01A() As Boolean
                 'memory
                     Dim arr() As String             'designed as ram storage
                     Dim condition As Boolean        'store T/F
-                    Dim I As Long                'iterator and int storage
+                    Dim i As Long                'iterator and int storage
                     Dim s As String                 'string storage
                 'cursor
                     Dim proj_wb As Workbook         'set local workbook
@@ -364,112 +364,112 @@ Public Function Check_SP_B_Table_V0_01A() As Boolean
                             '(<specific index>,<5: conditional if match>)
                 'fill arr
                     'Collect information
-                        I = 0
+                        i = 0
                         '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
                         'NOTICE CODE IN THIS BLOCK IS STD AND THE OPERATIONS ARE THE SAME SO DEV NOTES ON THE FIRST FOLLOW THRU
                         '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
                         
                         'compair <SP_PROPRIETARY_PREFIX> expected location
                             s = "SP_PROPRIETARY_PREFIX"   'expected range name for search
-                            I = I + 1               'iterate arr position from x to x + 1 in the array
+                            i = i + 1               'iterate arr position from x to x + 1 in the array
                             On Error GoTo ERROR_FATAL_check_sp_range_error_For_B 'if specified range 'S' is unable to be found or set goto Error handler at bottom of this function
                             Set ref_rng = Range(s)  'set range
                             On Error GoTo 0 'reset error handler
-                                arr(I, 1) = CStr(ref_rng.row)       'get range row pos
-                                arr(I, 2) = CStr(ref_rng.Column)    'get range col pos
-                                arr(I, 3) = SP_POS.SP_I_B_Prefix_row   'get enum row pos
-                                arr(I, 4) = SP_POS.SP_I_B_Prefix_col   'get enum col pos
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then   'compair rows to rows and cols to cols
-                                    arr(I, 5) = s & ": " & True 'if true report text
+                                arr(i, 1) = CStr(ref_rng.row)       'get range row pos
+                                arr(i, 2) = CStr(ref_rng.Column)    'get range col pos
+                                arr(i, 3) = SP_POS.SP_I_B_Prefix_row   'get enum row pos
+                                arr(i, 4) = SP_POS.SP_I_B_Prefix_col   'get enum col pos
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then   'compair rows to rows and cols to cols
+                                    arr(i, 5) = s & ": " & True 'if true report text
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair" 'if False report text
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair" 'if False report text
                                     condition = True    'if true at the end of the block throw error as there is a miss match
                                 End If
                         'compair <SP_PROPRIETARY_DESCRIPTION> expected location
                             s = "SP_PROPRIETARY_DESCRIPTION"
-                            I = I + 1
+                            i = i + 1
                             On Error GoTo ERROR_FATAL_check_sp_range_error_For_B
                             Set ref_rng = Range(s)
                             On Error GoTo 0
-                                arr(I, 1) = CStr(ref_rng.row)
-                                arr(I, 2) = CStr(ref_rng.Column)
-                                arr(I, 3) = SP_POS.SP_I_B_Description_row
-                                arr(I, 4) = SP_POS.SP_I_B_Description_col
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then
-                                    arr(I, 5) = s & ": " & True
+                                arr(i, 1) = CStr(ref_rng.row)
+                                arr(i, 2) = CStr(ref_rng.Column)
+                                arr(i, 3) = SP_POS.SP_I_B_Description_row
+                                arr(i, 4) = SP_POS.SP_I_B_Description_col
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
+                                    arr(i, 5) = s & ": " & True
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair"
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
                         'compair <SP_PROPRIETARY_COST_PER_LB> expected location
                             s = "SP_PROPRIETARY_COST_PER_LB"
-                            I = I + 1
+                            i = i + 1
                             On Error GoTo ERROR_FATAL_check_sp_range_error_For_B
                             Set ref_rng = Range(s)
                             On Error GoTo 0
-                                arr(I, 1) = CStr(ref_rng.row)
-                                arr(I, 2) = CStr(ref_rng.Column)
-                                arr(I, 3) = SP_POS.SP_I_B_Cost_per_lb_row
-                                arr(I, 4) = SP_POS.SP_I_B_Cost_per_lb_col
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then
-                                    arr(I, 5) = s & ": " & True
+                                arr(i, 1) = CStr(ref_rng.row)
+                                arr(i, 2) = CStr(ref_rng.Column)
+                                arr(i, 3) = SP_POS.SP_I_B_Cost_per_lb_row
+                                arr(i, 4) = SP_POS.SP_I_B_Cost_per_lb_col
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
+                                    arr(i, 5) = s & ": " & True
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair"
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
                         'compair <SP_PROPRIETARY_COST_PER_LB_W_DROP> expected location
                             s = "SP_PROPRIETARY_COST_PER_LB_W_DROP"
-                            I = I + 1
+                            i = i + 1
                             On Error GoTo ERROR_FATAL_check_sp_range_error_For_B
                             Set ref_rng = Range(s)
                             On Error GoTo 0
-                                arr(I, 1) = CStr(ref_rng.row)
-                                arr(I, 2) = CStr(ref_rng.Column)
-                                arr(I, 3) = SP_POS.SP_I_B_Cost_per_lb_Wdrop_row
-                                arr(I, 4) = SP_POS.SP_I_B_Cost_per_lb_Wdrop_col
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then
-                                    arr(I, 5) = s & ": " & True
+                                arr(i, 1) = CStr(ref_rng.row)
+                                arr(i, 2) = CStr(ref_rng.Column)
+                                arr(i, 3) = SP_POS.SP_I_B_Cost_per_lb_Wdrop_row
+                                arr(i, 4) = SP_POS.SP_I_B_Cost_per_lb_Wdrop_col
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
+                                    arr(i, 5) = s & ": " & True
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair"
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
                         'compair <SP_GLOBAL_PLATE> expected location
                             s = "SP_GLOBAL_PLATE"
-                            I = I + 1
+                            i = i + 1
                             On Error GoTo ERROR_FATAL_check_sp_range_error_For_B
                             Set ref_rng = Range(s)
                             On Error GoTo 0
-                                arr(I, 1) = CStr(ref_rng.row)
-                                arr(I, 2) = CStr(ref_rng.Column)
-                                arr(I, 3) = SP_POS.SP_I_Const_Plate_row
-                                arr(I, 4) = SP_POS.SP_I_Const_Plate_col
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then
-                                    arr(I, 5) = s & ": " & True
+                                arr(i, 1) = CStr(ref_rng.row)
+                                arr(i, 2) = CStr(ref_rng.Column)
+                                arr(i, 3) = SP_POS.SP_I_Const_Plate_row
+                                arr(i, 4) = SP_POS.SP_I_Const_Plate_col
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
+                                    arr(i, 5) = s & ": " & True
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair"
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
                         'compair <SP_GLOBAL_STRUCTURAL> expected location
                             s = "SP_GLOBAL_STRUCTURAL"
-                            I = I + 1
+                            i = i + 1
                             On Error GoTo ERROR_FATAL_check_sp_range_error_For_B
                             Set ref_rng = Range(s)
                             On Error GoTo 0
-                                arr(I, 1) = CStr(ref_rng.row)
-                                arr(I, 2) = CStr(ref_rng.Column)
-                                arr(I, 3) = SP_POS.SP_I_Const_Structural_row
-                                arr(I, 4) = SP_POS.SP_I_Const_Structural_col
-                                If ((arr(I, 1) = arr(I, 3)) And (arr(I, 2) = arr(I, 4))) Then
-                                    arr(I, 5) = s & ": " & True
+                                arr(i, 1) = CStr(ref_rng.row)
+                                arr(i, 2) = CStr(ref_rng.Column)
+                                arr(i, 3) = SP_POS.SP_I_Const_Structural_row
+                                arr(i, 4) = SP_POS.SP_I_Const_Structural_col
+                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
+                                    arr(i, 5) = s & ": " & True
                                 Else
-                                    arr(I, 5) = s & ": " & False & vbCrLf & "____please check and compair"
+                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
                         '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
                         '__________________________________________END of CODE BLOCK___________________________________________
                         '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
                         'cleanup
-                            I = 0
+                            i = 0
                             s = "Empty"
             'compile report
                 'check to see if failure condition is met
