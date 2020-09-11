@@ -897,8 +897,8 @@ Dts_error_run_check_not_passed:
                                     L = 0
                                     L_2 = 1
                                 'start
-                                    Stop 'DEBUG NEED TO REPLACE
-                                    'Array_V1.ArrayDimensions_Alpha 'use this function for array bounds
+                                    Stop 'DEBUG NEED TO setup
+                                    matrix_V2.matrix_dimensions (Lookup())
                                     Stop
 incoding_of_table_names:
                                     For L = 0 To (UBound(Lookup(), 1) - LBound(Lookup(), 1))
@@ -947,8 +947,8 @@ incoding_of_table_names:
                                     s = ""
                                     condition = False
                                 'start
-                                    Stop 'NEED TO REPLACE
-                                    'Array_V1.ArrayDimensions_Alpha 'use this function for array bounds
+                                    Stop 'NEED TO setup
+                                    matrix_V2.matrix_dimensions (Lookup())
                                     Stop
                                     'loop through lookup tbale
                                         For L = 1 To (UBound(Lookup(), 1) - LBound(Lookup(), 1))

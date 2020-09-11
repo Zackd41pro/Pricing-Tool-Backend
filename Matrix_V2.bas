@@ -38,6 +38,11 @@ Sub STATUS()
 End Sub
 
 Public Function matrix_dimensions_Alpha(ByVal matrix_ As Variant, Optional Dont_show_instructions As Boolean) As String
+    Call MsgBox("matrix_v2.matrix_dimensions_Alpha no longer in alpha please call the non alpha version.", , "matrix_v2.matrix_dimensions_Alpha no longer in alpha")
+    matrix_dimensions_Alpha = matrix_V2.matrix_dimensions(matrix_, True)
+End Function
+
+Public Function matrix_dimensions(ByVal matrix_ As Variant, Optional Dont_show_instructions As Boolean) As String
 'currently functional as of (9/10/2020) checked by: (Zachary Daughety)
     'Created By (Zachary Daugherty)(9/10/2020)
     'Purpose Case & notes:
@@ -219,3 +224,5 @@ ReDim arr(1)
 x = matrix_V2.PVT_MATRIX_BOUND(down_, arr(), 1)
 Stop
 End Sub
+
+
