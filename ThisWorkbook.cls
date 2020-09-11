@@ -57,6 +57,7 @@ Private Sub Workbook_Open()
         DEV_V1_DEV.status
         DTS_V1_DEV.status
         matrix_V2.status
+        Report_v_Alpha.status
         SP_V1_DEV.status
         String_V1.status
     'run startup checks

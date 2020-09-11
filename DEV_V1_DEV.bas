@@ -85,7 +85,7 @@ Attribute VB_Name = "DEV_V1_DEV"
             If (ActiveWorkbook.ReadOnly = False) Then
                 MsgBox ("--------------------------------------------------------------------------------------------" & Chr(10) & _
                     "________Welcome to the Product Sales Pricing Tool- Data Editor________" & Chr(10) & _
-                    "                          Version: Alpha 1.1.6 matrix update" & Chr(10) & _
+                    "                          Version: Alpha 1.1.7 status update" & Chr(10) & _
                     "--------------------------------------------------------------------------------------------")
                     
                 MsgBox ("--------------------------------------------------------------------------------------------" & Chr(10) & _
@@ -488,7 +488,7 @@ restart_log:
                             End If
                         End If
                         cell_cursor.value = "UserName: " & user & ": " & message
-                        cell_cursor.Offset(0, 1).value = now()
+                        cell_cursor.Offset(0, 1).value = Now()
                         wb_cursor.Sheets("DEV").Visible = 2
                         Application.ScreenUpdating = True
                         Application.DisplayAlerts = True
@@ -594,15 +594,15 @@ Fatal_Error_Log_cant_find_dev_page:
                                         cursor_row = POS_V0_01A.DEV_login_USER_ONLINE_row + i
                                         cursor_col = POS_V0_01A.DEV_login_USER_ONLINE_col
                                         cursor_sheet.Cells(cursor_row, cursor_col).value = user
-                                        cursor_sheet.Cells(cursor_row, cursor_col + 1).value = now()
-                                        cursor_sheet.Cells(cursor_row, cursor_col + 2).value = DateAdd("d", 1, now())
+                                        cursor_sheet.Cells(cursor_row, cursor_col + 1).value = Now()
+                                        cursor_sheet.Cells(cursor_row, cursor_col + 2).value = DateAdd("d", 1, Now())
                                             GoTo check_user_in_cleanup:
                                 'breakout
                             End If
                         Next i
                         'add new user to arr
                             arr(arr(0, 1), 0) = user
-                            arr(arr(0, 1), 1) = now()
+                            arr(arr(0, 1), 1) = Now()
                             arr(arr(0, 1), 2) = DateAdd("d", 1, CDate(arr(arr(0, 1), 1)))
                 'reset cell position
                     cursor_row = POS_V0_01A.DEV_login_USER_ONLINE_row
