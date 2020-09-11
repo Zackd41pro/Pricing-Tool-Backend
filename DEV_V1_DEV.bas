@@ -65,22 +65,28 @@ Attribute VB_Name = "DEV_V1_DEV"
         'code end
         End Enum
 
+        Public Function status()
+            Call MsgBox("DEV_Vx Status:" & Chr(10) & _
+            "------------------------------------------------------------" & Chr(10) & _
+            "Public functions: " & Chr(10) & _
+            "          welcome: Stable" & Chr(10) & _
+            " get_username: Stable" & Chr(10) & _
+            "     On_Startup: update" & Chr(10) & _
+            "ON_Shutdown: update" & Chr(10) & _
+            "                   Log: update" & Chr(10) & _
+            "  check_user_in: depreciated" & Chr(10) & _
+            Chr(10) & "Private functions:" & Chr(10) & _
+            "DEV_page_Exist: stable" & Chr(10) & _
+            "check_user_out: depreciated" & Chr(10) & _
+            "", , "showing status for Dev_v1_dev")
+        End Function
+        
         Public Sub welcome()
             If (ActiveWorkbook.ReadOnly = False) Then
                 MsgBox ("--------------------------------------------------------------------------------------------" & Chr(10) & _
                     "________Welcome to the Product Sales Pricing Tool- Data Editor________" & Chr(10) & _
-                    "                          Version: Alpha 0.0.1 DEV environment" & Chr(10) & _
-                    "--------------------------------------------------------------------------------------------" & Chr(10) & _
-                    "          PLEASE NOTE IF YOU ARE USING DEV MODULES Contact AN" & Chr(10) & _
-                    "          ADMINISTRATOR" & Chr(10) & _
-                    "--------------------------------------------------------------------------------------------" & Chr(10) & _
-                    "Currently using Modules:" & Chr(10) & _
-                    "           String_v1: (Stable)" & Chr(10) & _
-                    "      DTS_V1_DEV: (DEV)" & Chr(10) & _
-                    "        SP_V1_DEV: (DEV)" & Chr(10) & _
-                    "           Matrix_v2: (Stable)" & Chr(10) & _
-                    "             Array_v1: (depreciated)" & Chr(10) & _
-                    "")
+                    "                          Version: Alpha 1.1.6 matrix update" & Chr(10) & _
+                    "--------------------------------------------------------------------------------------------")
                     
                 MsgBox ("--------------------------------------------------------------------------------------------" & Chr(10) & _
                     "DEV NOTES:" & Chr(10) & _
@@ -91,7 +97,8 @@ Attribute VB_Name = "DEV_V1_DEV"
                     "            issues with revisions" & Chr(10) & _
                     "      need to add admin user interface in the future." & Chr(10) & _
                     "      need to do an audit on readonly opens." & Chr(10) & _
-                    "      need todo an audit of if a module is missing and the behavior that follows.")
+                    "      need todo an audit of if a module is missing and the behavior that follows." & Chr(10) & _
+                    "      need to update error logging tool to allow the exporting of the log right away.")
                     
             End If
         End Sub

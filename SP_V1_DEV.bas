@@ -83,6 +83,21 @@ Attribute VB_Name = "SP_V1_DEV"
                         SP_I_B_Cost_per_lb_Wdrop_col = 10
         End Enum
         
+        Public Function status()
+            Call MsgBox("SP_Vx Status:" & Chr(10) & _
+            "------------------------------------------------------------" & Chr(10) & _
+            "Public functions: " & Chr(10) & _
+            " Check_SP_A_Table: Stable" & Chr(10) & _
+            " Check_SP_B_Table: Stable" & Chr(10) & _
+            "    get_sheet_name: Stable" & Chr(10) & _
+            "              get_size_A: Stable" & Chr(10) & _
+            "              get_size_B: Stable" & Chr(10) & _
+            Chr(10) & "Private functions:" & Chr(10) & _
+            "na" & Chr(10) & _
+            "", , "showing status for SP_v1_dev")
+        End Function
+        
+        
         Public Function get_sheet_name(Optional Dont_show_instructions As Boolean) As String
             'currently functional as of (9/3/2020) checked by: (zachary daugherty)
             'Created By (Zachary Daugherty)(9/3/2020)

@@ -111,15 +111,27 @@ Attribute VB_Name = "DTS_V1_DEV"
         End Enum
         
         Private Function get_global_unit_cost_refresh_ignore_trigger() As String
+            Call MsgBox("add green text", , "dts_v1_dev.get_global_unit_cost_refresh_ignore_trigger")
             get_global_unit_cost_refresh_ignore_trigger = "<skip>"
         End Function
         
         Private Function get_global_decoder_symbol() As String
+            Call MsgBox("add green text", , "dts_v1_dev.get_global_decoder_symbol")
             get_global_decoder_symbol = "-"
         End Function
         
-        Private Function get_unit_cost_refresh_Steel_presets_grab_row() As Long
-            
+        Public Function status()
+            Call MsgBox("Dts_Vx Status:" & Chr(10) & _
+            "------------------------------------------------------------" & Chr(10) & _
+            "Public functions: " & Chr(10) & _
+            "       run: Stable" & Chr(10) & _
+            "get_size: Stable" & Chr(10) & _
+            Chr(10) & "Private functions:" & Chr(10) & _
+            "                                                                  check: Stable" & Chr(10) & _
+            "                                              Check_DTS_Table: Stable" & Chr(10) & _
+            "                            get_global_decoder_symbol: Stable" & Chr(10) & _
+            "get_global_unit_cost_refresh_ignore_trigger: Stable" & Chr(10) & _
+            "                                               unit_cost_refresh: Stable", , "showing status for DTS_Vx")
         End Function
         
         Private Function Check_DTS_Table_V0_01A() As Boolean

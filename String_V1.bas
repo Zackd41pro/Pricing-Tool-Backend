@@ -102,7 +102,7 @@ Enum Get_Char
     Division_sign = 247             '÷
 End Enum
 
-Sub STATUS()
+Sub status()
     MsgBox ("STRING_V1 STATUS:" & String_V1.get_Special_Char_V1(carriage_return, True) & _
     "------------------------------------------------------------" & String_V1.get_Special_Char_V1(carriage_return, True) & _
     "is_same_V1: Functional" & String_V1.get_Special_Char_V1(carriage_return, True) & _
