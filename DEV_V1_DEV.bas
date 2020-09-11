@@ -65,29 +65,40 @@ Attribute VB_Name = "DEV_V1_DEV"
         'code end
         End Enum
 
+        Public Function status()
+            Call MsgBox("DEV_Vx Status:" & Chr(10) & _
+            "------------------------------------------------------------" & Chr(10) & _
+            "Public functions: " & Chr(10) & _
+            "          welcome: Stable" & Chr(10) & _
+            " get_username: Stable" & Chr(10) & _
+            "     On_Startup: update" & Chr(10) & _
+            "ON_Shutdown: update" & Chr(10) & _
+            "                   Log: update" & Chr(10) & _
+            "  check_user_in: depreciated" & Chr(10) & _
+            Chr(10) & "Private functions:" & Chr(10) & _
+            "DEV_page_Exist: stable" & Chr(10) & _
+            "check_user_out: depreciated" & Chr(10) & _
+            "", , "showing status for Dev_v1_dev")
+        End Function
+        
         Public Sub welcome()
             If (ActiveWorkbook.ReadOnly = False) Then
-                MsgBox ("--------------------------------------------------------------------------------------------" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "________Welcome to the Product Sales Pricing Tool- Data Editor________" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "                          Version: Alpha 0.0.1 DEV environment" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "--------------------------------------------------------------------------------------------" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "          PLEASE NOTE IF YOU ARE USING DEV MODULES Contact AN" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "          ADMINISTRATOR" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "--------------------------------------------------------------------------------------------" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "Currently using Modules:" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "           String_v1: (S)" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "      DTS_V1_DEV: (D)" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "        SP_V1_DEV: (D)" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "--------------------------------------------------------------------------------------------" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "DEV NOTES:" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "      Makes sure read only opens are addressed as normal user" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "            functionality will be a read only open" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "      Add in dev a marker for keeping track of the sheets in the wb," & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "            this will allow marking for changes without having there be" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "            issues with revisions" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "      more on next slide")
-                    MsgBox ("DEV NOTES: (continued)" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                    "      need to add admin user interface in the future. need to do an audit on readonly opens. need todo an audit of if a module is missing and the behavior that follows")
+                MsgBox ("--------------------------------------------------------------------------------------------" & Chr(10) & _
+                    "________Welcome to the Product Sales Pricing Tool- Data Editor________" & Chr(10) & _
+                    "                          Version: Alpha 1.1.6 matrix update" & Chr(10) & _
+                    "--------------------------------------------------------------------------------------------")
+                    
+                MsgBox ("--------------------------------------------------------------------------------------------" & Chr(10) & _
+                    "DEV NOTES:" & Chr(10) & _
+                    "      Makes sure read only opens are addressed as normal user" & Chr(10) & _
+                    "            functionality will be a read only open" & Chr(10) & _
+                    "      Add in dev a marker for keeping track of the sheets in the wb," & Chr(10) & _
+                    "            this will allow marking for changes without having there be" & Chr(10) & _
+                    "            issues with revisions" & Chr(10) & _
+                    "      need to add admin user interface in the future." & Chr(10) & _
+                    "      need to do an audit on readonly opens." & Chr(10) & _
+                    "      need todo an audit of if a module is missing and the behavior that follows." & Chr(10) & _
+                    "      need to update error logging tool to allow the exporting of the log right away.")
                     
             End If
         End Sub
@@ -120,7 +131,7 @@ Attribute VB_Name = "DEV_V1_DEV"
                     Dim Home_sheet As Worksheet     'on startup sheet treated as the home position to return to post check
                     Dim condition As Boolean        'store T/F
                     Dim s As String                 'stores string info
-                    Dim I As Long                'long storage
+                    Dim i As Long                'long storage
                 'cursor information
                     Dim proj_workbook As Workbook   'active workbook selection on open
                     Dim cell_cursor As Range        'cursor selection of current position of the cell
@@ -232,13 +243,13 @@ restart_on_startup:
                         cell_row = POS_V0_01A.DEV_login_USER_ONLINE_row
                         cell_col = POS_V0_01A.DEV_login_USER_ONLINE_col
                     'format login
-                        For I = 0 To POS_V0_01A.dev_login_bottom_row - 3
-                            sheet_cursor.Cells(cell_row + I, cell_col).Interior.Color = 500
-                            sheet_cursor.Cells(cell_row + I, cell_col + 1).Interior.Color = 500
-                            sheet_cursor.Cells(cell_row + I, cell_col + 2).Interior.Color = 500
-                        Next I
+                        For i = 0 To POS_V0_01A.dev_login_bottom_row - 3
+                            sheet_cursor.Cells(cell_row + i, cell_col).Interior.Color = 500
+                            sheet_cursor.Cells(cell_row + i, cell_col + 1).Interior.Color = 500
+                            sheet_cursor.Cells(cell_row + i, cell_col + 2).Interior.Color = 500
+                        Next i
                         'cleanup
-                            I = -1
+                            i = -1
                     'format log: set row pos
                         cell_row = POS_V0_01A.DEV_log_log_row
                         cell_col = POS_V0_01A.DEV_log_log_col
@@ -248,11 +259,11 @@ restart_on_startup:
                             If (sheet_cursor.Cells(cell_row, cell_col).Interior.Color <> 500) Then
                                 'not formatted correctly so setup
                                     MsgBox ("Please wait Fixing Errors: Module: DEV_VX: Function: On_Startup is repairing the dev page this function will take a couple mins please wait...")
-                                    For I = 0 To 1048575 - POS_V0_01A.DEV_log_log_row
-                                        sheet_cursor.Cells(cell_row + I, cell_col).Interior.Color = 500
-                                        sheet_cursor.Cells(cell_row + I, cell_col + 1).Interior.Color = 500
-                                        sheet_cursor.Cells(cell_row + I, cell_col + 2).Interior.Color = 500
-                                    Next I
+                                    For i = 0 To 1048575 - POS_V0_01A.DEV_log_log_row
+                                        sheet_cursor.Cells(cell_row + i, cell_col).Interior.Color = 500
+                                        sheet_cursor.Cells(cell_row + i, cell_col + 1).Interior.Color = 500
+                                        sheet_cursor.Cells(cell_row + i, cell_col + 2).Interior.Color = 500
+                                    Next i
                             End If
                 'cleanup
                     Set sheet_cursor = Nothing
@@ -318,7 +329,7 @@ Error_Startup_Tracked_Cell_filled:
                 'memory
                     Dim Home_sheet As Worksheet     'on startup sheet treated as the home position to return to post check
                     Dim arr() As String             'storage array for memory operations
-                    Dim I As Long                'iterator and int storage
+                    Dim i As Long                'iterator and int storage
                     Dim s As String                 'string storage
                     Dim total_sheets_num As Long 'stores number in existance
                     
@@ -340,14 +351,14 @@ Restart_if_exist_check:
             'get ammount of sheets that exist
                 total_sheets_num = proj_workbook.Sheets.count
             'iterate through the sheets to see if dev exists
-                For I = 1 To total_sheets_num
+                For i = 1 To total_sheets_num
                     'get name of sheet
-                        s = proj_workbook.Sheets(I).Name
+                        s = proj_workbook.Sheets(i).Name
                     'check if the sheet name is DEV
                         If (s = "DEV") Then
                             'if not in index position 1 move to 1
-                                If (I > 1) Then
-                                    proj_workbook.Sheets(I).Move _
+                                If (i > 1) Then
+                                    proj_workbook.Sheets(i).Move _
                                         Before:=ActiveWorkbook.Sheets(1)
                                     anti_loop = antiloop + 1
                                         If dont_report = False Then
@@ -369,7 +380,7 @@ Restart_if_exist_check:
                         Else
                             'fall through
                         End If
-                Next I
+                Next i
             'sheet not found make sheet
                 proj_workbook.Sheets.Add
                 Set sheet_cursor = ActiveSheet
@@ -438,7 +449,7 @@ page_exist_exit:
                             Dim home_pos As Worksheet
                         'storage
                             Dim s As String
-                            Dim I As Long
+                            Dim i As Long
                             Dim i_2 As Long
                             Dim anti_loop As Long
 restart_log:
@@ -461,10 +472,10 @@ restart_log:
                         If cell_cursor.row = 1048570 Then   'clear log file
                             ActiveCell.Offset(-1, 0).Activate
                             Set cell_cursor = ActiveCell
-                            I = cell_cursor.row
+                            i = cell_cursor.row
                             i_2 = cell_cursor.Column
                             cell_cursor.End(xlUp).Offset(1, 0).Activate
-                            Set cell_cursor = Range(Cells(ActiveCell.row, ActiveCell.Column), Cells(I, i_2 + 1))
+                            Set cell_cursor = Range(Cells(ActiveCell.row, ActiveCell.Column), Cells(i, i_2 + 1))
                             Cells(1, 1).Activate
                             cell_cursor.Select
                             cell_cursor.value = ""
@@ -512,7 +523,7 @@ Fatal_Error_Log_cant_find_dev_page:
                     'memory
                         Dim arr() As String 'made to store RAM
                         Dim s As String 'store string info
-                        Dim I As Long    'store int and iterator
+                        Dim i As Long    'store int and iterator
                         Dim count As Long 'counter
                     'cursor
                         Dim current_pos As Worksheet    'accounted as the starting position before this operation to return to it after done
@@ -542,16 +553,16 @@ Fatal_Error_Log_cant_find_dev_page:
                         If (s <> "") Then
                             'stop multi login
                             count = 1
-                            For I = 1 To 3
+                            For i = 1 To 3
                                 cursor_row = cursor_row + 1
                                 s = cursor_sheet.Cells(cursor_row, cursor_col).value
                                 If s = "" Then
                                     Exit For
                                 Else
-                                    I = 1
+                                    i = 1
                                     count = count + 1
                                 End If
-                            Next I
+                            Next i
                             ReDim arr(count + 1, 2)
                         Else
                             MsgBox ("devnote: ignore, need to setup multi login perms")
@@ -560,7 +571,7 @@ Fatal_Error_Log_cant_find_dev_page:
                         arr(0, 0) = "size of arr"
                         arr(0, 1) = count + 1
                     'cleanup
-                        I = -1
+                        i = -1
                         count = -1
                 'fill arr list
                     'set cell cursor to top of the list
@@ -568,19 +579,19 @@ Fatal_Error_Log_cant_find_dev_page:
                         cursor_col = POS_V0_01A.DEV_login_USER_ONLINE_col
                     'fill
                         count = 0
-                        For I = 1 To (CInt(arr(0, 1)) - 1)
-                            arr(I, 0) = cursor_sheet.Cells(cursor_row, cursor_col).value
-                            arr(I, 1) = cursor_sheet.Cells(cursor_row, cursor_col + 1).value
-                            arr(I, 2) = cursor_sheet.Cells(cursor_row, cursor_col + 2).value
+                        For i = 1 To (CInt(arr(0, 1)) - 1)
+                            arr(i, 0) = cursor_sheet.Cells(cursor_row, cursor_col).value
+                            arr(i, 1) = cursor_sheet.Cells(cursor_row, cursor_col + 1).value
+                            arr(i, 2) = cursor_sheet.Cells(cursor_row, cursor_col + 2).value
                             cursor_row = cursor_row + 1
                             count = count + 1
-                        Next I
+                        Next i
                     'check for dup
-                        For I = 1 To (CInt(arr(0, 1)) - 1)
-                            If (user = arr(I, 0)) Then
+                        For i = 1 To (CInt(arr(0, 1)) - 1)
+                            If (user = arr(i, 0)) Then
                                 'dupe found
                                     'set pos for update
-                                        cursor_row = POS_V0_01A.DEV_login_USER_ONLINE_row + I
+                                        cursor_row = POS_V0_01A.DEV_login_USER_ONLINE_row + i
                                         cursor_col = POS_V0_01A.DEV_login_USER_ONLINE_col
                                         cursor_sheet.Cells(cursor_row, cursor_col).value = user
                                         cursor_sheet.Cells(cursor_row, cursor_col + 1).value = now()
@@ -588,7 +599,7 @@ Fatal_Error_Log_cant_find_dev_page:
                                             GoTo check_user_in_cleanup:
                                 'breakout
                             End If
-                        Next I
+                        Next i
                         'add new user to arr
                             arr(arr(0, 1), 0) = user
                             arr(arr(0, 1), 1) = now()

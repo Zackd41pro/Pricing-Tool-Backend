@@ -25,15 +25,15 @@ Attribute VB_Name = "String_V1"
                                                                         'CODE START
 '----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Enum Shift_option
-    up
-    down
-    left_
-    right_
+    up_s
+    down_s
+    left_s
+    right_s
 End Enum
 
 Enum Disassociate_by_Char_left_or_right
-    Left = 0
-    Right = 1
+    Left_C = 0
+    Right_C = 1
 End Enum
 
 Enum Get_Char
@@ -102,7 +102,7 @@ Enum Get_Char
     Division_sign = 247             '÷
 End Enum
 
-Sub STATUS()
+Sub status()
     MsgBox ("STRING_V1 STATUS:" & String_V1.get_Special_Char_V1(carriage_return, True) & _
     "------------------------------------------------------------" & String_V1.get_Special_Char_V1(carriage_return, True) & _
     "is_same_V1: Functional" & String_V1.get_Special_Char_V1(carriage_return, True) & _
@@ -176,7 +176,7 @@ Public Function has_string_inside_V1(ByVal value As String, ByVal sequence As St
     'code start
         'define variables
             Dim s As String 'string storage
-            Dim I As Long    'int storage
+            Dim i As Long    'int storage
             Dim len_val As Long
             Dim len_seq As Long
             Dim pos As Long  'count thru
@@ -198,31 +198,31 @@ Public Function has_string_inside_V1(ByVal value As String, ByVal sequence As St
                     s = "empty"
                     len_val = -1
                     len_seq = -1
-                    I = -1
+                    i = -1
                     Exit Function
             End If
         'scan
-            For I = 1 To len_seq
-                s = Mid(sequence, I, len_val)
+            For i = 1 To len_seq
+                s = Mid(sequence, i, len_val)
                 If (value = s) Then
                     'solution found
                         If (give_pos = True) Then
-                            has_string_inside_V1 = I
+                            has_string_inside_V1 = i
                             Exit Function
                         Else
                             has_string_inside_V1 = True
                         End If
                         Exit For
                 End If
-            Next I
+            Next i
         'cleanup
             value = "empty"
             sequence = "empty"
             s = "empty"
-            I = -1
-            len_val = I
-            len_seq = I
-            pos = I
+            i = -1
+            len_val = i
+            len_seq = i
+            pos = i
             Exit Function
     'code finish
 End Function
@@ -260,7 +260,7 @@ Public Function Disassociate_by_Char_V1(ByVal seperator As String, ByVal sequenc
                 Dim Seperator_len As Long
                 Dim seperator_pos As Variant
                 Dim Sequence_len As Long
-                Dim I As Long
+                Dim i As Long
             'check for instructions
                 If (Dont_show_instructions = False) Then
                     MsgBox ("Showning instructions for Disassociate_by_char_v1")
@@ -298,7 +298,7 @@ Public Function Disassociate_by_Char_V1(ByVal seperator As String, ByVal sequenc
                     Exit Function
                 End If
             'breakup
-                If (Left_or_Right = Left) Then
+                If (Left_or_Right = Left_C) Then
                     If (Seperator_len > 1) Then
                         Stop
                     End If
@@ -580,13 +580,13 @@ Public Function IndentText_VA(ByVal Text As String, ByVal Limit As Integer, ByVa
         Dim textstorage As String
         Dim LengthOfInput As Integer
         Dim DecodeText() As String
-        Dim I As Integer
+        Dim i As Integer
         Dim Sc As Integer
         Dim ReadyToExport As Boolean
         Dim NumOfSpaces As Integer
             textstorage = "Empty"
             LengthOfInput = 0
-            I = 1
+            i = 1
             Sc = 0
             ReadyToExport = False
             NumOfSpaces = 0
@@ -594,18 +594,18 @@ Public Function IndentText_VA(ByVal Text As String, ByVal Limit As Integer, ByVa
         LengthOfInput = Len(Text)
         ReDim DecodeText(LengthOfInput)
     'import into string into array
-        For I = 1 To LengthOfInput
-            textstorage = (Left(Text, I))
-            If (I > 1) Then
-                textstorage = (Right(textstorage, (I - (I - 1))))
+        For i = 1 To LengthOfInput
+            textstorage = (Left(Text, i))
+            If (i > 1) Then
+                textstorage = (Right(textstorage, (i - (i - 1))))
             End If
-            DecodeText(I) = textstorage
-        Next I
+            DecodeText(i) = textstorage
+        Next i
         textstorage = "Empty"
-        I = 1
+        i = 1
     'check to see if requested size is possible
-        For I = 1 To LengthOfInput
-            textstorage = DecodeText(I)
+        For i = 1 To LengthOfInput
+            textstorage = DecodeText(i)
             If (textstorage <> " ") Then
                 Sc = Sc + 1
             End If
@@ -623,18 +623,18 @@ Public Function IndentText_VA(ByVal Text As String, ByVal Limit As Integer, ByVa
                     Sc = 0
                 End If
             End If
-        Next I
-        I = 1
+        Next i
+        i = 1
         textstorage = "Empty"
     'fill in the line to valid value
         textstorage = ""
         On Error Resume Next
-        For I = 1 To Limit
-            textstorage = textstorage + DecodeText(I)
-        Next I
-        I = I - 1
-        Sc = I
-        I = 1
+        For i = 1 To Limit
+            textstorage = textstorage + DecodeText(i)
+        Next i
+        i = i - 1
+        Sc = i
+        i = 1
     'check to see that words are not cut off
         If (DecodeText(Sc + 1) = " ") Then
             ReadyToExport = True
@@ -646,26 +646,26 @@ Public Function IndentText_VA(ByVal Text As String, ByVal Limit As Integer, ByVa
         End If
     'if words are cutoff move back to last available space
         If (ReadyToExport = False) Then
-            For I = 1 To Limit
-                If (DecodeText(I) = " ") Then
+            For i = 1 To Limit
+                If (DecodeText(i) = " ") Then
                     NumOfSpaces = NumOfSpaces + 1
                 End If
-            Next I
+            Next i
             textstorage = ""
-            I = 1
+            i = 1
             LengthOfInput = NumOfSpaces
             NumOfSpaces = 0
-            For I = 1 To Limit
-                If (DecodeText(I) = " ") Then
+            For i = 1 To Limit
+                If (DecodeText(i) = " ") Then
                     NumOfSpaces = NumOfSpaces + 1
                 End If
                 If (NumOfSpaces = LengthOfInput) Then
                     Exit For
                 End If
-                textstorage = textstorage + DecodeText(I)
-            Next I
-            Sc = I
-            I = 1
+                textstorage = textstorage + DecodeText(i)
+            Next i
+            Sc = i
+            i = 1
             NumOfSpaces = 0
             LengthOfInput = Len(Text)
             ReadyToExport = True
@@ -675,13 +675,13 @@ Public Function IndentText_VA(ByVal Text As String, ByVal Limit As Integer, ByVa
             IndentText = textstorage
             textstorage = ""
         'find leftovers
-            For I = Sc To LengthOfInput
-                If ((DecodeText(I) = " ") And (NumOfSpaces = 0)) Then
+            For i = Sc To LengthOfInput
+                If ((DecodeText(i) = " ") And (NumOfSpaces = 0)) Then
                     NumOfSpaces = 1
                 Else
-                    textstorage = textstorage + DecodeText(I)
+                    textstorage = textstorage + DecodeText(i)
                 End If
-            Next I
+            Next i
         'pushout extra data
             Cells(StoreExtraRow, StoreExtraCol) = textstorage
         Exit Function
@@ -690,7 +690,7 @@ End Function
 
 
 Sub test()
-    Dim I As Integer
+    Dim i As Integer
     Call Shift(left_, False, "1,1", "4,4")
 End Sub
 

@@ -53,13 +53,18 @@ Private Sub Workbook_Open()
         'na
     'welcome
         DEV_V1_DEV.welcome
-        String_V1.STATUS
-        Array_V1.STATUS
-        MsgBox ("NEED TO ADD STATUS FOR MODULES")
+        MsgBox ("Need to remove 'unit list' marked range from the DTS refactor code as it has been removed from the data set")
+        DEV_V1_DEV.status
+        DTS_V1_DEV.status
+        matrix_V2.status
+        SP_V1_DEV.status
+        String_V1.status
     'run startup checks
         DEV_V1_DEV.On_Startup_V0_01
         DEV_V1_DEV.check_user_in_v0_01 (DEV_V1_DEV.get_username)
     'run DTS Procedure
+        MsgBox ("DTS_V1_DEV.run (update_unit_cost): will not run till 'unit list' has been removed from the data set check")
+        MsgBox ("workbook_open~DTS_V1_DEV.run (update_unit_cost): failed to run")
         DTS_V1_DEV.run (update_unit_cost)
 'code end
  End Sub
