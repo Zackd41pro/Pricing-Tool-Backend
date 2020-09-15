@@ -98,7 +98,7 @@ Attribute VB_Name = "SP_V1_DEV"
         End Function
         
         
-        Public Function get_sheet_name(Optional Dont_show_instructions As Boolean) As String
+        Public Function get_sheet_name(Optional dont_show_instructions As Boolean) As String
             'currently functional as of (9/3/2020) checked by: (zachary daugherty)
             'Created By (Zachary Daugherty)(9/3/2020)
             'Purpose Case & notes:
@@ -119,7 +119,7 @@ Attribute VB_Name = "SP_V1_DEV"
                     'name of sheet as string
         'code start
             'check for instructions
-                If (Dont_show_instructions = False) Then
+                If (dont_show_instructions = False) Then
                     MsgBox ("Showning instructions for: SP_Vx:get_expected_sheet_name.__ this function is designed to return the expected name of the sheet associated with this module")
                     Stop
                     Exit Function

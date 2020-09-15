@@ -109,7 +109,7 @@ Public Sub welcome()
         String_V1.status
 End Sub
 
-Public Sub On_Startup_V0_01(ByVal username As String, dont_report As Boolean)
+Public Sub On_Startup_V0_01(Optional dont_report As Boolean)
 'currently functional as of (8/7/2020) checked by: (Zachary daugherty)
     'Created By (Zachary Daugherty)(8/7/2020)
     'Purpose Case & notes:
@@ -189,15 +189,18 @@ restart_on_startup:
                     'Call dev_v1_dev.log(dev_v1_dev.get_username, "condition check passed as false")
                 End If
                 'make devpage
-                    'make screen updating off
-                        Application.ScreenUpdating = False
-                        proj_workbook.Sheets.Add    'add new sheet
-                        Set sheet_cursor = ActiveSheet  'set cursor to active
-                        sheet_cursor.Name = "DEV"   'rename active sheet
-                        sheet_cursor.Visible = 2    'make dev hidden code lvl permission
-                        Home_sheet.Activate 'return to home position
-                    'make screen updating on
-                        Application.ScreenUpdating = True
+                    Call MsgBox("call standard operation in boots? to make sheets", , "dev_v1_dev.onstartup_vo_01")
+                    Stop
+                    Call Boots_Main_V_alpha.make_sheet(proj_workbook, "DEV", 2, True)
+'                    'make screen updating off
+'                        Application.ScreenUpdating = False
+'                        proj_workbook.Sheets.Add    'add new sheet
+'                        Set sheet_cursor = ActiveSheet  'set cursor to active
+'                        sheet_cursor.Name = "DEV"   'rename active sheet
+'                        sheet_cursor.Visible = 2    'make dev hidden code lvl permission
+'                        Home_sheet.Activate 'return to home position
+'                    'make screen updating on
+'                        Application.ScreenUpdating = True
                     'anti loop check to prevent infinite loop
                         anti_loop = anti_loop + 1   'anti loop iteration
                         'if you have not looped through this more than 6 times do if else do else
@@ -236,7 +239,7 @@ restart_on_startup:
             s = "empty"
     'check for table positions
             'check to make DEV is hidden
-                proj_workbook.Sheets("DEV").Visible = 1
+                proj_workbook.Sheets("DEV").visible = 1
         Set sheet_cursor = proj_workbook.Sheets("Dev")  'set cursor
         'check for table names and setup if not valid and if not throw error
             If dont_report = False Then
@@ -415,12 +418,8 @@ Restart_if_exist_check:
                     'fall through
                 End If
         Next i
-    'sheet not found make sheet
-        proj_workbook.Sheets.Add
-        Set sheet_cursor = ActiveSheet
-        sheet_cursor.Name = "DEV"
-        DEV_page_Exist = True
-        dev_v1_dev.On_Startup_V0_01 (True)
+    'sheet not found
+        DEV_page_Exist = False
         Exit Function
         'log
 page_exist_exit:
@@ -455,7 +454,7 @@ Public Function get_username(Optional dont_report As Boolean) As String
 End Function
 
 Public Sub check_user_in_v0_01(ByVal user As String)
-
+    
 End Sub
 
 Private Sub check_user_out_v0_01(ByVal user As String)

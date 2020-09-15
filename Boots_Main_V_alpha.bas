@@ -1,70 +1,15 @@
 Attribute VB_Name = "Boots_Main_V_alpha"
 Public Sub First_time_Run_only()
-    'adds needed refs
-        AddReference_part1_vba_app_extensibility_5_3
-        AddReference_part2_vbscript
-    'setup specific locations
-        Call alpha_MkDir("Pricetool-Alpha-omega", "C:\")
-        Call alpha_MkDir("version-0", "C:\Pricetool-Alpha-omega\")
-        Call alpha_MkDir("Users", "C:\Pricetool-Alpha-omega\version-0\")
-    'calls in code from specified location
-        
-    'setup thisworkbook runtime
-End Sub
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
-'from alpha_make_dir
-
-'https://stackoverflow.com/questions/43658276/create-folder-path-if-does-not-exist-saving-issue
-
-
-'-----------------------------------------------------------------------------------------------------------
-'from add ref page
-'-----------------------------------------------------------------------------------------------------------
-
-Private Sub AddReference_part2_vbscript()
-    Dim VBAEditor As VBIDE.VBE
-    Dim vbProj As VBIDE.VBProject
-    Dim chkRef As VBIDE.Reference
-    Dim BoolExists As Boolean
-
-    Set VBAEditor = Application.VBE
-    Set vbProj = ActiveWorkbook.VBProject
-
-    '~~> Check if "Microsoft VBScript Regular Expressions 5.5" is already added
-    For Each chkRef In vbProj.References
-        If chkRef.Name = "VBScript_RegExp_55" Then
-            BoolExists = True
-            GoTo CleanUp
-        End If
-    Next
-
-    vbProj.References.AddFromFile "C:\Windows\SysWOW64\scrrun.dll"
-
-CleanUp:
-    If BoolExists = True Then
-        MsgBox "Reference already exists"
-    Else
-        MsgBox "Reference Added Successfully"
-    End If
-
-    Set vbProj = Nothing
-    Set VBAEditor = Nothing
+'adds needed refs
+    AddReference_part1_vba_app_extensibility_5_3
+    AddReference_part2_vbscript
+'setup specific locations
+    Call alpha_MkDir("Pricetool-Alpha-omega", "C:\")
+    Call alpha_MkDir("version-0", "C:\Pricetool-Alpha-omega\")
+    Call alpha_MkDir("Users", "C:\Pricetool-Alpha-omega\version-0\")
+'calls in code from specified location
+    
+'setup thisworkbook runtime
 End Sub
 
 Private Sub AddReference_part1_vba_app_extensibility_5_3()
@@ -109,7 +54,43 @@ Private Sub AddReference_part1_vba_app_extensibility_5_3()
     On Error GoTo 0
 End Sub
 
+Private Sub AddReference_part2_vbscript()
+    Dim VBAEditor As VBIDE.VBE
+    Dim vbProj As VBIDE.VBProject
+    Dim chkRef As VBIDE.Reference
+    Dim BoolExists As Boolean
+    
+    Set VBAEditor = Application.VBE
+    Set vbProj = ActiveWorkbook.VBProject
+    
+    '~~> Check if "Microsoft VBScript Regular Expressions 5.5" is already added
+    For Each chkRef In vbProj.References
+        If chkRef.Name = "VBScript_RegExp_55" Then
+            BoolExists = True
+            GoTo CleanUp
+        End If
+    Next
+    
+    vbProj.References.AddFromFile "C:\Windows\SysWOW64\scrrun.dll"
+    
+CleanUp:
+    If BoolExists = True Then
+        MsgBox "Reference already exists"
+    Else
+        MsgBox "Reference Added Successfully"
+    End If
+    
+    Set vbProj = Nothing
+    Set VBAEditor = Nothing
+End Sub
 
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-
+
+
+'https://stackoverflow.com/questions/43658276/create-folder-path-if-does-not-exist-saving-issue
 'requires reference to Microsoft Scripting Runtime
 Function alpha_MkDir(strDir As String, strPath As String)
 
@@ -131,17 +112,34 @@ End If
 
 End Function
 
+Function make_sheet(ByVal wb As Workbook, ByVal sheet_name As String, Optional visible As Long, Optional dont_show_instructions As Boolean) As Boolean
+    If (dont_show_instructions = False) Then
+        'show instructions
+    End If
+    'define variables
+        
+    'setup variables
+        'check visible
+            If ((visible <> -1) And (visible <> 2)) Then
+                If (visible <> 0) Then
+                    Call MsgBox("legal calls for 'make_sheet' are 0, -1, or 2")
+                End If
+                visible = 0
+            End If
+        Stop
+        Stop
+End Function
 
-Sub test_b()
-    Call alpha_MkDir("Pricetool-Alpha-omega", "C:\")
-    Call alpha_MkDir("version-0", "C:\Pricetool-Alpha-omega\")
-    Call alpha_MkDir("Users", "C:\Pricetool-Alpha-omega\version-0\")
-End Sub
 
-'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
-'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
-'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
 
+
+
+
+
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-
 'https://stackoverflow.com/questions/55345116/excel-vba-determine-if-a-module-is-included-in-a-project
 
 'http://www.vbaexpress.com/kb/getarticle.php?kb_id=250

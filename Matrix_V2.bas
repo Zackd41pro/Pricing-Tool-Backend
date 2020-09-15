@@ -39,11 +39,11 @@ Sub status()
     "PVT_MATRIX_BOUND: Stable", , "Matrix_vX showing Status")
 End Sub
 
-Public Function matrix_dimensions(ByVal matrix_ As Variant, Optional Dont_show_instructions As Boolean) As String
+Public Function matrix_dimensions(ByVal matrix_ As Variant, Optional dont_show_instructions As Boolean) As String
 'currently functional as of (9/10/2020) checked by: (Zachary Daughety)
     'Created By (Zachary Daugherty)(9/10/2020)
     'Purpose Case & notes:
-        If (Dont_show_instructions = False) Then
+        If (dont_show_instructions = False) Then
                 Call MsgBox("showing instructions for Matrix_vX.matrix_dimensions, function is built to return the position range of space a array is using as well as the distance between the start and the finish position of that specific range element." & Chr(10) & Chr(10) & _
                 "example:1" & Chr(10) & _
                 "arr(1 to 4)as string will return: '(<1><4><4>),(<empty><empty><empty>),' as a string" & Chr(10) & _
@@ -162,11 +162,11 @@ matrix_dimensions_Alpha_post:
     'end error handle
 End Function
 
-Private Function PVT_MATRIX_BOUND(ByVal up_or_down As bound_choice, ByVal matrix_ As Variant, ByVal index As Long, Optional Dont_show_instructions As Boolean) As Variant
+Private Function PVT_MATRIX_BOUND(ByVal up_or_down As bound_choice, ByVal matrix_ As Variant, ByVal index As Long, Optional dont_show_instructions As Boolean) As Variant
 'currently functional as of (9/9/2020) checked by: (Zachary Daugherty)
     'Created By (Zachary Daugherty)(9/11/2020)
     'Purpose Case & notes:
-        If (Dont_show_instructions = False) Then
+        If (dont_show_instructions = False) Then
             Call MsgBox("Showing Instructions for Matrix_VX:" & Chr(10) & Chr(10) & _
             "this function is a private function that returns from the provided array and index the specified information" & Chr(10) & _
             "possible answers are any number including zero as zero is a dimension or 'failed to post' meaning empty dimension" & Chr(10) & _

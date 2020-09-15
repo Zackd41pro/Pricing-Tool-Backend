@@ -574,9 +574,9 @@ get_size_restart:               'goto flag
                                         On Error GoTo dts_get_cant_find_DTS_SHEET
                                             Set current_sht = wb.Sheets("DTS")
                                         On Error GoTo 0
-                                        If ((current_sht.Visible = xlSheetVeryHidden) Or (current_sht.Visible = xlSheetHidden)) Then
-                                            i_2 = current_sht.Visible
-                                            current_sht.Visible = xlSheetVisible
+                                        If ((current_sht.visible = xlSheetVeryHidden) Or (current_sht.visible = xlSheetHidden)) Then
+                                            i_2 = current_sht.visible
+                                            current_sht.visible = xlSheetVisible
                                         Else
                                             i_2 = -1
                                         End If
@@ -593,7 +593,7 @@ get_size_restart:               'goto flag
                         'start updating
                             'restart if things were deleted, reset some variables then goto 'get_size_restart'
                                 If (delete_empty_rows_condition = True) Then
-                                    current_sht.Visible = i_2
+                                    current_sht.visible = i_2
                                     If (anti_loop < 30) Then
                                         anti_loop = anti_loop + 1
                                         'reset variables

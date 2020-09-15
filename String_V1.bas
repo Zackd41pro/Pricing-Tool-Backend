@@ -116,7 +116,7 @@ Sub status()
     "")
 End Sub
 
-Public Function is_same_V1(ByVal string_1 As String, ByVal string_2 As String, Optional Dont_show_instructions As Boolean) As Boolean
+Public Function is_same_V1(ByVal string_1 As String, ByVal string_2 As String, Optional dont_show_instructions As Boolean) As Boolean
 'currently functional as of (8/20/2020) checked by: (zachary Daugherty)
     'Created By (zachary daugherty)(8/20/20)
     'Purpose Case & notes:
@@ -138,7 +138,7 @@ Public Function is_same_V1(ByVal string_1 As String, ByVal string_2 As String, O
         'false if not
     'code start
         'check for show instructions check
-            If (Dont_show_instructions = False) Then
+            If (dont_show_instructions = False) Then
                 MsgBox ("function is_same_V1 takes string_1 and compairs string_2 to see if they are identical if so the function returns 1 or true if not it returns 0 or false")
                 Stop
                 Exit Function
@@ -228,7 +228,7 @@ Public Function has_string_inside_V1(ByVal value As String, ByVal sequence As St
 End Function
 
 Public Function Disassociate_by_Char_V1(ByVal seperator As String, ByVal sequence As String, _
-    ByVal Left_or_Right As Disassociate_by_Char_left_or_right, Optional Dont_show_instructions As Boolean) As String
+    ByVal Left_or_Right As Disassociate_by_Char_left_or_right, Optional dont_show_instructions As Boolean) As String
 'currently functional as of (8/21/20) checked by: (Zachary Daugherty)
     'Created By (Zachary Daugherty)(8/21/20)
     'Purpose Case & notes:
@@ -262,7 +262,7 @@ Public Function Disassociate_by_Char_V1(ByVal seperator As String, ByVal sequenc
                 Dim Sequence_len As Long
                 Dim i As Long
             'check for instructions
-                If (Dont_show_instructions = False) Then
+                If (dont_show_instructions = False) Then
                     MsgBox ("Showning instructions for Disassociate_by_char_v1")
                     MsgBox ("Purpose Case & notes: takes input of sequence and returns the left or the right side of the seperator specified")
                     MsgBox ("Discription of variables:" & Chr(13) & _
@@ -312,7 +312,7 @@ Public Function Disassociate_by_Char_V1(ByVal seperator As String, ByVal sequenc
         'na
 End Function
 
-Public Function get_Special_Char_V1(ByVal char As Get_Char, Optional Dont_show_instructions As Boolean) As String
+Public Function get_Special_Char_V1(ByVal char As Get_Char, Optional dont_show_instructions As Boolean) As String
 'currently functional as of (8/21/20) checked by: (zachary daugherty)
     'Created By (Zachary Daugherty)(8/21/20)
     'Purpose Case & notes:
@@ -332,7 +332,7 @@ Public Function get_Special_Char_V1(ByVal char As Get_Char, Optional Dont_show_i
         '(information not filled out)
     'code start
         'check for show_instructions
-            If (Dont_show_instructions = False) Then
+            If (dont_show_instructions = False) Then
                 MsgBox ("Showning instructions for get_Special_Char_V1")
                 MsgBox ("get_special_char fetches from memory not on normal ENG keyboard or allowed in code")
                 Stop
