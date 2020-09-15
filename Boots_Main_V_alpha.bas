@@ -1,13 +1,31 @@
 Attribute VB_Name = "Boots_Main_V_alpha"
-
-Public Sub First_time_Run()
+Public Sub First_time_Run_only()
     'adds needed refs
         AddReference_part1_vba_app_extensibility_5_3
         AddReference_part2_vbscript
+    'setup specific locations
+        Call alpha_MkDir("Pricetool-Alpha-omega", "C:\")
+        Call alpha_MkDir("version-0", "C:\Pricetool-Alpha-omega\")
+        Call alpha_MkDir("Users", "C:\Pricetool-Alpha-omega\version-0\")
     'calls in code from specified location
         
     'setup thisworkbook runtime
 End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
 'from alpha_make_dir
@@ -115,7 +133,9 @@ End Function
 
 
 Sub test_b()
-    Call MkDir("test log", "C:\")
+    Call alpha_MkDir("Pricetool-Alpha-omega", "C:\")
+    Call alpha_MkDir("version-0", "C:\Pricetool-Alpha-omega\")
+    Call alpha_MkDir("Users", "C:\Pricetool-Alpha-omega\version-0\")
 End Sub
 
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/

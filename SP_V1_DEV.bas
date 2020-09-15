@@ -166,7 +166,8 @@ Attribute VB_Name = "SP_V1_DEV"
                     Dim ref_rng As Range            'reference range in question
             'setup variables
                 'log
-                    Call DEV_V1_DEV.log(DEV_V1_DEV.get_username, "Check_SP_A_Table Started")
+                    Call MsgBox("check sp table a using log replace", , "check sp table a using log")
+                    'Call dev_v1_dev.log(dev_v1_dev.get_username, "Check_SP_A_Table Started")
                 'breakout
                 Set proj_wb = ActiveWorkbook
                 On Error GoTo FATAL_ERROR_CHECK_SP_A_SET_SP_ENV_For_A 'set error handler
@@ -301,21 +302,25 @@ Attribute VB_Name = "SP_V1_DEV"
                         GoTo ERROR_CHECK_sp_FAILED_POS_CHECK_For_A
                     End If
                 'return true
-                    Call DEV_V1_DEV.log(DEV_V1_DEV.get_username, "Check_SP_A_Table Finished")
+                    Call MsgBox("check sp a table using log replace", , "check sp a table using log")
+                    'Call dev_v1_dev.log(dev_v1_dev.get_username, "Check_SP_A_Table Finished")
                     Check_SP_A_Table_V0_01A = True   'passed all checks
                     Exit Function
         'code end
         'error handle
 ERROR_FATAL_check_sp_range_error_For_A:
-            Call DEV_V1_DEV.log(DEV_V1_DEV.get_username, "FATAL ERROR: MODULE:(SP_VX)FUNCTION:(CHECK_SP_TABLE_A) UNABLE TO LOCATE THE SPECIFIED RANGE:<" & s & "> please check the name mannager for errors. fix and then re-run")
+            Call MsgBox("check sp a table using log replace", , "check sp a table using log")
+            'Call dev_v1_dev.log(dev_v1_dev.get_username, "FATAL ERROR: MODULE:(SP_VX)FUNCTION:(CHECK_SP_TABLE_A) UNABLE TO LOCATE THE SPECIFIED RANGE:<" & s & "> please check the name mannager for errors. fix and then re-run")
             Call MsgBox("FATAL ERROR: MODULE:(SP_VX)FUNCTION:(CHECK_SP_TABLE_A) UNABLE TO LOCATE THE SPECIFIED RANGE:<" & s & "> please check the name mannager for errors. fix and then re-run", , "Fatal error")
             Stop
 FATAL_ERROR_CHECK_SP_A_SET_SP_ENV_For_A:
-            Call DEV_V1_DEV.log(DEV_V1_DEV.get_username, "FATAL_ERROR: MODULE: (SP_VX)FUNCTION: (CHECK_SP_TABLE_A) UNABLE TO FIND OR SET SHEET STEEL PRESETS IN THE PROJECT WORKBOOK PLEASE CHECK FOR RIGHT CALL OR POS OR WORKBOOK.")
+            Call MsgBox("check sp a table using log replace", , "check sp a table using log")
+            'Call dev_v1_dev.log(dev_v1_dev.get_username, "FATAL_ERROR: MODULE: (SP_VX)FUNCTION: (CHECK_SP_TABLE_A) UNABLE TO FIND OR SET SHEET STEEL PRESETS IN THE PROJECT WORKBOOK PLEASE CHECK FOR RIGHT CALL OR POS OR WORKBOOK.")
             Call MsgBox("FATAL_ERROR: MODULE: (SP_VX)FUNCTION: (CHECK_SP_TABLE_A) UNABLE TO FIND OR SET SHEET STEEL PRESETS IN THE PROJECT WORKBOOK PLEASE CHECK FOR RIGHT CALL OR POS OR WORKBOOK.", , "FATAL ERROR: SET SP SHEET ENV")
             Stop
 ERROR_CHECK_sp_FAILED_POS_CHECK_For_A:
-            Call DEV_V1_DEV.log(DEV_V1_DEV.get_username, "ERROR: MODULE: (SP_VX)FUNCTION: (CHECK_SP_TABLE_A) FAILED POSITIONAL CHECK REPORT LISTED BELOW A FAIL IS LISTED AS FALSE: " & vbCrLf & vbCrLf & arr(1, 5) & vbCrLf & arr(2, 5) & vbCrLf & arr(3, 5) & vbCrLf & arr(4, 5) & vbCrLf & arr(5, 5) & vbCrLf & arr(6, 5) & vbCrLf & arr(7, 5) & vbCrLf & arr(8, 5) & vbCrLf & arr(9, 5) & vbCrLf & arr(10, 5) & vbCrLf & arr(11, 5) & vbCrLf & arr(12, 5) & vbCrLf & arr(13, 5) & vbCrLf & arr(14, 5) & vbCrLf & arr(15, 5))
+            Call MsgBox("check sp a table using log replace", , "check sp a table using log")
+            'Call dev_v1_dev.log(dev_v1_dev.get_username, "ERROR: MODULE: (SP_VX)FUNCTION: (CHECK_SP_TABLE_A) FAILED POSITIONAL CHECK REPORT LISTED BELOW A FAIL IS LISTED AS FALSE: " & vbCrLf & vbCrLf & arr(1, 5) & vbCrLf & arr(2, 5) & vbCrLf & arr(3, 5) & vbCrLf & arr(4, 5) & vbCrLf & arr(5, 5) & vbCrLf & arr(6, 5) & vbCrLf & arr(7, 5) & vbCrLf & arr(8, 5) & vbCrLf & arr(9, 5) & vbCrLf & arr(10, 5) & vbCrLf & arr(11, 5) & vbCrLf & arr(12, 5) & vbCrLf & arr(13, 5) & vbCrLf & arr(14, 5) & vbCrLf & arr(15, 5))
             Call MsgBox("ERROR: MODULE: (SP_VX)FUNCTION: (CHECK_SP_TABLE_A) FAILED POSITIONAL CHECK REPORT LISTED BELOW A FAIL IS LISTED AS FALSE: " & vbCrLf & vbCrLf & arr(1, 5) & vbCrLf & arr(2, 5) & vbCrLf & arr(3, 5) & vbCrLf & arr(4, 5) & vbCrLf & arr(5, 5) & vbCrLf & arr(6, 5) & vbCrLf & arr(7, 5) & vbCrLf & arr(8, 5) & vbCrLf & arr(9, 5) & vbCrLf & arr(10, 5) & vbCrLf & arr(11, 5) & vbCrLf & arr(12, 5) & vbCrLf & arr(13, 5) & vbCrLf & arr(14, 5) & vbCrLf & arr(15, 5))
             Stop
         End Function
@@ -359,7 +364,8 @@ Public Function Check_SP_B_Table_V0_01A() As Boolean
                     Dim ref_rng As Range            'reference range in question
             'setup variables
                 'log
-                    Call DEV_V1_DEV.log(DEV_V1_DEV.get_username, "Check_sp_B_table Start")
+                    Call MsgBox("check sp b table using log replace", , "check sp b table using log")
+                    'Call dev_v1_dev.log(dev_v1_dev.get_username, "Check_sp_B_table Start")
                 'breakout
                 Set proj_wb = ActiveWorkbook
                 On Error GoTo FATAL_ERROR_CHECK_SP_A_SET_SP_ENV_For_B 'set error handler
@@ -492,21 +498,25 @@ Public Function Check_SP_B_Table_V0_01A() As Boolean
                         GoTo ERROR_CHECK_sp_FAILED_POS_CHECK_For_B
                     End If
                 'return true
-                    Call DEV_V1_DEV.log(DEV_V1_DEV.get_username, "check_sp_B_table finished")
+                    Call MsgBox("check sp b table using log replace", , "check sp b table using log")
+                    'Call dev_v1_dev.log(dev_v1_dev.get_username, "check_sp_B_table finished")
                     Check_SP_B_Table_V0_01A = True   'passed all checks
                     Exit Function
         'code end
         'error handle
 ERROR_FATAL_check_sp_range_error_For_B:
-            Call DEV_V1_DEV.log(DEV_V1_DEV.get_username, "FATAL ERROR: MODULE:(SP_VX)FUNCTION:(CHECK_SP_TABLE_A) UNABLE TO LOCATE THE SPECIFIED RANGE:<" & s & ">")
+            Call MsgBox("check sp b table using log replace", , "check sp b table using log")
+            'Call dev_v1_dev.log(dev_v1_dev.get_username, "FATAL ERROR: MODULE:(SP_VX)FUNCTION:(CHECK_SP_TABLE_A) UNABLE TO LOCATE THE SPECIFIED RANGE:<" & s & ">")
             Call MsgBox("FATAL ERROR: MODULE:(SP_VX)FUNCTION:(CHECK_SP_TABLE_A) UNABLE TO LOCATE THE SPECIFIED RANGE:<" & s & "> please check the name mannager for errors. fix and then re-run", , "Fatal error")
             Stop
 FATAL_ERROR_CHECK_SP_A_SET_SP_ENV_For_B:
-            Call DEV_V1_DEV.log(DEV_V1_DEV.get_username, "FATAL_ERROR: MODULE: (SP_VX)FUNCTION: (CHECK_SP_TABLE_A) UNABLE TO FIND OR SET SHEET STEEL PRESETS IN THE PROJECT WORKBOOK PLEASE CHECK FOR RIGHT CALL OR POS OR WORKBOOK.")
+            Call MsgBox("check sp b table using log replace", , "check sp b table using log")
+            'Call dev_v1_dev.log(dev_v1_dev.get_username, "FATAL_ERROR: MODULE: (SP_VX)FUNCTION: (CHECK_SP_TABLE_A) UNABLE TO FIND OR SET SHEET STEEL PRESETS IN THE PROJECT WORKBOOK PLEASE CHECK FOR RIGHT CALL OR POS OR WORKBOOK.")
             Call MsgBox("FATAL_ERROR: MODULE: (SP_VX)FUNCTION: (CHECK_SP_TABLE_A) UNABLE TO FIND OR SET SHEET STEEL PRESETS IN THE PROJECT WORKBOOK PLEASE CHECK FOR RIGHT CALL OR POS OR WORKBOOK.", , "FATAL ERROR: SET SP SHEET ENV")
             Stop
 ERROR_CHECK_sp_FAILED_POS_CHECK_For_B:
-            Call DEV_V1_DEV.log(DEV_V1_DEV.get_username, "ERROR: MODULE: (SP_VX)FUNCTION: (CHECK_SP_TABLE_A) FAILED POSITIONAL CHECK REPORT LISTED BELOW A FAIL IS LISTED AS FALSE: " & vbCrLf & vbCrLf & arr(1, 5) & vbCrLf & arr(2, 5) & vbCrLf & arr(3, 5) & vbCrLf & arr(4, 5) & vbCrLf & arr(5, 5) & vbCrLf & arr(6, 5) & vbCrLf & arr(7, 5) & vbCrLf & arr(8, 5) & vbCrLf & arr(9, 5) & vbCrLf & arr(10, 5) & vbCrLf & arr(11, 5) & vbCrLf & arr(12, 5) & vbCrLf & arr(13, 5) & vbCrLf & arr(14, 5) & vbCrLf & arr(15, 5))
+            Call MsgBox("check sp b table using log replace", , "check sp b table using log")
+            'Call dev_v1_dev.log(dev_v1_dev.get_username, "ERROR: MODULE: (SP_VX)FUNCTION: (CHECK_SP_TABLE_A) FAILED POSITIONAL CHECK REPORT LISTED BELOW A FAIL IS LISTED AS FALSE: " & vbCrLf & vbCrLf & arr(1, 5) & vbCrLf & arr(2, 5) & vbCrLf & arr(3, 5) & vbCrLf & arr(4, 5) & vbCrLf & arr(5, 5) & vbCrLf & arr(6, 5) & vbCrLf & arr(7, 5) & vbCrLf & arr(8, 5) & vbCrLf & arr(9, 5) & vbCrLf & arr(10, 5) & vbCrLf & arr(11, 5) & vbCrLf & arr(12, 5) & vbCrLf & arr(13, 5) & vbCrLf & arr(14, 5) & vbCrLf & arr(15, 5))
             Call MsgBox("ERROR: MODULE: (SP_VX)FUNCTION: (CHECK_SP_TABLE_A) FAILED POSITIONAL CHECK REPORT LISTED BELOW A FAIL IS LISTED AS FALSE: " & vbCrLf & vbCrLf & arr(1, 5) & vbCrLf & arr(2, 5) & vbCrLf & arr(3, 5) & vbCrLf & arr(4, 5) & vbCrLf & arr(5, 5) & vbCrLf & arr(6, 5) & vbCrLf & arr(7, 5) & vbCrLf & arr(8, 5) & vbCrLf & arr(9, 5) & vbCrLf & arr(10, 5) & vbCrLf & arr(11, 5) & vbCrLf & arr(12, 5) & vbCrLf & arr(13, 5) & vbCrLf & arr(14, 5) & vbCrLf & arr(15, 5))
             Stop
         End Function

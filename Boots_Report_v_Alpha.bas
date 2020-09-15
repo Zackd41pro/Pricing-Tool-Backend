@@ -27,7 +27,7 @@ Attribute VB_Name = "Boots_Report_v_Alpha"
 
 Public Function status()
     Call MsgBox("Boots_Report_Vx is in alpha!", , "Warning!")
-    Call MsgBox("Report_Vx Status:" & Chr(10) & _
+    Call MsgBox("Boots_Report_Vx Status:" & Chr(10) & _
     "------------------------------------------------------------" & Chr(10) & _
     "Public functions: " & Chr(10) & _
     "" & Chr(10) & _
@@ -96,7 +96,7 @@ End Sub
 
 Private Sub ALPHA_Workbook_Open()
 
-ALPHA_LogInformation (ThisWorkbook.Name & " opened by " & Application.UserName & " " & Format(Now, "yyyy-mm-dd hh:mm"))
+ALPHA_LogInformation (ThisWorkbook.Name & " opened by " & Application.username & " " & Format(Now, "yyyy-mm-dd hh:mm"))
 
 End Sub
 

@@ -26,7 +26,7 @@ Private Sub Workbook_BeforeClose(Cancel As Boolean)
     'returned outputs
         'NA
 'code start
-    DEV_V1_DEV.ON_Shutdown_V0_01
+    dev_v1_dev.ON_Shutdown_V0_01
 'code end
 End Sub
 
@@ -51,18 +51,9 @@ Private Sub Workbook_Open()
 'code start
     'define variables
         'na
-    'welcome
-        DEV_V1_DEV.welcome
-        MsgBox ("Need to remove 'unit list' marked range from the DTS refactor code as it has been removed from the data set")
-        DEV_V1_DEV.status
-        DTS_V1_DEV.status
-        matrix_V2.status
-        Report_v_Alpha.status
-        SP_V1_DEV.status
-        String_V1.status
-    'run startup checks
-        DEV_V1_DEV.On_Startup_V0_01
-        DEV_V1_DEV.check_user_in_v0_01 (DEV_V1_DEV.get_username)
+    'run on startup
+        dev_v1_dev.On_Startup_V0_01
+        dev_v1_dev.check_user_in_v0_01 (dev_v1_dev.get_username)
     'run DTS Procedure
         MsgBox ("DTS_V1_DEV.run (update_unit_cost): will not run till 'unit list' has been removed from the data set check")
         MsgBox ("workbook_open~DTS_V1_DEV.run (update_unit_cost): failed to run")

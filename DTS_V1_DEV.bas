@@ -174,7 +174,8 @@ Attribute VB_Name = "DTS_V1_DEV"
                     Dim ref_rng As Range            'reference range in question
             'setup variables
                 'report to log
-                    Call DEV_V1_DEV.log(DEV_V1_DEV.get_username, "CHECK DTS_TABLE_V0_01A Started")
+                    Call MsgBox("check dts table using log replace", , "check dts table using log")
+                    'Call dev_v1_dev.log(dev_v1_dev.get_username, "CHECK DTS_TABLE_V0_01A Started")
                 'breakout
                 Set proj_wb = ActiveWorkbook
                 On Error GoTo FATAL_ERROR_CHECK_DTS_SET_DTS_ENV 'set error handler
@@ -452,20 +453,24 @@ Attribute VB_Name = "DTS_V1_DEV"
                     End If
                 'return true
                     Check_DTS_Table_V0_01A = True   'passed all checks
-                    Call DEV_V1_DEV.log(DEV_V1_DEV.get_username, "CHECK DTS_TABLE_V0_01A Finished")
+                    Call MsgBox("check dts_table using log replace", , "check dts_table using log")
+                    'Call dev_v1_dev.log(dev_v1_dev.get_username, "CHECK DTS_TABLE_V0_01A Finished")
                     Exit Function
         'code end
         'error handle
 ERROR_FATAL_check_dts_range_error:
-            Call DEV_V1_DEV.log(DEV_V1_DEV.get_username, "FATAL ERROR: MODULE:(DTS_VX)FUNCTION:(CHECK_DTS_TABLE) UNABLE TO LOCATE THE SPECIFIED RANGE:<" & s & "> please check the name mannager for errors. fix and then re-run")
+            Call MsgBox("check dts_table using log replace", , "check dts_table using log")
+            'Call dev_v1_dev.log(dev_v1_dev.get_username, "FATAL ERROR: MODULE:(DTS_VX)FUNCTION:(CHECK_DTS_TABLE) UNABLE TO LOCATE THE SPECIFIED RANGE:<" & s & "> please check the name mannager for errors. fix and then re-run")
             Call MsgBox("FATAL ERROR: MODULE:(DTS_VX)FUNCTION:(CHECK_DTS_TABLE) UNABLE TO LOCATE THE SPECIFIED RANGE:<" & s & "> please check the name mannager for errors. fix and then re-run", , "Fatal error")
             Stop
 FATAL_ERROR_CHECK_DTS_SET_DTS_ENV:
-            Call DEV_V1_DEV.log(DEV_V1_DEV.get_username, "FATAL_ERROR: MODULE: (DTS_VX)FUNCTION: (CHECK_DTS_TABLE) UNABLE TO FIND OR SET SHEET DTS IN THE PROJECT WORKBOOK PLEASE CHECK FOR RIGHT CALL OR POS OR WORKBOOK.")
+            Call MsgBox("check dts_table using log replace", , "check dts_table using log")
+            'Call dev_v1_dev.log(dev_v1_dev.get_username, "FATAL_ERROR: MODULE: (DTS_VX)FUNCTION: (CHECK_DTS_TABLE) UNABLE TO FIND OR SET SHEET DTS IN THE PROJECT WORKBOOK PLEASE CHECK FOR RIGHT CALL OR POS OR WORKBOOK.")
             Call MsgBox("FATAL_ERROR: MODULE: (DTS_VX)FUNCTION: (CHECK_DTS_TABLE) UNABLE TO FIND OR SET SHEET DTS IN THE PROJECT WORKBOOK PLEASE CHECK FOR RIGHT CALL OR POS OR WORKBOOK.", , "FATAL ERROR: SET DTS SHEET ENV")
             Stop
 ERROR_CHECK_DTS_FAILED_POS_CHECK:
-            Call DEV_V1_DEV.log(DEV_V1_DEV.get_username, "ERROR: MODULE: (DTS_VX)FUNCTION: (CHECK_DTS_TABLE) FAILED POSITIONAL CHECK REPORT LISTED BELOW A FAIL IS LISTED AS FALSE: " & vbCrLf & vbCrLf & arr(1, 5) & vbCrLf & arr(2, 5) & vbCrLf & arr(3, 5) & vbCrLf & arr(4, 5) & vbCrLf & arr(5, 5) & vbCrLf & arr(6, 5) & vbCrLf & arr(7, 5) & vbCrLf & arr(8, 5) & vbCrLf & arr(9, 5) & vbCrLf & arr(10, 5) & vbCrLf & arr(11, 5) & vbCrLf & arr(12, 5) & vbCrLf & arr(13, 5) & vbCrLf & arr(14, 5) & vbCrLf & arr(15, 5))
+            Call MsgBox("check dts_table using log replace", , "check dts_table using log")
+            'Call dev_v1_dev.log(dev_v1_dev.get_username, "ERROR: MODULE: (DTS_VX)FUNCTION: (CHECK_DTS_TABLE) FAILED POSITIONAL CHECK REPORT LISTED BELOW A FAIL IS LISTED AS FALSE: " & vbCrLf & vbCrLf & arr(1, 5) & vbCrLf & arr(2, 5) & vbCrLf & arr(3, 5) & vbCrLf & arr(4, 5) & vbCrLf & arr(5, 5) & vbCrLf & arr(6, 5) & vbCrLf & arr(7, 5) & vbCrLf & arr(8, 5) & vbCrLf & arr(9, 5) & vbCrLf & arr(10, 5) & vbCrLf & arr(11, 5) & vbCrLf & arr(12, 5) & vbCrLf & arr(13, 5) & vbCrLf & arr(14, 5) & vbCrLf & arr(15, 5))
             Call MsgBox("ERROR: MODULE: (DTS_VX)FUNCTION: (CHECK_DTS_TABLE) FAILED POSITIONAL CHECK REPORT LISTED BELOW A FAIL IS LISTED AS FALSE: " & vbCrLf & vbCrLf & arr(1, 5) & vbCrLf & arr(2, 5) & vbCrLf & arr(3, 5) & vbCrLf & arr(4, 5) & vbCrLf & arr(5, 5) & vbCrLf & arr(6, 5) & vbCrLf & arr(7, 5) & vbCrLf & arr(8, 5) & vbCrLf & arr(9, 5) & vbCrLf & arr(10, 5) & vbCrLf & arr(11, 5) & vbCrLf & arr(12, 5) & vbCrLf & arr(13, 5) & vbCrLf & arr(14, 5) & vbCrLf & arr(15, 5))
             Stop
         'end error handle code
