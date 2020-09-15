@@ -53,7 +53,6 @@ Private Sub Workbook_Open()
         'na
     'run on startup
         dev_v1_dev.On_Startup_V0_01
-        dev_v1_dev.check_user_in_v0_01 (dev_v1_dev.get_username)
     'run DTS Procedure
         MsgBox ("DTS_V1_DEV.run (update_unit_cost): will not run till 'unit list' has been removed from the data set check")
         MsgBox ("workbook_open~DTS_V1_DEV.run (update_unit_cost): failed to run")
