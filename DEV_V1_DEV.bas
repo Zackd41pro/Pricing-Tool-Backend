@@ -25,7 +25,7 @@ Attribute VB_Name = "DEV_V1_DEV"
                                                                         'CODE START
 '----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Private Enum POS_V0_01A
+Private Enum dev_POS
 'currently NOT functional as of (8/7/2020) checked by: (Zachary Daugherty)
     'Created By (Zachary Daugherty)(8/7/2020)
     'Purpose Case & notes:
@@ -45,21 +45,17 @@ Private Enum POS_V0_01A
     'returned outputs
         'returns index
 'code start
+    'safe to pull requests
+        dev_p_safety_to_get_values_header_row = 3
+            dev_p_safety_to_get_values_header_col = 2
+                dev_p_safety_to_get_values_value_row = dev_POS.dev_p_safety_to_get_values_header_row + 1
+                    dev_p_safety_to_get_values_value_col = dev_POS.dev_p_safety_to_get_values_header_col + 0
     'login table
-        DEV_login_USER_ONLINE_row = 3 'set as global pos
-            DEV_login_USER_ONLINE_col = 2
-        DEV_login_Signin_time_row = POS_V0_01A.DEV_login_USER_ONLINE_row
-            DEV_login_Signin_time_col = 3
-        DEV_login_Marked_for_signout_row = POS_V0_01A.DEV_login_USER_ONLINE_row
-            DEV_login_Marked_for_signout_col = 4
-        dev_login_bottom_row = 100
-            dev_login_bottom_col = POS_V0_01A.DEV_login_Marked_for_signout_col
+        dev_p_login_user_online_time_header_row = 3
+            dev_p_login_user_online_time_header_col = 4
+                DEV_p_login_USER_ONLINE_header_row = dev_POS.dev_p_login_user_online_time_header_row + 0
+                    DEV_p_login_USER_ONLINE_header_col = dev_POS.dev_p_login_user_online_time_header_col + 1
         
-    'log table
-        DEV_log_log_row = 103
-            DEV_log_log_col = 2
-        DEV_log_Timestamp_row = POS_V0_01A.DEV_log_log_row
-            DEV_log_Timestamp_col = 3
 'code end
 End Enum
 
@@ -84,7 +80,7 @@ Public Sub welcome()
         If (ActiveWorkbook.ReadOnly = False) Then
             MsgBox ("--------------------------------------------------------------------------------------------" & Chr(10) & _
                 "________Welcome to the Product Sales Pricing Tool- Data Editor________" & Chr(10) & _
-                "                          Version: Alpha 1.1.8-2 front loader update" & Chr(10) & _
+                "                          Version: Alpha 1.1.8-5 cleanup update" & Chr(10) & _
                 "--------------------------------------------------------------------------------------------")
                 
             MsgBox ("--------------------------------------------------------------------------------------------" & Chr(10) & _
@@ -144,14 +140,8 @@ Public Sub On_Startup_V0_01(Optional dont_report As Boolean)
             Dim cell_row As Long
             Dim cell_col As Long
             Dim sheet_cursor As Worksheet  'cursor selection of current position of the sheet
-    'make or check local locations made
-        Call MsgBox("using dir create for testing", , "Using dev code from boots_main_v_alpha")
-            Call alpha_MkDir("Pricetool-Alpha-omega", "C:\")
-            Call alpha_MkDir("version-0", "C:\Pricetool-Alpha-omega\")
-            Call alpha_MkDir("Users", "C:\Pricetool-Alpha-omega\version-0\")
     'create user log
-        Call MsgBox("dev note add create right here", , "on startup vo_01 add creation of new user log")
-        dev_v1_dev.check_user_in_v0_01 (dev_v1_dev.get_username)
+        Call MsgBox("dev_v1.onstartup dev note add log right here")
     'log if checking for dev page
         If dont_report = False Then
             Call MsgBox("to remove and use new system", , "On_Startup_V0_01 using log")
@@ -163,7 +153,7 @@ Public Sub On_Startup_V0_01(Optional dont_report As Boolean)
 restart_on_startup:
     'set global varables
         Set proj_workbook = ActiveWorkbook
-        Set Home_sheet = proj_workbook.ActiveSheet
+        Set Home_sheet = ActiveSheet
     'check to see if DEV page exists
         'setup variables
             Set sheet_cursor = ActiveSheet
@@ -189,18 +179,7 @@ restart_on_startup:
                     'Call dev_v1_dev.log(dev_v1_dev.get_username, "condition check passed as false")
                 End If
                 'make devpage
-                    Call MsgBox("call standard operation in boots? to make sheets", , "dev_v1_dev.onstartup_vo_01")
-                    Stop
-                    Call Boots_Main_V_alpha.make_sheet(proj_workbook, "DEV", 2, True)
-'                    'make screen updating off
-'                        Application.ScreenUpdating = False
-'                        proj_workbook.Sheets.Add    'add new sheet
-'                        Set sheet_cursor = ActiveSheet  'set cursor to active
-'                        sheet_cursor.Name = "DEV"   'rename active sheet
-'                        sheet_cursor.Visible = 2    'make dev hidden code lvl permission
-'                        Home_sheet.Activate 'return to home position
-'                    'make screen updating on
-'                        Application.ScreenUpdating = True
+                    Call boots_main_v_alpha.make_sheet(proj_workbook, "DEV", 2, True)
                     'anti loop check to prevent infinite loop
                         anti_loop = anti_loop + 1   'anti loop iteration
                         'if you have not looped through this more than 6 times do if else do else
@@ -231,84 +210,17 @@ restart_on_startup:
                         'Call dev_v1_dev.log(dev_v1_dev.get_username, "condition check passed as true")
                     End If
             End If
+
         'cleanup
             condition = False
             anti_loop = 0
             Set sheet_cursor = Nothing
             Set cell_cursor = Nothing
             s = "empty"
-    'check for table positions
-            'check to make DEV is hidden
-                proj_workbook.Sheets("DEV").visible = 1
-        Set sheet_cursor = proj_workbook.Sheets("Dev")  'set cursor
-        'check for table names and setup if not valid and if not throw error
-            If dont_report = False Then
-                Call MsgBox("to remove logging feature moving to more stable process", , "On_Startup_V0_01 using log")
-                'Call dev_v1_dev.log(dev_v1_dev.get_username, "dev page position checks")
-            End If
-            Set cell_cursor = sheet_cursor.Cells(POS_V0_01A.DEV_login_USER_ONLINE_row, POS_V0_01A.DEV_login_USER_ONLINE_col)
-                If cell_cursor.value <> "Users Online" Then
-                    If cell_cursor.value = "" Then
-                        cell_cursor.value = "Users Online"
-                    Else
-                        GoTo Error_Startup_Tracked_Cell_filled
-                    End If
-                End If
-            Set cell_cursor = sheet_cursor.Cells(POS_V0_01A.DEV_login_Signin_time_row, POS_V0_01A.DEV_login_Signin_time_col)
-                If cell_cursor.value <> "Sign in time" Then
-                    If cell_cursor.value = "" Then
-                        cell_cursor.value = "Sign in time"
-                    Else
-                        GoTo Error_Startup_Tracked_Cell_filled
-                    End If
-                End If
-            Set cell_cursor = sheet_cursor.Cells(POS_V0_01A.DEV_login_Marked_for_signout_row, POS_V0_01A.DEV_login_Marked_for_signout_col)
-                If cell_cursor.value <> "Marked for Signout" Then
-                    If cell_cursor.value = "" Then
-                        cell_cursor.value = "Marked for Signout"
-                    Else
-                        GoTo Error_Startup_Tracked_Cell_filled
-                    End If
-                End If
-            Set cell_cursor = sheet_cursor.Cells(POS_V0_01A.DEV_log_log_row, POS_V0_01A.DEV_log_log_col)
-                If cell_cursor.value <> "Action Log" Then
-                    If cell_cursor.value = "" Then
-                        cell_cursor.value = "Action Log"
-                    Else
-                        GoTo Error_Startup_Tracked_Cell_filled
-                    End If
-                End If
-            'format login: set row pos
-                cell_row = POS_V0_01A.DEV_login_USER_ONLINE_row
-                cell_col = POS_V0_01A.DEV_login_USER_ONLINE_col
-            'format login
-                For i = 0 To POS_V0_01A.dev_login_bottom_row - 3
-                    sheet_cursor.Cells(cell_row + i, cell_col).Interior.Color = 500
-                    sheet_cursor.Cells(cell_row + i, cell_col + 1).Interior.Color = 500
-                    sheet_cursor.Cells(cell_row + i, cell_col + 2).Interior.Color = 500
-                Next i
-                'cleanup
-                    i = -1
-            'format log: set row pos
-                cell_row = POS_V0_01A.DEV_log_log_row
-                cell_col = POS_V0_01A.DEV_log_log_col
-            'format log
-
-                'if not formated format
-                    If (sheet_cursor.Cells(cell_row, cell_col).Interior.Color <> 500) Then
-                        'not formatted correctly so setup
-                            MsgBox ("Please wait Fixing Errors: Module: DEV_VX: Function: On_Startup is repairing the dev page this function will take a couple mins please wait...")
-                            For i = 0 To 1048575 - POS_V0_01A.DEV_log_log_row
-                                sheet_cursor.Cells(cell_row + i, cell_col).Interior.Color = 500
-                                sheet_cursor.Cells(cell_row + i, cell_col + 1).Interior.Color = 500
-                                sheet_cursor.Cells(cell_row + i, cell_col + 2).Interior.Color = 500
-                            Next i
-                    End If
+    'format dev
+        Call dev_v1_dev.format_Dev(proj_workbook)
         'cleanup
-            Set sheet_cursor = Nothing
-            Set cell_cursor = Nothing
-            cell_row = -1
-            cell_col = -1
+            'na
     'add creation to log
         If dont_report = False Then
             Call MsgBox("to remove logging feature moving to more stable process", , "On_Startup_V0_01 using log")
@@ -326,6 +238,37 @@ Error_Startup_Tracked_Cell_filled:
         End If
         Call MsgBox("Error: On Startup unable to set table header as there is unexpected information in the field", , "ERROR Startup unable to store table header")
         Stop
+End Sub
+
+Public Function get_username(Optional dont_report As Boolean) As String
+'currently NOT functional as of (8/7/2020) checked by: (Zachary Daugherty)
+    'Created By (Zachary Daugherty)(8/7/2020)
+    'Purpose Case & notes:
+        'made to use functions to return the user name of the account in this session
+    'Library Refrences required
+        'workbook.object
+    'Modules Required
+        'Na
+    'Inputs
+        'Internal:
+            'Na
+        'required:
+            'Na
+        'optional:
+            'Na
+    'returned outputs
+        'username as string
+'code start
+    get_username = (Environ$("Username"))
+'code end
+End Function
+
+Public Sub check_user_in_v0_01(ByVal user As String)
+    
+End Sub
+
+Public Sub check_user_out_v0_01(ByVal user As String)
+    
 End Sub
 
 Public Sub ON_Shutdown_V0_01()
@@ -381,7 +324,7 @@ Restart_if_exist_check:
     'set varables
         Set proj_workbook = ActiveWorkbook
         Set sheet_cursor = ActiveSheet
-        Set Home_sheet = proj_workbook.ActiveSheet
+        Set Home_sheet = ActiveSheet
         Set cell_cursor = ActiveCell
     'get ammount of sheets that exist
         total_sheets_num = proj_workbook.Sheets.count
@@ -392,6 +335,8 @@ Restart_if_exist_check:
             'check if the sheet name is DEV
                 If (s = "DEV") Then
                     'if not in index position 1 move to 1
+                        MsgBox ("need to remove the reorder as causing crash")
+                        Stop
                         If (i > 1) Then
                             proj_workbook.Sheets(i).Move _
                                 Before:=ActiveWorkbook.Sheets(1)
@@ -430,38 +375,89 @@ page_exist_exit:
 
 End Function
 
-Public Function get_username(Optional dont_report As Boolean) As String
-'currently NOT functional as of (8/7/2020) checked by: (Zachary Daugherty)
-    'Created By (Zachary Daugherty)(8/7/2020)
-    'Purpose Case & notes:
-        'made to use functions to return the user name of the account in this session
-    'Library Refrences required
-        'workbook.object
-    'Modules Required
-        'Na
-    'Inputs
-        'Internal:
-            'Na
-        'required:
-            'Na
-        'optional:
-            'Na
-    'returned outputs
-        'username as string
-'code start
-    get_username = (Environ$("Username"))
-'code end
+Private Function format_Dev(ByVal wb As Workbook) As Boolean
+    Call MsgBox("<private>dev_vx.format_dev needs green text added", , "<private>dev_vx.format_dev")
+    'define variables
+        Dim sht As Worksheet
+        Dim home As Worksheet
+    'setup variables
+        Set home = ActiveSheet
+        Set sht = wb.Sheets("DEV")
+    Stop
+    'format
+        Application.ScreenUpdating = False
+        Application.DisplayAlerts = False
+        sht.visible = xlSheetVisible
+
+        'format safty check
+            'header
+                sht.Cells(dev_POS.dev_p_safety_to_get_values_header_row, dev_POS.dev_p_safety_to_get_values_header_col).value = "safety check"
+        'format login
+            'header time
+                sht.Cells(dev_POS.dev_p_login_user_online_time_header_row, dev_POS.dev_p_login_user_online_time_header_col).value = "Sign-in Time"
+            'header user
+                sht.Cells(dev_POS.DEV_p_login_USER_ONLINE_header_row, dev_POS.DEV_p_login_USER_ONLINE_header_col).value = "Name of Accnt"
+        'full sheet
+            sht.Activate
+            Cells.Select
+                With Selection.Interior
+                    .Pattern = xlSolid
+                    .PatternColorIndex = xlAutomatic
+                    .ThemeColor = xlThemeColorAccent6
+                    .TintAndShade = -0.499984740745262
+                    .PatternTintAndShade = 0
+                End With
+                With Selection.Font
+                    .ThemeColor = xlThemeColorDark1
+                    .TintAndShade = 0
+                End With
+                Cells.EntireColumn.AutoFit
+                Cells.Select
+                Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+                Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+                With Selection.Borders(xlEdgeLeft)
+                    .LineStyle = xlContinuous
+                    .ColorIndex = 0
+                    .TintAndShade = 0
+                    .Weight = xlThin
+                End With
+                With Selection.Borders(xlEdgeTop)
+                    .LineStyle = xlContinuous
+                    .ColorIndex = 0
+                    .TintAndShade = 0
+                    .Weight = xlThin
+                End With
+                With Selection.Borders(xlEdgeBottom)
+                    .LineStyle = xlContinuous
+                    .ColorIndex = 0
+                    .TintAndShade = 0
+                    .Weight = xlThin
+                End With
+                With Selection.Borders(xlEdgeRight)
+                    .LineStyle = xlContinuous
+                    .ColorIndex = 0
+                    .TintAndShade = 0
+                    .Weight = xlThin
+                End With
+                With Selection.Borders(xlInsideVertical)
+                    .LineStyle = xlContinuous
+                    .ColorIndex = 0
+                    .TintAndShade = 0
+                    .Weight = xlThin
+                End With
+                With Selection.Borders(xlInsideHorizontal)
+                    .LineStyle = xlContinuous
+                    .ColorIndex = 0
+                    .TintAndShade = 0
+                    .Weight = xlThin
+                End With
+                Range("A1").Select
+        'cleanup
+            sht.visible = xlSheetVeryHidden
+            Application.DisplayAlerts = True
+            Application.ScreenUpdating = True
+            home.Activate
 End Function
-
-Public Sub check_user_in_v0_01(ByVal user As String)
-    
-End Sub
-
-Private Sub check_user_out_v0_01(ByVal user As String)
-    
-End Sub
-
-
 
 
 

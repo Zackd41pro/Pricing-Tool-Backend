@@ -94,8 +94,8 @@ Public Function matrix_dimensions(ByVal matrix_ As Variant, Optional dont_show_i
             For i = 1 To const_matrix_dims
             'get size
                 'get bounds
-                    upper = PVT_MATRIX_BOUND(up_, matrix_, i)   'run private function pvt_matrix_bound to get size and pos
-                    lower = PVT_MATRIX_BOUND(down_, matrix_, i) 'run private function pvt_matrix_bound to get size and pos
+                    upper = PVT_MATRIX_BOUND(up_, matrix_, i, True)  'run private function pvt_matrix_bound to get size and pos
+                    lower = PVT_MATRIX_BOUND(down_, matrix_, i, True) 'run private function pvt_matrix_bound to get size and pos
                     'check for fails
                         If (upper = "Failed to post" Or lower = "Failed to post") Then  'if pvt_matrix_bound returns 'failed to post' then
                             If (upper = "Failed to post") Then      'check and if so post as empty as there is no dim in this index
@@ -134,8 +134,8 @@ Public Function matrix_dimensions(ByVal matrix_ As Variant, Optional dont_show_i
                         size = 0
                     End If
             'get bounds for post as now we are concerned with the positions where before we were just taking the delta position.
-                upper = PVT_MATRIX_BOUND(up_, matrix_, i)
-                lower = PVT_MATRIX_BOUND(down_, matrix_, i)
+                upper = PVT_MATRIX_BOUND(up_, matrix_, i, True)
+                lower = PVT_MATRIX_BOUND(down_, matrix_, i, True)
             'add entry
 matrix_dimensions_Alpha_post:
                 If (i = 1) Then
@@ -144,7 +144,7 @@ matrix_dimensions_Alpha_post:
                 Else
                 'any post after the first
                     If (i < 60) Then
-                        matrix_dimensions_Alpha = matrix_dimensions_Alpha + ",(<" & lower & "><" & upper & "><" & size & ">)"
+                        matrix_dimensions = matrix_dimensions_Alpha + ",(<" & lower & "><" & upper & "><" & size & ">)"
                     End If
                 End If
             'check for emptys to exit

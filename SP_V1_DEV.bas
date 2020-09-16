@@ -556,7 +556,7 @@ ERROR_CHECK_sp_FAILED_POS_CHECK_For_B:
                         Dim s As String
                 'setup variables
                     Set wb = ActiveWorkbook
-                    Set home_pos = wb.ActiveSheet
+                    Set home_pos = ActiveSheet
                     On Error GoTo SP_get_size_A_cant_find_SP_SHEET
                         Set current_sht = wb.Sheets("STEEL PRESETS")
                     On Error GoTo 0
@@ -615,7 +615,7 @@ sp_A_cant_find_goalpost:
                         Dim s As String
                 'setup variables
                     Set wb = ActiveWorkbook
-                    Set home_pos = wb.ActiveSheet
+                    Set home_pos = ActiveSheet
                     On Error GoTo SP_get_size_B_cant_find_SP_SHEET
                         Set current_sht = wb.Sheets("STEEL PRESETS")
                     On Error GoTo 0

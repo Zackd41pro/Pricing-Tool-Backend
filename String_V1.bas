@@ -179,7 +179,7 @@ Public Function has_string_inside_V1(ByVal value As String, ByVal sequence As St
             Dim i As Long    'int storage
             Dim len_val As Long
             Dim len_seq As Long
-            Dim pos As Long  'count thru
+            Dim POS As Long  'count thru
         'check for instructions post
             If (show_instructions = True) Then
                 MsgBox ("function has_string_inside_V1 checks to see if values are in the sequence reports position if give_pos is true. if give_pos is true and the value is not inside will return 0")
@@ -222,7 +222,7 @@ Public Function has_string_inside_V1(ByVal value As String, ByVal sequence As St
             i = -1
             len_val = i
             len_seq = i
-            pos = i
+            POS = i
             Exit Function
     'code finish
 End Function
@@ -377,7 +377,7 @@ Public Function Shift_V1(ByVal selection_ As Shift_option, ByVal overwrite As Bo
                     If (wb Is Nothing) Then
                         Set wb = ActiveWorkbook
                     End If
-                    Set home_pos = wb.ActiveSheet
+                    Set home_pos = ActiveSheet
                     If (current_sht Is Nothing) Then
                         Set current_sht = wb.ActiveSheet
                     End If

@@ -463,16 +463,19 @@ ERROR_FATAL_check_dts_range_error:
             'Call dev_v1_dev.log(dev_v1_dev.get_username, "FATAL ERROR: MODULE:(DTS_VX)FUNCTION:(CHECK_DTS_TABLE) UNABLE TO LOCATE THE SPECIFIED RANGE:<" & s & "> please check the name mannager for errors. fix and then re-run")
             Call MsgBox("FATAL ERROR: MODULE:(DTS_VX)FUNCTION:(CHECK_DTS_TABLE) UNABLE TO LOCATE THE SPECIFIED RANGE:<" & s & "> please check the name mannager for errors. fix and then re-run", , "Fatal error")
             Stop
+            Exit Function
 FATAL_ERROR_CHECK_DTS_SET_DTS_ENV:
             Call MsgBox("check dts_table using log replace", , "check dts_table using log")
             'Call dev_v1_dev.log(dev_v1_dev.get_username, "FATAL_ERROR: MODULE: (DTS_VX)FUNCTION: (CHECK_DTS_TABLE) UNABLE TO FIND OR SET SHEET DTS IN THE PROJECT WORKBOOK PLEASE CHECK FOR RIGHT CALL OR POS OR WORKBOOK.")
             Call MsgBox("FATAL_ERROR: MODULE: (DTS_VX)FUNCTION: (CHECK_DTS_TABLE) UNABLE TO FIND OR SET SHEET DTS IN THE PROJECT WORKBOOK PLEASE CHECK FOR RIGHT CALL OR POS OR WORKBOOK.", , "FATAL ERROR: SET DTS SHEET ENV")
             Stop
+            Exit Function
 ERROR_CHECK_DTS_FAILED_POS_CHECK:
             Call MsgBox("check dts_table using log replace", , "check dts_table using log")
             'Call dev_v1_dev.log(dev_v1_dev.get_username, "ERROR: MODULE: (DTS_VX)FUNCTION: (CHECK_DTS_TABLE) FAILED POSITIONAL CHECK REPORT LISTED BELOW A FAIL IS LISTED AS FALSE: " & vbCrLf & vbCrLf & arr(1, 5) & vbCrLf & arr(2, 5) & vbCrLf & arr(3, 5) & vbCrLf & arr(4, 5) & vbCrLf & arr(5, 5) & vbCrLf & arr(6, 5) & vbCrLf & arr(7, 5) & vbCrLf & arr(8, 5) & vbCrLf & arr(9, 5) & vbCrLf & arr(10, 5) & vbCrLf & arr(11, 5) & vbCrLf & arr(12, 5) & vbCrLf & arr(13, 5) & vbCrLf & arr(14, 5) & vbCrLf & arr(15, 5))
             Call MsgBox("ERROR: MODULE: (DTS_VX)FUNCTION: (CHECK_DTS_TABLE) FAILED POSITIONAL CHECK REPORT LISTED BELOW A FAIL IS LISTED AS FALSE: " & vbCrLf & vbCrLf & arr(1, 5) & vbCrLf & arr(2, 5) & vbCrLf & arr(3, 5) & vbCrLf & arr(4, 5) & vbCrLf & arr(5, 5) & vbCrLf & arr(6, 5) & vbCrLf & arr(7, 5) & vbCrLf & arr(8, 5) & vbCrLf & arr(9, 5) & vbCrLf & arr(10, 5) & vbCrLf & arr(11, 5) & vbCrLf & arr(12, 5) & vbCrLf & arr(13, 5) & vbCrLf & arr(14, 5) & vbCrLf & arr(15, 5))
             Stop
+            Exit Function
         'end error handle code
         End Function
         
@@ -516,7 +519,7 @@ ERROR_CHECK_DTS_FAILED_POS_CHECK:
 get_size_restart:               'goto flag
                 'setup variables
                     Set wb = ActiveWorkbook
-                    Set home_pos = wb.ActiveSheet
+                    Set home_pos = ActiveSheet
                     On Error GoTo dts_get_cant_find_DTS_SHEET   'goto error handler
                         Set current_sht = wb.Sheets("DTS")      'setting name
                     On Error GoTo 0                             'returns error handler to default
@@ -642,6 +645,7 @@ dts_cant_find_goalpost:
                 'setup variables
                     'na
                 'start check
+                    MsgBox ("'dts_vx_dev.run' need to add boots check insted of the one used on dts as it can then use a standard check for a page exist.")
                     condition = DTS_V1_DEV.check(True)
                 'check for check pass and if so run command else throw error
                     If (condition = True) Then
@@ -661,6 +665,7 @@ dts_cant_find_goalpost:
 Dts_error_run_check_not_passed:
                 MsgBox ("Error DTS_VX: function check did not pass the nessasary checks to run commands for DTS please check your code and postions.")
                 Stop
+                Exit Sub
         End Sub
 
 '-----------------------------------------------------------------------------------------------------------------------------------------------
@@ -776,7 +781,7 @@ Dts_error_run_check_not_passed:
                             'setup variables
                                 'setup pos
                                     Set wb = ActiveWorkbook
-                                    Set home_pos = wb.ActiveSheet
+                                    Set home_pos = ActiveSheet
                                     On Error GoTo dts_unit_cost_refresh_cant_find_SHEET         'goto error handler
                                         error = "DTS"
                                         Set current_sht = wb.Sheets(error)                      'setting name
