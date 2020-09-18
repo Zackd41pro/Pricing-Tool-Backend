@@ -1,4 +1,31 @@
 Attribute VB_Name = "Boots_Main_V_alpha"
+
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
+                                                                            'Author: Zachary Daugherty
+'----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                                '©: 2020-2021
+                    'If you want to make edits or additions to this module please contact me to make sure it is included with the live production group.
+'----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+'----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+'----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                        'Nessasary Librarys
+                                                        'made for :boots_main
+                                                                 ':Boots_report
+'----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                        'Purpose Case
+                    'This Module is built to handle exporting of information
+                    
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
+
+
+'----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                        'CODE START
+'----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 Public Enum boots_pos
     'sheet list
         i_sheet_count = 3
@@ -35,25 +62,25 @@ Public Enum boots_pos
                         p_tracker_wb_last_row = boots_pos.p_tracker_wb_now_row + 1
                             p_tracker_wb_last_col = boots_pos.p_tracker_wb_now_col + 0
             'sheet
-                p_tracker_sheet_now_row = 0
-                    p_tracker_sheet_now_col = 0
-                        p_tracker_sheet_last_row = 0
-                            p_tracker_sheet_last_col = 0
+                p_tracker_sheet_now_row = boots_pos.p_rh_tracker_index_now_row + 0
+                    p_tracker_sheet_now_col = boots_pos.p_ch_tracker_sht_col + 0
+                        p_tracker_sheet_last_row = boots_pos.p_tracker_sheet_now_row + 1
+                            p_tracker_sheet_last_col = boots_pos.p_tracker_sheet_now_col + 0
             'cell
-                p_tracker_cell_now_row = 0
-                    p_tracker_cell_now_col = 0
-                        p_tracker_cell_last_row = 0
-                            p_tracker_cell_last_col = 0
+                p_tracker_cell_now_row = boots_pos.p_rh_tracker_index_now_row + 0
+                    p_tracker_cell_now_col = boots_pos.p_ch_tracker_cell_col + 0
+                        p_tracker_cell_last_row = boots_pos.p_tracker_cell_now_row + 1
+                            p_tracker_cell_last_col = boots_pos.p_ch_tracker_cell_col + 0
             'key
-                p_tracker_key_now_row = 0
-                    p_tracker_key_now_col = 0
-                        p_tracker_key_last_row = 0
-                            p_tracker_key_last_col = 0
+                p_tracker_key_now_row = boots_pos.p_rh_tracker_index_now_row + 0
+                    p_tracker_key_now_col = boots_pos.p_ch_tracker_key_col + 0
+                        p_tracker_key_last_row = boots_pos.p_rh_tracker_index_last_row + 0
+                            p_tracker_key_last_col = boots_pos.p_ch_tracker_key_col + 0
             'string
-                p_tracker_string_now_row = 0
-                    p_tracker_string_now_col = 0
-                        p_tracker_string_last_row = 0
-                            p_tracker_string_last_col = 0
+                p_tracker_string_now_row = boots_pos.p_rh_tracker_index_now_row + 0
+                    p_tracker_string_now_col = boots_pos.p_ch_tracker_string_col + 0
+                        p_tracker_string_last_row = boots_pos.p_rh_tracker_index_last_row + 0
+                            p_tracker_string_last_col = boots_pos.p_ch_tracker_string_col + 0
             
                     
 End Enum
@@ -351,6 +378,19 @@ Private Sub boots_format()
                 sht.Cells(boots_pos.p_sheet_visible_status_row, boots_pos.p_sheet_visible_status_col).value = "Visible status"
             'color
                 sht.Cells(boots_pos.p_sheet_color_row, boots_pos.p_sheet_color_col).value = "Color Status"
+        'tracker
+            'key
+                sht.Cells(boots_pos.p_tracker_keystone_row, boots_pos.p_tracker_keystone_col).value = "Keystone"
+            'headers
+                sht.Cells(boots_pos.p_ch_tracker_wb_row, boots_pos.p_ch_tracker_wb_col).value = "Workbook"
+                sht.Cells(boots_pos.p_ch_tracker_sht_row, boots_pos.p_ch_tracker_sht_col).value = "Sheet"
+                sht.Cells(boots_pos.p_ch_tracker_cell_row, boots_pos.p_ch_tracker_cell_col).value = "Cells"
+                sht.Cells(boots_pos.p_ch_tracker_key_row, boots_pos.p_ch_tracker_key_col).value = "Key"
+                sht.Cells(boots_pos.p_ch_tracker_string_row, boots_pos.p_ch_tracker_string_col).value = "String"
+            'now
+                sht.Cells(boots_pos.p_rh_tracker_index_now_row, boots_pos.p_rh_tracker_index_now_col).value = "Now"
+            'last
+                sht.Cells(boots_pos.p_rh_tracker_index_last_row, boots_pos.p_rh_tracker_index_last_col).value = "Last"
         'full sheet
             sht.Activate
             Cells.Select
