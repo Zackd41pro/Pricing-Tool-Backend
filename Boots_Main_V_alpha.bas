@@ -8,6 +8,53 @@ Public Enum boots_pos
                     p_sheet_visible_status_col = boots_pos.p_sheet_name_col + 1
                         p_sheet_color_row = boots_pos.p_sheet_visible_status_row + 0
                             p_sheet_color_col = boots_pos.p_sheet_visible_status_col + 1
+    'tracker
+        'keystone
+            p_tracker_keystone_row = 3
+                p_tracker_keystone_col = 6
+        'master pos def
+            'rh (row header)
+                p_rh_tracker_index_now_row = boots_pos.p_tracker_keystone_row + 1
+                    p_rh_tracker_index_now_col = boots_pos.p_tracker_keystone_col + 0
+                        p_rh_tracker_index_last_row = boots_pos.p_rh_tracker_index_now_row + 1
+                            p_rh_tracker_index_last_col = boots_pos.p_rh_tracker_index_now_col + 0
+            'ch (col header)
+                p_ch_tracker_wb_row = boots_pos.p_tracker_keystone_row + 0
+                    p_ch_tracker_wb_col = boots_pos.p_tracker_keystone_col + 1
+                        p_ch_tracker_sht_row = boots_pos.p_ch_tracker_wb_row + 0
+                            p_ch_tracker_sht_col = boots_pos.p_ch_tracker_wb_col + 1
+                                p_ch_tracker_cell_row = boots_pos.p_ch_tracker_sht_row + 0
+                                    p_ch_tracker_cell_col = boots_pos.p_ch_tracker_sht_col + 1
+                                        p_ch_tracker_key_row = boots_pos.p_ch_tracker_cell_row + 0
+                                            p_ch_tracker_key_col = boots_pos.p_ch_tracker_cell_col + 1
+                                                p_ch_tracker_string_row = boots_pos.p_ch_tracker_key_row + 0
+                                                    p_ch_tracker_string_col = boots_pos.p_ch_tracker_key_col + 1
+            'workbook
+                p_tracker_wb_now_row = boots_pos.p_rh_tracker_index_now_row + 0
+                    p_tracker_wb_now_col = boots_pos.p_ch_tracker_wb_col + 0
+                        p_tracker_wb_last_row = boots_pos.p_tracker_wb_now_row + 1
+                            p_tracker_wb_last_col = boots_pos.p_tracker_wb_now_col + 0
+            'sheet
+                p_tracker_sheet_now_row = 0
+                    p_tracker_sheet_now_col = 0
+                        p_tracker_sheet_last_row = 0
+                            p_tracker_sheet_last_col = 0
+            'cell
+                p_tracker_cell_now_row = 0
+                    p_tracker_cell_now_col = 0
+                        p_tracker_cell_last_row = 0
+                            p_tracker_cell_last_col = 0
+            'key
+                p_tracker_key_now_row = 0
+                    p_tracker_key_now_col = 0
+                        p_tracker_key_last_row = 0
+                            p_tracker_key_last_col = 0
+            'string
+                p_tracker_string_now_row = 0
+                    p_tracker_string_now_col = 0
+                        p_tracker_string_last_row = 0
+                            p_tracker_string_last_col = 0
+            
                     
 End Enum
 
@@ -238,7 +285,6 @@ Public Function get_sheet_list() As Boolean
         arr(0, 1) = "visible status"
         arr(0, 2) = "color status"
     'load arr
-        Stop
         For i = 1 To wb.Sheets.count
             s = wb.Sheets(i).Name
             arr(i, 0) = s
@@ -255,7 +301,6 @@ Public Function get_sheet_list() As Boolean
     'post values
         Application.ScreenUpdating = False
         Application.DisplayAlerts = False
-        Stop
         For i = 0 To i_2
             'if not first row
                 If (i <> 0) Then
