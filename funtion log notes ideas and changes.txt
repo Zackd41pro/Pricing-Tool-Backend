@@ -6,6 +6,7 @@ possible ideas notes and changes for the log fuction
 function names
 ________________________________________________________________________________________________________________________
 	public function set_log_save_location(byval local_location as string, optional forward_to_network_location as bool, optional network_location as string)
+
 	public function Push_Log(byval action as selection, byval log_text as string,)
 		selection would be:
 			text; meaning it is just a line of text
