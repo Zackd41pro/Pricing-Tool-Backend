@@ -1,41 +1,44 @@
-possible ideas notes and changes for the log fuction
--/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
--/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
--/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
+Possible ideas notes and changes for the log fuction
 
-function names
+-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-
+-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-
+-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-
+
+Function Names:
 ________________________________________________________________________________________________________________________
-	public function set_log_save_location(byval local_location as string, optional forward_to_network_location as bool, optional network_location as string)
+	Public Function set_log_save_location(byval local_location as string, optional forward_to_network_location as bool, optional network_location as string)
 
-	public function Push_Log(byval action as selection, byval log_text as string,)
-		selection would be:
-			text; meaning it is just a line of text
-			variable table open; start of variable table
-			variable table close; end of variable table
-			variable; meaning it is a listed varaible where there would be a seperate formatting for how that is displayed.
-			theses would not use the log_text field and whould show an error if the field has text
+	Public Function Push_Log(byval action as Selection, byval log_text as string,)
+		Selection would be:
+			Text; meaning it is just a line of text
+			Variable table open; start of variable table
+			Variable table close; end of variable table
+			Variable; meaning it is a listed varaible where there would be a seperate formatting for how that is displayed.
+
+			Theses would not use the log_text field and whould ignore text if the field has text
 			______________________________________________________________________________________
-			trigger_S; meaning the start of an action indenting the text
-			trigger_E; meaning the end of an action unindenting the text
-			flag; meaning there is something that a user is worth looking at in the logs at this location
-			error; meaning there would be an attempt to export all the log information to file
-			display_now; meaning that the log would be pushed to notepad right away.
+			Trigger_S; meaning the start of an action indenting the text
+			Trigger_E; meaning the end of an action unindenting the text
+			Flag; meaning there is something that a user is worth looking at in the logs at this location
+			Error; meaning there would be an attempt to export all the log information to file
+			Display_now; meaning that the log would be pushed to notepad right away.
 
-	public function Flush_log(byval action as selection, optional further_definitions as string)
-		selection would be:
-			save: save to file location
-			save_exit: this would be called on a user exiting the enviorment flushes the log to the file location then deletes the local copy.
-			delete: just deletes the logs local copy and creats a new session.
-			cleanup: removes logs older than the listed value in 'further_definitions' field from the local save location.
+	Public Function Flush_log(byval action as Selection, optional further_definitions as string)
+		Selection would be:
+			Save: save to file location
+			Save_Exit: this would be called on a user exiting the enviorment flushes the log to the file location then deletes the local copy.
+			Delete: just deletes the logs local copy and creats a new session.
+			Cleanup: removes logs older than the listed value in 'further_definitions' field from the local save location.
 
--/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
--/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
--/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
- 
-ideas
+-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-
+-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-
+-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-
+
+Ideas:
 ________________________________________________________________________________________________________________________
-	there should be a function that is called to give specified locations to store the log reports shown above is a public function idea for setting the location that the information would be stored.
+	There should be a function that is called to give specified locations to store the log reports shown above is a public function idea for setting the location that the 
+		information would be stored.
 
-	the main function should be something where all you need todo is specify what you want pushed to the log see above
+	The main function should be something where all you need todo is specify what you want pushed to the log see above
 
-	finnaly there would be a flush function that would flush the ram storing the user ram from this session.
+	Finnaly there would be a flush function that would flush the ram storing the user ram from this session.
