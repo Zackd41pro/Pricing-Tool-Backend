@@ -26,7 +26,11 @@ Private Sub Workbook_BeforeClose(Cancel As Boolean)
     'returned outputs
         'NA
 'code start
-    dev_v1_dev.ON_Shutdown_V0_01
+    Application.DisplayAlerts = False
+        On Error Resume Next
+            Boots_Report_v_Alpha.Flush_Log (Save_Exit)
+        On Error GoTo 0
+    Application.DisplayAlerts = True
     ActiveWorkbook.Save
 'code end
 End Sub
@@ -55,12 +59,12 @@ Private Sub Workbook_Open()
     'run boots
         
     'run on startup
-        boots_main_v_alpha.run_on_start
-        dev_v1_dev.On_Startup_V0_01
+        Boots_Main_V_alpha.run_on_start
+        DEV_V1_DEV.On_Startup_V0_01
     'run DTS Procedure
         MsgBox ("DTS_V1_DEV.run (update_unit_cost): will not run till 'unit list' has been removed from the data set check")
         MsgBox ("workbook_open~DTS_V1_DEV.run (update_unit_cost): failed to run")
-        DTS_V1_DEV.run (update_unit_cost)
+        DTS_V1_DEV.run_V0 (update_unit_cost)
 'code end
  End Sub
 

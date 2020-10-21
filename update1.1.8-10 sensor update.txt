@@ -1,4 +1,0 @@
-update 1.1.8-10 sensor update
-<alpha code>
-____added some green text everywhere
-____added some sensor detection to boots but mostly the positions to store that data no code to support this yet.

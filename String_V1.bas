@@ -41,7 +41,7 @@ Enum Get_Char
     'break
     carriage_return = 13            'carriage return'
     'break
-    Space = 32                      '' '
+    Space = 32                      '''
     Exclamation_mark = 33           '!
     Double_quotes = 34              '"
     Pound = 35                      '#
@@ -67,7 +67,7 @@ Enum Get_Char
     At = 64                         '@
     'break
     open_bracket = 91               '[
-    back_slash = 92                  '\
+    back_slash = 92                 '\
     closing_bracket = 93            ']
     Power = 94                      '^
     underscore = 95                 '_
@@ -179,7 +179,7 @@ Public Function has_string_inside_V1(ByVal value As String, ByVal sequence As St
             Dim i As Long    'int storage
             Dim len_val As Long
             Dim len_seq As Long
-            Dim POS As Long  'count thru
+            Dim pos As Long  'count thru
         'check for instructions post
             If (show_instructions = True) Then
                 MsgBox ("function has_string_inside_V1 checks to see if values are in the sequence reports position if give_pos is true. if give_pos is true and the value is not inside will return 0")
@@ -222,7 +222,7 @@ Public Function has_string_inside_V1(ByVal value As String, ByVal sequence As St
             i = -1
             len_val = i
             len_seq = i
-            POS = i
+            pos = i
             Exit Function
     'code finish
 End Function
@@ -256,56 +256,56 @@ Public Function Disassociate_by_Char_V1(ByVal seperator As String, ByVal sequenc
     'returned outputs
         'disassociated string text after or before seperator
     'code start
-            'define variables
-                Dim Seperator_len As Long
-                Dim seperator_pos As Variant
-                Dim Sequence_len As Long
-                Dim i As Long
-            'check for instructions
-                If (dont_show_instructions = False) Then
-                    MsgBox ("Showning instructions for Disassociate_by_char_v1")
-                    MsgBox ("Purpose Case & notes: takes input of sequence and returns the left or the right side of the seperator specified")
-                    MsgBox ("Discription of variables:" & Chr(13) & _
-                    "Internal: " & Chr(13) & _
-                        "String_V1.has_string_inside_V1" & Chr(13) & _
-                        "required: " & Chr(13) & _
-                        "seperator: what is seperating your text" & Chr(13) & _
-                        "sequence: the full string you want to pull text from" & Chr(13) & _
-                        "Left_or_right: specifys what side of the seperator to return")
-                    MsgBox ("Example of use:" & Chr(13) & _
-                        "sequence: 'zack-daugherty'" & Chr(13) & _
-                        "seperator: '-'" & Chr(13) & _
-                        "Left_or_Right: 'Right'" & Chr(13) & _
-                        "will return: 'daugherty'")
-                    Stop
-                    Exit Function
+        'define variables
+            Dim Seperator_len As Long
+            Dim seperator_pos As Variant
+            Dim Sequence_len As Long
+            Dim i As Long
+        'check for instructions
+            If (dont_show_instructions = False) Then
+                MsgBox ("Showning instructions for Disassociate_by_char_v1")
+                MsgBox ("Purpose Case & notes: takes input of sequence and returns the left or the right side of the seperator specified")
+                MsgBox ("Discription of variables:" & Chr(13) & _
+                "Internal: " & Chr(13) & _
+                    "String_V1.has_string_inside_V1" & Chr(13) & _
+                    "required: " & Chr(13) & _
+                    "seperator: what is seperating your text" & Chr(13) & _
+                    "sequence: the full string you want to pull text from" & Chr(13) & _
+                    "Left_or_right: specifys what side of the seperator to return")
+                MsgBox ("Example of use:" & Chr(13) & _
+                    "sequence: 'zack-daugherty'" & Chr(13) & _
+                    "seperator: '-'" & Chr(13) & _
+                    "Left_or_Right: 'Right'" & Chr(13) & _
+                    "will return: 'daugherty'")
+                Stop
+                Exit Function
+            End If
+        'setup variables
+            Sequence_len = Len(sequence)
+            Seperator_len = Len(seperator)
+            seperator_pos = String_V1.has_string_inside_V1(seperator, sequence, True, False)
+        'check that Seperator has a value & seperator_pos is not 0 & sequence <> nothing
+            If (Sequence_len > Seperator_len) Then
+                If (Seperator_len <= 0) Then
+                    Disassociate_by_Char_V1 = sequence
                 End If
-            'setup variables
-                Sequence_len = Len(sequence)
-                Seperator_len = Len(seperator)
-                seperator_pos = String_V1.has_string_inside_V1(seperator, sequence, True, False)
-            'check that Seperator has a value & seperator_pos is not 0 & sequence <> nothing
-                If (Sequence_len > Seperator_len) Then
-                    If (Seperator_len <= 0) Then
-                        Disassociate_by_Char_V1 = sequence
-                    End If
-                    If (seperator_pos = 0) Then
-                        Disassociate_by_Char_V1 = sequence
-                        Exit Function
-                    End If
-                Else
+                If (seperator_pos = 0) Then
                     Disassociate_by_Char_V1 = sequence
                     Exit Function
                 End If
-            'breakup
-                If (Left_or_Right = Left_C) Then
-                    If (Seperator_len > 1) Then
-                        Stop
-                    End If
-                    Disassociate_by_Char_V1 = Mid(sequence, 1, seperator_pos - 1)
-                Else
-                    Disassociate_by_Char_V1 = Mid(sequence, seperator_pos + Seperator_len, Sequence_len)
+            Else
+                Disassociate_by_Char_V1 = sequence
+                Exit Function
+            End If
+        'breakup
+            If (Left_or_Right = Left_C) Then
+                If (Seperator_len > 1) Then
+                    Stop
                 End If
+                Disassociate_by_Char_V1 = Mid(sequence, 1, seperator_pos - 1)
+            Else
+                Disassociate_by_Char_V1 = Mid(sequence, seperator_pos + Seperator_len, Sequence_len)
+            End If
     'code end
         Exit Function
     'error handler
@@ -548,7 +548,7 @@ shift_paste_override_up:
     
 End Function
 
-Public Function IndentText_VA(ByVal Text As String, ByVal Limit As Integer, ByVal StoreExtraRow As Integer, ByVal StoreExtraCol As Integer) As String
+Public Function IndentText_VA(ByVal text As String, ByVal Limit As Integer, ByVal StoreExtraRow As Integer, ByVal StoreExtraCol As Integer) As String
 'THIS CODE WAS TAKEN FROM ZEDLIB MUST BE CHECKED BEFORE USED
     MsgBox ("THIS CODE IS NOT FUNCTIONAL AS OF VERSION 1 OF STRING")
     Stop
@@ -591,11 +591,11 @@ Public Function IndentText_VA(ByVal Text As String, ByVal Limit As Integer, ByVa
             ReadyToExport = False
             NumOfSpaces = 0
     'find length of input
-        LengthOfInput = Len(Text)
+        LengthOfInput = Len(text)
         ReDim DecodeText(LengthOfInput)
     'import into string into array
         For i = 1 To LengthOfInput
-            textstorage = (Left(Text, i))
+            textstorage = (Left(text, i))
             If (i > 1) Then
                 textstorage = (Right(textstorage, (i - (i - 1))))
             End If
@@ -667,7 +667,7 @@ Public Function IndentText_VA(ByVal Text As String, ByVal Limit As Integer, ByVa
             Sc = i
             i = 1
             NumOfSpaces = 0
-            LengthOfInput = Len(Text)
+            LengthOfInput = Len(text)
             ReadyToExport = True
         End If
     If (ReadyToExport = True) Then

@@ -1,0 +1,82 @@
+update 1.1911 Log
+
+Boots_main
+	added new enum for:
+		'get_project_files'
+		'global_get_project_files_not_tracked_filename'
+		added module tracker to 'boots_pos'
+
+	added function 'LOG_PUSH_version' for log reporting the version of the module (not in use in the module)
+		
+	added function 'first_time_Run_Only' for first time operations
+		(not currently setup)
+	
+	added code in function 'run_on_start'
+		added 'log initialize' ref
+		
+	added green text to 'get_sheet_list'
+
+	added function 'get_project_files'
+
+	added function 'get_project_files_sub_log_push_version_module'
+
+	added function 'get_username'
+
+	added code to function 'boots_format'
+		code for formatting the part of the page for module traking
+		changed the format pattern
+
+	added function 'ERROR_programatic_access_to_vb_model_failed'
+		posts to the log the error and other stuff like that
+
+
+Boots_report
+	added new enum for:
+		'boots_report_pos'
+		'flush_selection'
+		'push_selection'
+	
+	changed code for 'status'
+		this is old code and soon to be removed
+
+	added function 'Log_get_length_of_log_list'
+
+	added function 'Log_Initalize'
+
+	added function 'push_log'
+
+	added function 'flush_log'
+
+	added function 'format_log_page'
+
+	removed alpha codes
+		'ALPHA_LogInformation' replaced with 'Flush_Log_Line_pvt_v0'
+		'ALPHA_OpenInNotepad' was added to #display now# in 'push_log'
+
+dev_v1_dev
+	moved 'get_username' to boots
+
+	removed 'ON_Shutdown_V0_01'
+	
+dts_v1_dev
+	cleaned up 'run_choices_v0' enum
+
+	cleaned up 'dts_pos' enum
+
+	added 'get_choices_v0' enum
+
+	changed 'get_global_unit_cost_refresh_ignore_trigger' into a const
+
+	changed 'get_global_decoder_symbol' into a const
+	
+	added 'LOG_push_project_file_requirements' for log codes
+	
+	added 'LOG_Push_Functions_v1'
+
+	removed 'status'
+
+	#many other changes#
+
+root
+	added root
+

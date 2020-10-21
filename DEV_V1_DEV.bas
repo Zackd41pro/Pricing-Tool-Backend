@@ -97,9 +97,8 @@ Public Sub welcome()
         End If
     'run regardless of read only
         MsgBox ("Need to remove 'unit list' marked range from the DTS refactor code as it has been removed from the data set")
-        Boots_Report_v_Alpha.status
-        dev_v1_dev.status
-        DTS_V1_DEV.status
+        'Boots_Report_v_Alpha.status
+        DEV_V1_DEV.status
         matrix_V2.status
         SP_V1_DEV.status
         String_V1.status
@@ -148,7 +147,7 @@ Public Sub On_Startup_V0_01(Optional dont_report As Boolean)
             'Call dev_v1_dev.log(dev_v1_dev.get_username, "On startup started")
         End If
     'display startup messages
-        dev_v1_dev.welcome
+        DEV_V1_DEV.welcome
     'return flag
 restart_on_startup:
     'set global varables
@@ -160,8 +159,9 @@ restart_on_startup:
             Set cell_cursor = ActiveCell
             s = "empty"
             'set if reporting or not
+                MsgBox ("change the statement below to 'boots' not 'dev'")
                 If dont_report = False Then
-                    condition = dev_v1_dev.DEV_page_Exist
+                    condition = DEV_V1_DEV.DEV_page_Exist
                 Else
                     condition = True
                 End If
@@ -170,7 +170,7 @@ restart_on_startup:
                 Call MsgBox("to remove logging feature moving to more stable process", , "On_Startup_V0_01 using log")
                 'Call dev_v1_dev.log(dev_v1_dev.get_username, "condition check") 'check started and seeing values
             End If
-        'logic to check for dev page exist
+        'if dev page dont exist then make page now
             If (condition = False) Then
             'dev page dont exist make new one
                 'log
@@ -179,7 +179,7 @@ restart_on_startup:
                     'Call dev_v1_dev.log(dev_v1_dev.get_username, "condition check passed as false")
                 End If
                 'make devpage
-                    Call boots_main_v_alpha.make_sheet(proj_workbook, "DEV", 2, True)
+                    Call Boots_Main_V_alpha.make_sheet(proj_workbook, "DEV", 2, True)
                     'anti loop check to prevent infinite loop
                         anti_loop = anti_loop + 1   'anti loop iteration
                         'if you have not looped through this more than 6 times do if else do else
@@ -202,15 +202,7 @@ restart_on_startup:
                                 MsgBox ("ERROR CODE STUCK IN LOOP PROTECTION TRIGGERED")
                                 Stop
                         End If
-            Else
-            'dev page does exist
-                'log
-                    If dont_report = False Then
-                        Call MsgBox("to remove logging feature moving to more stable process", , "On_Startup_V0_01 using log")
-                        'Call dev_v1_dev.log(dev_v1_dev.get_username, "condition check passed as true")
-                    End If
             End If
-
         'cleanup
             condition = False
             anti_loop = 0
@@ -218,7 +210,7 @@ restart_on_startup:
             Set cell_cursor = Nothing
             s = "empty"
     'format dev
-        Call dev_v1_dev.format_Dev(proj_workbook)
+        Call DEV_V1_DEV.format_Dev(proj_workbook)
         'cleanup
             'na
     'add creation to log
@@ -240,44 +232,12 @@ Error_Startup_Tracked_Cell_filled:
         Stop
 End Sub
 
-Public Function get_username(Optional dont_report As Boolean) As String
-'currently NOT functional as of (8/7/2020) checked by: (Zachary Daugherty)
-    'Created By (Zachary Daugherty)(8/7/2020)
-    'Purpose Case & notes:
-        'made to use functions to return the user name of the account in this session
-    'Library Refrences required
-        'workbook.object
-    'Modules Required
-        'Na
-    'Inputs
-        'Internal:
-            'Na
-        'required:
-            'Na
-        'optional:
-            'Na
-    'returned outputs
-        'username as string
-'code start
-    get_username = (Environ$("Username"))
-'code end
-End Function
-
 Public Sub check_user_in_v0_01(ByVal user As String)
     
 End Sub
 
 Public Sub check_user_out_v0_01(ByVal user As String)
     
-End Sub
-
-Public Sub ON_Shutdown_V0_01()
-    Call MsgBox("to remove logging feature moving to more stable process", , "On_Startup_V0_01 using log")
-    'Call dev_v1_dev.log(dev_v1_dev.get_username, "Start on shutdown")
-    MsgBox ("On shutdown not setup")
-    'check_user_out_v0_01 (get_username)
-    Call MsgBox("to remove logging feature moving to more stable process", , "On_Startup_V0_01 using log")
-    'Call dev_v1_dev.log(dev_v1_dev.get_username, "Finish on shutdown")
 End Sub
 
 Private Function DEV_page_Exist(Optional dont_report As Boolean) As Boolean
@@ -337,25 +297,25 @@ Restart_if_exist_check:
                     'if not in index position 1 move to 1
                         MsgBox ("need to remove the reorder as causing crash")
                         Stop
-                        If (i > 1) Then
-                            proj_workbook.Sheets(i).Move _
-                                Before:=ActiveWorkbook.Sheets(1)
-                            anti_loop = antiloop + 1
-                                If dont_report = False Then
-                                    Call MsgBox("Dev_page_exist using log replace with new report", , "Dev_page_exist using log")
-                                    'Call dev_v1_dev.log(dev_v1_dev.get_username, "anti loop triggered")
-                                End If
-                            If (anti_loop < 6) Then
-                                GoTo Restart_if_exist_check
-                            Else
-                                If dont_report = False Then
-                                    Call MsgBox("Dev_page_exist using log replace with new report", , "Dev_page_exist using log")
-                                    'Call dev_v1_dev.log(dev_v1_dev.get_username, "ERROR CODE STUCK IN LOOP PROTECTION TRIGGERED")
-                                End If
-                                MsgBox ("ERROR CODE STUCK IN LOOP PROTECTION TRIGGERED")
-                                Stop
-                            End If
-                        End If
+'                        If (i > 1) Then
+'                            proj_workbook.Sheets(i).Move _
+'                                Before:=ActiveWorkbook.Sheets(1)
+'                            anti_loop = anti_loop + 1
+'                                If dont_report = False Then
+'                                    Call MsgBox("Dev_page_exist using log replace with new report", , "Dev_page_exist using log")
+'                                    'Call dev_v1_dev.log(dev_v1_dev.get_username, "anti loop triggered")
+'                                End If
+'                            If (anti_loop < 6) Then
+'                                GoTo Restart_if_exist_check
+'                            Else
+'                                If dont_report = False Then
+'                                    Call MsgBox("Dev_page_exist using log replace with new report", , "Dev_page_exist using log")
+'                                    'Call dev_v1_dev.log(dev_v1_dev.get_username, "ERROR CODE STUCK IN LOOP PROTECTION TRIGGERED")
+'                                End If
+'                                MsgBox ("ERROR CODE STUCK IN LOOP PROTECTION TRIGGERED")
+'                                Stop
+'                            End If
+'                        End If
                     'enviorment exists exit
                         DEV_page_Exist = True
                         GoTo page_exist_exit
@@ -383,7 +343,6 @@ Private Function format_Dev(ByVal wb As Workbook) As Boolean
     'setup variables
         Set home = ActiveSheet
         Set sht = wb.Sheets("DEV")
-    Stop
     'format
         Application.ScreenUpdating = False
         Application.DisplayAlerts = False
