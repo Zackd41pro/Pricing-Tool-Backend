@@ -26,9 +26,12 @@ Private Sub Workbook_BeforeClose(Cancel As Boolean)
     'returned outputs
         'NA
 'code start
+    'boots
+        Boots_Report_v_Alpha.DIR_Flush
+    'other
     Application.DisplayAlerts = False
         On Error Resume Next
-            Boots_Report_v_Alpha.Flush_Log (Save_Exit)
+            Boots_Report_v_Alpha.Log_Flush (Save_Exit)
         On Error GoTo 0
     Application.DisplayAlerts = True
     ActiveWorkbook.Save
@@ -56,6 +59,8 @@ Private Sub Workbook_Open()
 'code start
     'define variables
         'na
+    'run root
+        root.On_startup
     'run boots
         
     'run on startup

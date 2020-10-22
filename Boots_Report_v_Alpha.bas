@@ -14,7 +14,7 @@ Attribute VB_Name = "Boots_Report_v_Alpha"
                                                                  ':boots_main
 '----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                                                                         'Purpose Case
-                    'This Module is built to handle exporting of information
+                    'This Module is built to handle the exporting & importing of information
                     
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
@@ -60,6 +60,7 @@ End Enum
 Const Log_indent_spaces As String = "    "
 
 Public Function status()
+    MsgBox ("old to delete")
 '    Call MsgBox("Boots_Report_Vx is in alpha!", , "Warning!")
 '    Call MsgBox("Boots_Report_Vx Status:" & Chr(10) & _
 '    "------------------------------------------------------------" & Chr(10) & _
@@ -132,20 +133,20 @@ Public Function Log_Initalize(Optional Further_definitions As String) As Boolean
             count = -1
     'format the log and add name space
         sht.Activate
-        Boots_Report_v_Alpha.format_log_page
+        Boots_Report_v_Alpha.Log_format_page
         sht.visible = 2
     'make note of the modules that are currently installed
         'update table
             Boots_Main_V_alpha.get_project_files
         'push record
-            Call Boots_Report_v_Alpha.Push_Log(text, " Table Displaying Currently Installed Project Object Files:...")
-            Boots_Report_v_Alpha.Push_Log (table_open)
+            Call Boots_Report_v_Alpha.Log_Push(text, " Table Displaying Currently Installed Project Object Files:...")
+            Boots_Report_v_Alpha.Log_Push (table_open)
             'make push of project objects
                 i = Boots_Main_V_alpha.get_project_files(na)
                 For count = 1 To i
                     If (count <> i) Then
                     'if entry is not the last one do this
-                        Call Boots_Report_v_Alpha.Push_Log(text, Boots_Main_V_alpha.get_project_files(get_index, count))
+                        Call Boots_Report_v_Alpha.Log_Push(text, Boots_Main_V_alpha.get_project_files(get_index, count))
                         'get the plugins required for this module
                             'get length of list
                                 j = Boots_Report_v_Alpha.Log_get_length_of_log_list
@@ -171,24 +172,24 @@ Public Function Log_Initalize(Optional Further_definitions As String) As Boolean
                                                     s = Run(s)
                                             'paste log lines for module dependancy
                                                 'indent line
-                                                    Call Boots_Report_v_Alpha.Push_Log(Trigger_S)
+                                                    Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                                                 'list
-                                                    Call Boots_Report_v_Alpha.Push_Log(text, "Showing Object File Dependants:...")
+                                                    Call Boots_Report_v_Alpha.Log_Push(text, "Showing Object File Dependants:...")
                                                 'indent line
-                                                    Call Boots_Report_v_Alpha.Push_Log(Trigger_S)
+                                                    Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                                                 'pull out variables
-                                                    Call Boots_Report_v_Alpha.Push_Log(text, s)
+                                                    Call Boots_Report_v_Alpha.Log_Push(text, s)
                                                 'de-indent line
-                                                    Call Boots_Report_v_Alpha.Push_Log(Trigger_E)
+                                                    Call Boots_Report_v_Alpha.Log_Push(Trigger_E)
                                             'cleanup
                                                 s = "Empty"
                                         'get registered function stability status
                                             'setup
                                                 'prep log list
                                                     'list
-                                                        Call Boots_Report_v_Alpha.Push_Log(text, "Reporting Project Function Stability Status:...")
+                                                        Call Boots_Report_v_Alpha.Log_Push(text, "Reporting Project Function Stability Status:...")
                                                     'indent line
-                                                        Call Boots_Report_v_Alpha.Push_Log(Trigger_S)
+                                                        Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                                                 'get the namespace of the ENV for modules
                                                     s = sht.Cells(boots_report_pos.p_text_row + j - 1, boots_report_pos.p_text_col).value
                                                     'parse for namespace
@@ -200,9 +201,9 @@ Public Function Log_Initalize(Optional Further_definitions As String) As Boolean
                                                     s = s + ".LOG_Push_Functions_v1"
                                                     s = Run(s)
                                                 'de-indent line
-                                                    Call Boots_Report_v_Alpha.Push_Log(Trigger_E)
+                                                    Call Boots_Report_v_Alpha.Log_Push(Trigger_E)
                                         'de-indent line for project file end
-                                            Call Boots_Report_v_Alpha.Push_Log(Trigger_E)
+                                            Call Boots_Report_v_Alpha.Log_Push(Trigger_E)
                                     End If
                     'cleanup
                         s = "Empty"
@@ -210,7 +211,7 @@ Public Function Log_Initalize(Optional Further_definitions As String) As Boolean
                         
                     Else
                     'if last field entry do this (last field will give total list length
-                        Call Boots_Report_v_Alpha.Push_Log(text, "total entrys:" & (count - 1)) ' gives this lengh of all the listed projectfiles
+                        Call Boots_Report_v_Alpha.Log_Push(text, "total entrys:" & (count - 1)) ' gives this lengh of all the listed projectfiles
                     End If
                 Next count
                 'cleanup
@@ -218,10 +219,10 @@ Public Function Log_Initalize(Optional Further_definitions As String) As Boolean
                     count = -1
                     s = "empty"
             'table close
-                Boots_Report_v_Alpha.Push_Log (table_close)
+                Boots_Report_v_Alpha.Log_Push (table_close)
 End Function
 
-Public Function Push_Log(ByVal Action As Push_selection, Optional text As String) As Boolean
+Public Function Log_Push(ByVal Action As Push_selection, Optional text As String) As Boolean
     'this function is made to push all log entrys to a sheet stored in the project so that if there are errors it is easy to report infomration on what went wrong, or ect.
     
     'define variables
@@ -238,11 +239,11 @@ Public Function Push_Log(ByVal Action As Push_selection, Optional text As String
         Set home_sht = ActiveSheet
         Set sht = wb.Sheets("LOG_" & Boots_Main_V_alpha.get_username)
     'find open position on the table
-push_log_restart_size_check:
+Log_Push_restart_size_check:
         i = i + 1
         s = sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value
         If (s <> "") Then
-            GoTo push_log_restart_size_check
+            GoTo Log_Push_restart_size_check
         End If
     'check if there is an indent mark in the empty pos
         If (sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value <> "") Then
@@ -250,7 +251,7 @@ push_log_restart_size_check:
             'check if it is plus
                 If (sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = "+") Then
                     sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value + 1
-                    GoTo push_log_exit_indent
+                    GoTo Log_Push_exit_indent
                 End If
             'check if it is minus
                 If (sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = "-") Then
@@ -258,9 +259,9 @@ push_log_restart_size_check:
                     'check is indent is now negative if so make 0
                         If (s < 0) Then
                             sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = 0
-                            MsgBox ("Push_log Error: indent '-' made the indent value less than zero now made zero")
+                            MsgBox ("Log_Push Error: indent '-' made the indent value less than zero now made zero")
                         End If
-                        GoTo push_log_exit_indent
+                        GoTo Log_Push_exit_indent
                 End If
         Else
         'get indent value from line above
@@ -270,7 +271,7 @@ push_log_restart_size_check:
                     sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = 0
                 End If
         End If
-push_log_exit_indent:
+Log_Push_exit_indent:
         'set now
             sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
     'run action
@@ -279,7 +280,7 @@ push_log_exit_indent:
             'compress log removes blank lines
                 Boots_Report_v_Alpha.Log_compress_blank_space
             'export
-                Boots_Report_v_Alpha.Flush_Log (Save)
+                Boots_Report_v_Alpha.Log_Flush (Save)
             'display now
                 s = "C:\WINDOWS\notepad.exe " & root.get_drive_location & root.get_save_location & root.get_project_name & root.get_version & "\" & "Users\" & Boots_Main_V_alpha.get_username & "\" & "Log-" & Month(Date) & "-" & Day(Date) & "-" & Year(Date) & ".log"
                 Logfile_Env = Shell(s, 1)
@@ -358,10 +359,10 @@ push_log_exit_indent:
             Stop
         End Select
     'cleanup
-        Push_Log = True
+        Log_Push = True
 End Function
 
-Public Function Flush_Log(ByVal Action As Flush_selection, Optional Further_definitions As String)
+Public Function Log_Flush(ByVal Action As Flush_selection, Optional Further_definitions As String)
     Dim wb As Workbook
     Dim sht As Worksheet
     
@@ -398,7 +399,7 @@ Public Function Flush_Log(ByVal Action As Flush_selection, Optional Further_defi
                     Next j
                     'install line to post
                         s = s & sht.Cells(boots_report_pos.p_text_row + line, boots_report_pos.p_text_col).value
-                        Boots_Report_v_Alpha.Flush_Log_Line_pvt_v0 (s)
+                        Boots_Report_v_Alpha.Log_Flush_Line_pvt_v0 (s)
                     'delete line
                         sht.Cells(boots_report_pos.p_indent_row + line, boots_report_pos.p_indent_col).value = ""
                         sht.Cells(boots_report_pos.p_time_row + line, boots_report_pos.p_time_col).value = ""
@@ -414,7 +415,7 @@ Public Function Flush_Log(ByVal Action As Flush_selection, Optional Further_defi
     
 End Function
 
-Private Sub format_log_page()
+Private Sub Log_format_page()
     Cells.Select
     With Selection.Font
         .Color = -16711936
@@ -474,12 +475,9 @@ Private Sub Log_compress_blank_space()
     Next j
 End Sub
 
-'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
-'from alpha generate log
-
+Private Function Log_Flush_Line_pvt_v0(ByVal LogMessage As String) As Boolean
 'https://www.exceltip.com/files-workbook-and-worksheets-in-vba/log-files-using-vba-in-microsoft-excel.html
 
-Private Function Flush_Log_Line_pvt_v0(ByVal LogMessage As String) As Boolean
     Dim s As String
     Dim s_2 As String
     Dim LogFileName As String
@@ -504,6 +502,146 @@ Private Function Flush_Log_Line_pvt_v0(ByVal LogMessage As String) As Boolean
     Close #FileNum ' close the file
 
 End Function
+
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
+
+                                                                        'DIR LIB
+                                                                        
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
+
+Public Function DIR_Flush() As Variant
+    Application.DisplayAlerts = False
+    Application.ScreenUpdating = False
+        On Error Resume Next
+            ActiveWorkbook.Sheets(Boots_Main_V_alpha.get_username & "_DIR_Search").Delete
+        On Error GoTo 0
+    Application.DisplayAlerts = True
+    Application.ScreenUpdating = True
+    DIR_Flush = True
+End Function
+
+Public Function DIR_GET_vA(ByVal DirLocation As String) As Variant
+
+    'VIA (http://www.xl-central.com/list-the-files-in-a-folder-and-subfolders.html)
+
+    'Set a reference to Microsoft Scripting Runtime by using
+    'Tools > References in the Visual Basic Editor (Alt+F11)
+    
+    'Declare the variables
+    Dim objFSO As Scripting.FileSystemObject
+    Dim objTopFolder As Scripting.Folder
+    Dim strTopFolderName As String
+    Dim sht As Worksheet
+    
+    'check for old version
+        For Each sht In ThisWorkbook.Worksheets
+                If Application.Proper(sht.Name) = Application.Proper(Boots_Main_V_alpha.get_username & "_DIR_Search") Then
+                    Application.DisplayAlerts = False
+                    Application.ScreenUpdating = False
+                        sht.visible = xlSheetVisible
+                        sht.Delete
+                    Application.DisplayAlerts = True
+                    Application.ScreenUpdating = True
+                    Exit For
+                End If
+        Next sht
+    'create new sht
+        Call ActiveWorkbook.Sheets.Add
+        ActiveSheet.Name = Boots_Main_V_alpha.get_username & "_DIR_Search"
+        Set sht = ActiveSheet
+        Boots_Report_v_Alpha.DIR_format_page_v0
+        sht.visible = xlSheetVeryHidden
+    'Insert the headers for Columns A through F
+    sht.Range("A1").value = "File Name"
+    sht.Range("B1").value = "Path"
+    sht.Range("C1").value = "File Size"
+    sht.Range("D1").value = "File Type"
+    sht.Range("E1").value = "Date Created"
+    sht.Range("F1").value = "Date Last Accessed"
+    sht.Range("G1").value = "Date Last Modified"
+    
+    'Assign the top folder to a variable
+    strTopFolderName = DirLocation
+    
+    'Create an instance of the FileSystemObject
+    Set objFSO = CreateObject("Scripting.FileSystemObject")
+    
+    'Get the top folder
+    Set objTopFolder = objFSO.GetFolder(strTopFolderName)
+    
+    'Call the DIR_RecursiveFolder_VA routine
+    Call Boots_Report_v_Alpha.DIR_RecursiveFolder_VA(objTopFolder, True, sht)
+    
+    'Change the width of the columns to achieve the best fit
+    Columns.AutoFit
+    
+    DIR_GET_vA = True
+End Function
+
+
+Private Function DIR_RecursiveFolder_VA(objFolder As Scripting.Folder, _
+    IncludeSubFolders As Boolean, sht As Worksheet) As Variant
+
+    'VIA (http://www.xl-central.com/list-the-files-in-a-folder-and-subfolders.html)
+
+    'Declare the variables
+    Dim objFile As Scripting.File
+    Dim objSubFolder As Scripting.Folder
+    Dim NextRow As Long
+    
+    'Find the next available row
+    NextRow = sht.Cells(Rows.count, "A").End(xlUp).row + 1
+    
+    'Loop through each file in the folder
+    For Each objFile In objFolder.Files
+        sht.Cells(NextRow, "A").value = objFile.Name
+        sht.Cells(NextRow, "B").value = objFile.path
+        sht.Cells(NextRow, "C").value = objFile.size
+        sht.Cells(NextRow, "D").value = objFile.Type
+        sht.Cells(NextRow, "E").value = objFile.DateCreated
+        sht.Cells(NextRow, "F").value = objFile.DateLastAccessed
+        sht.Cells(NextRow, "G").value = objFile.DateLastModified
+        NextRow = NextRow + 1
+    Next objFile
+    
+    'Loop through files in the subfolders
+    If IncludeSubFolders Then
+        For Each objSubFolder In objFolder.SubFolders
+            Call DIR_RecursiveFolder_VA(objSubFolder, True, sht)
+        Next objSubFolder
+    End If
+    DIR_RecursiveFolder_VA = True
+End Function
+
+Private Function DIR_format_page_v0() As Variant
+    Cells.Select
+    With Selection.Font
+        .Color = -16711936
+        .TintAndShade = 0
+    End With
+    With Selection.Interior
+        .Pattern = xlSolid
+        .PatternColorIndex = xlAutomatic
+        .ThemeColor = xlThemeColorLight1
+        .TintAndShade = 0
+        .PatternTintAndShade = 0
+    End With
+    With ActiveWorkbook.Sheets(Boots_Main_V_alpha.get_username & "_DIR_Search").Tab
+        .Color = 65280
+        .TintAndShade = 0
+    End With
+    DIR_format_page_v0 = True
+End Function
+
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
+
+                                                                        'Alpha Code
+                                                                        
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
 
 
 Public Sub ALPHA_DisplayLastLogInformation()
@@ -543,15 +681,6 @@ Sub ALPHA_DeleteLogFile(FullFileName As String)
     On Error GoTo 0 ' break on errors
 
 End Sub
-
-
-Private Sub ALPHA_Workbook_Open()
-
-ALPHA_LogInformation (ThisWorkbook.Name & " opened by " & Application.username & " " & Format(Now, "yyyy-mm-dd hh:mm"))
-
-End Sub
-
-
 
 
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/

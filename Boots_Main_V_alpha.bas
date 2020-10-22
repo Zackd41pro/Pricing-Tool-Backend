@@ -121,6 +121,8 @@ End Function
 'first time boot code
 
 Public Sub First_time_Run_only()
+    MsgBox ("not setup")
+    Stop
 'adds needed refs
     'AddReference_part1_vba_app_extensibility_5_3
     'AddReference_part2_vbscript
@@ -546,19 +548,19 @@ get_project_files_programatic_access_to_vb_model_failed:
             'reset error caller
                 'na
             'push variables to the log
-                Call Boots_Report_v_Alpha.Push_Log(Error_, "")
-                Call Boots_Report_v_Alpha.Push_Log(table_open, "")
-                Call Boots_Report_v_Alpha.Push_Log(text, "SHOWING VARIABLES SNAPSHOT FROM... get_project_files")
-                Call Boots_Report_v_Alpha.Push_Log(Variable, "VBC: '" & VBC & "' as variant/empty")
-                Call Boots_Report_v_Alpha.Push_Log(Variable, "type_: '" & type_ & "' as vbext_ComponentType")
-                Call Boots_Report_v_Alpha.Push_Log(Variable, "i: '" & i & "' as long")
-                Call Boots_Report_v_Alpha.Push_Log(Variable, "i_2: '" & i_2 & "' as long")
-                Call Boots_Report_v_Alpha.Push_Log(Variable, "s: '" & s & "' as string")
-                Call Boots_Report_v_Alpha.Push_Log(Variable, "wb: '" & wb.path & "/" & wb.Name & "' as Workbook")
-                Call Boots_Report_v_Alpha.Push_Log(Variable, "Sht: '" & sht.Name & "' as worksheet")
-                Call Boots_Report_v_Alpha.Push_Log(Variable, "get_project_files: '" & get_project_files & "' as variant")
-                Call Boots_Report_v_Alpha.Push_Log(Variable, "Optional_more_instructions: '" & Optional_more_instructions & "' as get_project_files_choices")
-                Call Boots_Report_v_Alpha.Push_Log(table_close, "")
+                Call Boots_Report_v_Alpha.Log_Push(Error_, "")
+                Call Boots_Report_v_Alpha.Log_Push(table_open, "")
+                Call Boots_Report_v_Alpha.Log_Push(text, "SHOWING VARIABLES SNAPSHOT FROM... get_project_files")
+                Call Boots_Report_v_Alpha.Log_Push(Variable, "VBC: '" & VBC & "' as variant/empty")
+                Call Boots_Report_v_Alpha.Log_Push(Variable, "type_: '" & type_ & "' as vbext_ComponentType")
+                Call Boots_Report_v_Alpha.Log_Push(Variable, "i: '" & i & "' as long")
+                Call Boots_Report_v_Alpha.Log_Push(Variable, "i_2: '" & i_2 & "' as long")
+                Call Boots_Report_v_Alpha.Log_Push(Variable, "s: '" & s & "' as string")
+                Call Boots_Report_v_Alpha.Log_Push(Variable, "wb: '" & wb.path & "/" & wb.Name & "' as Workbook")
+                Call Boots_Report_v_Alpha.Log_Push(Variable, "Sht: '" & sht.Name & "' as worksheet")
+                Call Boots_Report_v_Alpha.Log_Push(Variable, "get_project_files: '" & get_project_files & "' as variant")
+                Call Boots_Report_v_Alpha.Log_Push(Variable, "Optional_more_instructions: '" & Optional_more_instructions & "' as get_project_files_choices")
+                Call Boots_Report_v_Alpha.Log_Push(table_close, "")
             'call the error handle
                 Boots_Main_V_alpha.ERROR_programatic_access_to_vb_model_failed
 End Function
@@ -771,15 +773,15 @@ End Sub
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
 
 Sub ERROR_programatic_access_to_vb_model_failed()
-    Call Boots_Report_v_Alpha.Push_Log(Flag, "")
-    Call Boots_Report_v_Alpha.Push_Log(text, "FATAL RUN-TIME ERROR '1004': Programmatic access to Visual basic project is not trusted")
-    Call Boots_Report_v_Alpha.Push_Log(text, "To Fix this error in your excel environment click on 'File'; 'Options'")
-    Call Boots_Report_v_Alpha.Push_Log(text, "then in the 'Options' window: click on 'Trust Center' then under 'Microsoft Excel Trust Center' select the 'trust center settings' button")
-    Call Boots_Report_v_Alpha.Push_Log(text, "inside this menu click: 'Macro Settings' shown in the right bar.")
-    Call Boots_Report_v_Alpha.Push_Log(text, "then inside this menu: under 'Developer macro settings' check the box displaying 'Trust access to the Vba Project Object model'")
-    Call Boots_Report_v_Alpha.Push_Log(text, "then exit and restart the program")
+    Call Boots_Report_v_Alpha.Log_Push(Flag, "")
+    Call Boots_Report_v_Alpha.Log_Push(text, "FATAL RUN-TIME ERROR '1004': Programmatic access to Visual basic project is not trusted")
+    Call Boots_Report_v_Alpha.Log_Push(text, "To Fix this error in your excel environment click on 'File'; 'Options'")
+    Call Boots_Report_v_Alpha.Log_Push(text, "then in the 'Options' window: click on 'Trust Center' then under 'Microsoft Excel Trust Center' select the 'trust center settings' button")
+    Call Boots_Report_v_Alpha.Log_Push(text, "inside this menu click: 'Macro Settings' shown in the right bar.")
+    Call Boots_Report_v_Alpha.Log_Push(text, "then inside this menu: under 'Developer macro settings' check the box displaying 'Trust access to the Vba Project Object model'")
+    Call Boots_Report_v_Alpha.Log_Push(text, "then exit and restart the program")
     ActiveWorkbook.Save
-    Call Boots_Report_v_Alpha.Push_Log(Display_now, "")
+    Call Boots_Report_v_Alpha.Log_Push(Display_now, "")
 End Sub
 
 

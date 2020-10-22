@@ -139,11 +139,11 @@ End Enum
                     Set home = ActiveSheet
                     Set sht = wb.Sheets("LOG_" & Boots_Main_V_alpha.get_username)
             'find open position on the log table
-push_log_restart_size_check:
+Log_Push_restart_size_check:
                 i = i + 1
                 s = sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value
                 If (s <> "") Then
-                    GoTo push_log_restart_size_check
+                    GoTo Log_Push_restart_size_check
                 End If
             'get each status
                 'returning listed enums
@@ -1218,33 +1218,33 @@ Private Function Check_DTS_Table_V0_01A(Optional more_instructions As String) As
         'error handle
 ERROR_FATAL_check_dts_range_error:
             Check_DTS_Table_V0_01A = False
-                Call Boots_Report_v_Alpha.Push_Log(Error_, "")
-                Call Boots_Report_v_Alpha.Push_Log(text, "FATAL ERROR: Displaying Snapshot of Values:...")
-                Call Boots_Report_v_Alpha.Push_Log(table_open, "")
-                    Call Boots_Report_v_Alpha.Push_Log(Variable, "Check_DTS_Table_V0_01A: '" & Check_DTS_Table_V0_01A & "' as variant")
-                    Call Boots_Report_v_Alpha.Push_Log(Variable, "More_instructions: '" & more_instructions & "' as string")
-                    Call Boots_Report_v_Alpha.Push_Log(Variable, "condition: '" & condition & "' as Boolean")
-                    Call Boots_Report_v_Alpha.Push_Log(Variable, "i: '" & i & "' as Long")
-                    Call Boots_Report_v_Alpha.Push_Log(Variable, "s: '" & s & "' as String")
-                    Call Boots_Report_v_Alpha.Push_Log(Variable, "Proj_wb: '" & proj_wb.path & "/" & proj_wb.Name & "' as Workbook")
-                    Call Boots_Report_v_Alpha.Push_Log(Variable, "cursor_sheet: '" & cursor_sheet.Name & " :visible = " & cursor_sheet.visible & "' as worksheet")
-                    Call Boots_Report_v_Alpha.Push_Log(Variable, "cursor_row: '" & cursor_row & "' as long")
-                    Call Boots_Report_v_Alpha.Push_Log(Variable, "cursor_col: '" & cursor_col & "' as long")
-                    Call Boots_Report_v_Alpha.Push_Log(Variable, "ref_rng: '" & ref_rng.Name & " value=" & ref_rng.value & "' as range")
-                    Call Boots_Report_v_Alpha.Push_Log(Variable, "arr: '<please check the array>' as string")
-                Call Boots_Report_v_Alpha.Push_Log(table_close, "")
-                Call Boots_Report_v_Alpha.Push_Log(Flag, "")
-                    Call Boots_Report_v_Alpha.Push_Log(text, "FATAL ERROR: MODULE:(DTS_VX)FUNCTION:(CHECK_DTS_TABLE) UNABLE TO LOCATE THE SPECIFIED RANGE:<" & s & "> please check the name mannager for errors. fix and then re-run")
-                    Call Boots_Report_v_Alpha.Push_Log(text, "CRASH!__________________________________________________________")
-                    Call Boots_Report_v_Alpha.Push_Log(text, "CRASH!__________________________________________________________")
-                    Call Boots_Report_v_Alpha.Push_Log(text, "CRASH!__________________________________________________________")
-                    Call Boots_Report_v_Alpha.Push_Log(text, "CRASH!__________________________________________________________")
-                    Call Boots_Report_v_Alpha.Push_Log(text, "CRASH!__________________________________________________________")
+                Call Boots_Report_v_Alpha.Log_Push(Error_, "")
+                Call Boots_Report_v_Alpha.Log_Push(text, "FATAL ERROR: Displaying Snapshot of Values:...")
+                Call Boots_Report_v_Alpha.Log_Push(table_open, "")
+                    Call Boots_Report_v_Alpha.Log_Push(Variable, "Check_DTS_Table_V0_01A: '" & Check_DTS_Table_V0_01A & "' as variant")
+                    Call Boots_Report_v_Alpha.Log_Push(Variable, "More_instructions: '" & more_instructions & "' as string")
+                    Call Boots_Report_v_Alpha.Log_Push(Variable, "condition: '" & condition & "' as Boolean")
+                    Call Boots_Report_v_Alpha.Log_Push(Variable, "i: '" & i & "' as Long")
+                    Call Boots_Report_v_Alpha.Log_Push(Variable, "s: '" & s & "' as String")
+                    Call Boots_Report_v_Alpha.Log_Push(Variable, "Proj_wb: '" & proj_wb.path & "/" & proj_wb.Name & "' as Workbook")
+                    Call Boots_Report_v_Alpha.Log_Push(Variable, "cursor_sheet: '" & cursor_sheet.Name & " :visible = " & cursor_sheet.visible & "' as worksheet")
+                    Call Boots_Report_v_Alpha.Log_Push(Variable, "cursor_row: '" & cursor_row & "' as long")
+                    Call Boots_Report_v_Alpha.Log_Push(Variable, "cursor_col: '" & cursor_col & "' as long")
+                    Call Boots_Report_v_Alpha.Log_Push(Variable, "ref_rng: '" & ref_rng.Name & " value=" & ref_rng.value & "' as range")
+                    Call Boots_Report_v_Alpha.Log_Push(Variable, "arr: '<please check the array>' as string")
+                Call Boots_Report_v_Alpha.Log_Push(table_close, "")
+                Call Boots_Report_v_Alpha.Log_Push(Flag, "")
+                    Call Boots_Report_v_Alpha.Log_Push(text, "FATAL ERROR: MODULE:(DTS_VX)FUNCTION:(CHECK_DTS_TABLE) UNABLE TO LOCATE THE SPECIFIED RANGE:<" & s & "> please check the name mannager for errors. fix and then re-run")
+                    Call Boots_Report_v_Alpha.Log_Push(text, "CRASH!__________________________________________________________")
+                    Call Boots_Report_v_Alpha.Log_Push(text, "CRASH!__________________________________________________________")
+                    Call Boots_Report_v_Alpha.Log_Push(text, "CRASH!__________________________________________________________")
+                    Call Boots_Report_v_Alpha.Log_Push(text, "CRASH!__________________________________________________________")
+                    Call Boots_Report_v_Alpha.Log_Push(text, "CRASH!__________________________________________________________")
                     For i = 1 To 10
-                        Call Boots_Report_v_Alpha.Push_Log(text, "________________________________________________________________")
+                        Call Boots_Report_v_Alpha.Log_Push(text, "________________________________________________________________")
                     Next i
                     
-                Call Boots_Report_v_Alpha.Push_Log(Display_now, "")
+                Call Boots_Report_v_Alpha.Log_Push(Display_now, "")
                 Stop
             Exit Function
 FATAL_ERROR_CHECK_DTS_SET_DTS_ENV:

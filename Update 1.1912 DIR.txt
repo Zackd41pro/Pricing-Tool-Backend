@@ -1,0 +1,25 @@
+update 1.1912 DIR
+
+added module alpha_code
+	for easy storage of new code still under testing
+
+boots_main
+	renamed some functions to they group together better
+
+boots_report
+	renamed some functions to they group together better
+
+	added DIR LIB for creating library refs to the Drive
+		still in progress but working through changes as we go
+			need to add some sort of lookup function in the dir for use of finding values and pages
+
+dts_v1
+	changed out of ref calls for new as name updates happened
+
+root
+	added more startup code
+		creation of file dir
+
+thisworkbook
+	added ref to root startup
+
