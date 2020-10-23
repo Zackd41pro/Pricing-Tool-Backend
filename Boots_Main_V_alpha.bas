@@ -95,10 +95,7 @@ Enum get_project_files_choices
     get_index
 End Enum
 
-Private Function global_get_project_files_not_tracked_filename() As String
-    global_get_project_files_not_tracked_filename = "Na"
-End Function
-
+Const global_get_project_files_not_tracked_filename As String = "Na"
 
 Private Function LOG_push_version(ByVal pos As Long) 'for version reporting
     Dim version As String
@@ -213,7 +210,7 @@ End Sub
 'boots env
 
 Public Function run_on_start()
-    MsgBox ("boots_main_startup add green text & instructions")
+'this function sets up the main requirements for the boots module todo it nessasary tasks
     'define varaiables
         'address
             Dim wb As Workbook
@@ -234,7 +231,9 @@ Public Function run_on_start()
         'cleanup
             bool = False
     'fetch sheet list
-        
+        Boots_Main_V_alpha.get_sheet_list
+    'cleanup
+        'na
 End Function
 
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-
@@ -395,7 +394,6 @@ restart_get_sheet_clear_check:
             Application.DisplayAlerts = True
             get_sheet_list = True
             home.Activate
-            get_sheet_list = True
 End Function
 
 Public Function get_project_files(Optional Optional_more_instructions As get_project_files_choices, Optional Optional_input As Variant) As Variant

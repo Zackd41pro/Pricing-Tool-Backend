@@ -43,29 +43,29 @@ Public Function matrix_dimensions(ByVal matrix_ As Variant, Optional dont_show_i
 'currently functional as of (9/10/2020) checked by: (Zachary Daughety)
     'Created By (Zachary Daugherty)(9/10/2020)
     'Purpose Case & notes:
-        If (dont_show_instructions = False) Then
-                Call MsgBox("showing instructions for Matrix_vX.matrix_dimensions, function is built to return the position range of space a array is using as well as the distance between the start and the finish position of that specific range element." & Chr(10) & Chr(10) & _
-                "example:1" & Chr(10) & _
-                "arr(1 to 4)as string will return: '(<1><4><4>),(<empty><empty><empty>),' as a string" & Chr(10) & _
-                Chr(10) & "meaning the first dimension reports 4 positions starting at 1 and ending at 4 the second dimension reports empty as there is no defined space in this dimension", , "Showning instructions for matrix_v2.matrix_dimensions:1-4")
-                
-                Call MsgBox("example:2" & Chr(10) & _
-                "arr(1,0,-5 to 10)as string will return:'(<0><1><2>),(<0><0><0>),(<-5><10><16>),(<empty><empty><empty>),' as string" & Chr(10) & _
-                Chr(10) & "meaning the first dimension reports 2 positions starting at 0 and ending at 1. " & _
-                "the second dimension reports 1 position starting and ending at 0. " & _
-                "the third position reports 16 positions starting at -5 and ending at 10 " & _
-                "this is because 0 is counted as a position", , "Showning instructions for matrix_v2.matrix_dimensions:2-4")
-                
-                Call MsgBox("example:3" & Chr(10) & _
-                "arr() as string will return:'(<empty><empty><empty>),' as String" & Chr(10) & Chr(10) & _
-                "this is because there are no dimensions assigned to this matrix", , "Showning instructions for matrix_v2.matrix_dimensions:3-4")
-                
-                Call MsgBox("example:4" & Chr(10) & _
-                "I = 2 as long will return: '(<empty><empty><empty>),' as string " & Chr(10) & Chr(10) & _
-                "meaning since it is not an matrix it does not have any other elements as of its position", , "Showning instructions for matrix_v2.matrix_dimensions:4-4")
-            Stop
-            Exit Function
-        End If
+'        If (dont_show_instructions = False) Then
+'                Call MsgBox("showing instructions for Matrix_vX.matrix_dimensions, function is built to return the position range of space a array is using as well as the distance between the start and the finish position of that specific range element." & Chr(10) & Chr(10) & _
+'                "example:1" & Chr(10) & _
+'                "arr(1 to 4)as string will return: '(<1><4><4>),(<empty><empty><empty>),' as a string" & Chr(10) & _
+'                Chr(10) & "meaning the first dimension reports 4 positions starting at 1 and ending at 4 the second dimension reports empty as there is no defined space in this dimension", , "Showning instructions for matrix_v2.matrix_dimensions:1-4")
+'
+'                Call MsgBox("example:2" & Chr(10) & _
+'                "arr(1,0,-5 to 10)as string will return:'(<0><1><2>),(<0><0><0>),(<-5><10><16>),(<empty><empty><empty>),' as string" & Chr(10) & _
+'                Chr(10) & "meaning the first dimension reports 2 positions starting at 0 and ending at 1. " & _
+'                "the second dimension reports 1 position starting and ending at 0. " & _
+'                "the third position reports 16 positions starting at -5 and ending at 10 " & _
+'                "this is because 0 is counted as a position", , "Showning instructions for matrix_v2.matrix_dimensions:2-4")
+'
+'                Call MsgBox("example:3" & Chr(10) & _
+'                "arr() as string will return:'(<empty><empty><empty>),' as String" & Chr(10) & Chr(10) & _
+'                "this is because there are no dimensions assigned to this matrix", , "Showning instructions for matrix_v2.matrix_dimensions:3-4")
+'
+'                Call MsgBox("example:4" & Chr(10) & _
+'                "I = 2 as long will return: '(<empty><empty><empty>),' as string " & Chr(10) & Chr(10) & _
+'                "meaning since it is not an matrix it does not have any other elements as of its position", , "Showning instructions for matrix_v2.matrix_dimensions:4-4")
+'            Stop
+'            Exit Function
+'        End If
     'Library Refrences required
         'workbook.object
     'Modules Required

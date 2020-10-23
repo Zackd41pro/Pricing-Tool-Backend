@@ -59,18 +59,20 @@ Private Sub Workbook_Open()
 'code start
     'define variables
         'na
+    'run boots
+        Stop
+        Boots_Main_V_alpha.run_on_start
     'run root
         root.On_startup
-    'run boots
-        
     'run on startup
-        Boots_Main_V_alpha.run_on_start
         DEV_V1_DEV.On_Startup_V0_01
     'run DTS Procedure
-        MsgBox ("DTS_V1_DEV.run (update_unit_cost): will not run till 'unit list' has been removed from the data set check")
-        MsgBox ("workbook_open~DTS_V1_DEV.run (update_unit_cost): failed to run")
-        DTS_V1_DEV.run_V0 (update_unit_cost)
+        MsgBox ("DTS_V2A.run (update_unit_cost): will not run till 'unit list' has been removed from the data set check")
+        MsgBox ("workbook_open~DTS_V2A.run (update_unit_cost): failed to run")
+        DTS_V2A.run_V0 (update_unit_cost)
 'code end
  End Sub
 
-
+Private Sub Workbook_SheetActivate(ByVal Sh As Object)
+    'Boots_Main_V_alpha.get_sheet_list
+End Sub

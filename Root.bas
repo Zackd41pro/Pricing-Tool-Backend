@@ -12,7 +12,7 @@ Public Function get_project_name() As String
 End Function
 
 Public Function get_version() As Double
-    get_version = 1.1913
+    get_version = 1.2
 End Function
 
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
@@ -81,7 +81,6 @@ Public Function On_startup() As Variant
                     End If
                 Next i
                 Boots_Report_v_Alpha.DIR_Flush
-            Stop
 End Function
 
 

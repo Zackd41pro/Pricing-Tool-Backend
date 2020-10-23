@@ -1,4 +1,4 @@
-Attribute VB_Name = "DTS_V1_DEV"
+Attribute VB_Name = "DTS_V2A"
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
@@ -24,59 +24,55 @@ Attribute VB_Name = "DTS_V1_DEV"
                                                                         'CODE START
 '----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-Public Enum run_choices_V0
+Public Enum run_choices_V1
     'Purpose Case & notes:
         'gives the enumeration of choices that are setup for options
     'list
         update_unit_cost
 End Enum
-
-Public Enum get_choices_v0
+Public Enum get_choices_v1
     'Purpose Case & notes:
         'gives the enumeration of choices that are setup for options
     'list
         get_size
 End Enum
-Public Enum DTS_POS
+Public Enum DTS_POS_2A
     'Purpose Case & notes:
         'POS Enum is to be called to act as a check condition to verify that the code and the sheet agrees on
             'the locational position of where things are on the sheet.
     'list
         'other table information
             DTS_I_Inflation_Const_row = 1
-                DTS_I_Inflation_Const_col = 6
+                DTS_I_Inflation_Const_col = 5
         'number of entry fields watching
-            DTS_Q_number_of_tracked_locations = 15
+            DTS_Q_number_of_tracked_locations = 14
         'array of positions
             DTS_I_part_number_row = 3 'used as global table header row position
                 DTS_I_part_number_col = 1
-            DTS_I_AKA_row = DTS_POS.DTS_I_part_number_row
+            DTS_I_AKA_row = DTS_POS_2A.DTS_I_part_number_row
                 DTS_I_AKA_col = 2
-            DTS_I_Description_row = DTS_POS.DTS_I_part_number_row
+            DTS_I_Description_row = DTS_POS_2A.DTS_I_part_number_row
                 DTS_I_Description_col = 3
-            DTS_I_Unit_list_row = DTS_POS.DTS_I_part_number_row
-                DTS_I_Unit_list_col = 4
-            DTS_I_Unit_cost_row = DTS_POS.DTS_I_part_number_row
-                DTS_I_Unit_cost_col = 5
-            DTS_I_Adjusted_unit_cost_row = DTS_POS.DTS_I_part_number_row
-                DTS_I_Adjusted_unit_cost_col = 6
-            DTS_I_Unit_weight_row = DTS_POS.DTS_I_part_number_row
-                DTS_I_Unit_weight_col = 7
-            DTS_I_Shop_origin_row = DTS_POS.DTS_I_part_number_row
-                DTS_I_Shop_origin_col = 8
-            DTS_I_Status_row = DTS_POS.DTS_I_part_number_row
-                DTS_I_Status_col = 9
-            DTS_I_Job_other_info_row = DTS_POS.DTS_I_part_number_row
-                DTS_I_Job_other_info_col = 10
-            DTS_I_Vendor_info_row = DTS_POS.DTS_I_part_number_row
-                DTS_I_Vendor_info_col = 11
-            DTS_I_Vendor_phone_row = DTS_POS.DTS_I_part_number_row
-                DTS_I_Vendor_phone_col = 12
-            DTS_I_Vendor_fax_row = DTS_POS.DTS_I_part_number_row
-                DTS_I_Vendor_fax_col = 13
-            DTS_I_Vendor_part_number_row = DTS_POS.DTS_I_part_number_row
-                DTS_I_Vendor_part_number_col = 14
+            DTS_I_Unit_cost_row = DTS_POS_2A.DTS_I_part_number_row
+                DTS_I_Unit_cost_col = 4
+            DTS_I_Adjusted_unit_cost_row = DTS_POS_2A.DTS_I_part_number_row
+                DTS_I_Adjusted_unit_cost_col = 5
+            DTS_I_Unit_weight_row = DTS_POS_2A.DTS_I_part_number_row
+                DTS_I_Unit_weight_col = 6
+            DTS_I_Shop_origin_row = DTS_POS_2A.DTS_I_part_number_row
+                DTS_I_Shop_origin_col = 7
+            DTS_I_Status_row = DTS_POS_2A.DTS_I_part_number_row
+                DTS_I_Status_col = 8
+            DTS_I_Job_other_info_row = DTS_POS_2A.DTS_I_part_number_row
+                DTS_I_Job_other_info_col = 9
+            DTS_I_Vendor_info_row = DTS_POS_2A.DTS_I_part_number_row
+                DTS_I_Vendor_info_col = 10
+            DTS_I_Vendor_phone_row = DTS_POS_2A.DTS_I_part_number_row
+                DTS_I_Vendor_phone_col = 11
+            DTS_I_Vendor_fax_row = DTS_POS_2A.DTS_I_part_number_row
+                DTS_I_Vendor_fax_col = 12
+            DTS_I_Vendor_part_number_row = DTS_POS_2A.DTS_I_part_number_row
+                DTS_I_Vendor_part_number_col = 13
 End Enum
         
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
@@ -104,7 +100,7 @@ End Enum
             Dim version As String
             Dim sht As Worksheet
             
-            version = "0.0 Pre-Alpha without function logs"
+            version = "2.0 Alpha without function logs"
             
             If (Boots_Main_V_alpha.sheet_exist(ActiveWorkbook, "Boots") = True) Then
                 Set sht = ActiveWorkbook.Sheets("Boots")
@@ -116,7 +112,8 @@ End Enum
         End Function
         
         Private Function LOG_push_project_file_requirements() As Variant
-            LOG_push_project_file_requirements = "<Boots_main_Valpha>" & Chr(149) & _
+            LOG_push_project_file_requirements = _
+            "<Boots_main_Valpha>" & Chr(149) & _
             "<Boots_Report_Valpha>" & Chr(149) & _
             "<SP_V1>" & Chr(149) & _
             "<Matrix_V2>" & Chr(149) & _
@@ -153,20 +150,20 @@ Log_Push_restart_size_check:
                                     sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
                                         sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = s
                                             i = i + 1
-                    'run_choices_V0
-                        s = "ENUM: run_choices_V0 - Public"
+                    'run_choices_V1
+                        s = "ENUM: run_choices_V1 - Public"
                             sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value
                                 sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
                                     sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = s
                                         i = i + 1
-                    'get_choices_v0
-                        s = "ENUM: get_choices_v0 - Pubilc"
+                    'get_choices_v1
+                        s = "ENUM: get_choices_v1 - Pubilc"
                             sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value
                                 sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
                                     sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = s
                                         i = i + 1
-                    'DTS_POS
-                        s = "ENUM: DTS_POS - Public"
+                    'DTS_POS_2A
+                        s = "ENUM: DTS_POS_2A - Public"
                             sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value
                                 sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
                                     sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = s
@@ -198,13 +195,13 @@ Log_Push_restart_size_check:
                                         sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = s
                                             i = i + 1
                     'Run
-                        s = DTS_V1_DEV.run_V0(0, "Log_Report")
+                        s = DTS_V2A.run_V0(0, "Log_Report")
                             sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value
                                     sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
                                         sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = s
                                             i = i + 1
                     'Run_unit_cost_refresh
-                        s = DTS_V1_DEV.Run_unit_cost_refresh_v0(True, "Log_Report")
+                        s = DTS_V2A.Run_unit_cost_refresh_v0(True, "Log_Report")
                             sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value
                                     sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
                                         sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = s
@@ -217,13 +214,13 @@ Log_Push_restart_size_check:
                                         sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = s
                                             i = i + 1
                     'get
-                        s = DTS_V1_DEV.Get_V0(0, "Log_Report")
+                        s = DTS_V2A.Get_V0(0, "Log_Report")
                             sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value
                                     sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
                                         sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = s
                                             i = i + 1
                     'get_size_V0
-                        s = DTS_V1_DEV.get_size_V0("Log_Report")
+                        s = DTS_V2A.get_size_V0("Log_Report")
                             sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value
                                     sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
                                         sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = s
@@ -243,26 +240,26 @@ Log_Push_restart_size_check:
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
         
-        Public Function run_V0(ByVal choice As run_choices_V0, Optional more_instructions As String) As Variant
+        Public Function run_V0(ByVal choice As run_choices_V1, Optional more_instructions As String) As Variant
             'check for log reporting
                 If (more_instructions = "Log_Report") Then
                     run_V0 = "run_v0 - Public - Out of Date: Using old code rather than the standardized code for checking page existance"
                     Exit Function
                 End If
             'code start
-                MsgBox ("need to add green text: Dts_v1_dev")
+                MsgBox ("need to add green text: DTS_V2A")
                 'define variables
                     Dim condition As Boolean
                 'setup variables
                     'na
                 'start check
                     MsgBox ("'dts_vx_dev.run' need to add boots check insted of the one used on dts as it can then use a standard check for a page exist.")
-                    condition = DTS_V1_DEV.check(True)
+                    condition = DTS_V2A.check(True)
                 'check for check pass and if so run command else throw error
                     If (condition = True) Then
                         Select Case choice
                             Case update_unit_cost
-                                DTS_V1_DEV.Run_unit_cost_refresh_v0 (True)
+                                DTS_V2A.Run_unit_cost_refresh_v0 (True)
                             Case Else
                                 Stop
                         End Select
@@ -366,13 +363,13 @@ Private Function Run_unit_cost_refresh_v0(Optional dont_show_information As Bool
             'setup array tables
                 'check for valid sizes and get sizes
                     'get size of DTS
-                        size_of_dts = DTS_V1_DEV.get_size_V0()
+                        size_of_dts = DTS_V2A.get_size_V0()
                     'get size of steel presets A
                         size_of_sp_A = SP_V1_DEV.get_size_A
                     'get size of steel presets B
                         size_of_sp_B = SP_V1_DEV.get_size_B
                 'initialize arrays
-                    ReDim Memory_Main(0 To size_of_dts, 0 To DTS_POS.DTS_Q_number_of_tracked_locations)
+                    ReDim Memory_Main(0 To size_of_dts, 0 To DTS_POS_2A.DTS_Q_number_of_tracked_locations)
                     ReDim SP_decoder_A(0 To size_of_sp_A, 1 To SP_POS.SP_Q_Number_total_A_Tracked_Cells)
                     ReDim SP_decoder_B(0 To size_of_sp_B, 1 To SP_POS.SP_Q_Number_total_B_Tracked_Cells)
                     'lookup setup
@@ -389,7 +386,7 @@ Private Function Run_unit_cost_refresh_v0(Optional dont_show_information As Bool
                         Set current_sht = wb.Sheets(error)
                         error = ""
                     On Error GoTo 0
-                    DTS_Inflation_value = current_sht.Cells(DTS_POS.DTS_I_Inflation_Const_row, DTS_POS.DTS_I_Inflation_Const_col).value * 100
+                    DTS_Inflation_value = current_sht.Cells(DTS_POS_2A.DTS_I_Inflation_Const_row, DTS_POS_2A.DTS_I_Inflation_Const_col).value * 100
                 'SP
                     On Error GoTo dts_Run_unit_cost_refresh_v0_cant_find_SHEET
                         error = "STEEL PRESETS"
@@ -408,18 +405,18 @@ Private Function Run_unit_cost_refresh_v0(Optional dont_show_information As Bool
                             Set current_sht = wb.Sheets(error)
                         error = ""
                         'set row col
-                            row = DTS_POS.DTS_I_part_number_row
-                            col = DTS_POS.DTS_I_part_number_col
+                            row = DTS_POS_2A.DTS_I_part_number_row
+                            col = DTS_POS_2A.DTS_I_part_number_col
 
                     On Error GoTo 0
                 'get
                     For L = 0 To size_of_dts
-                        For L_2 = 1 To DTS_POS.DTS_Q_number_of_tracked_locations
+                        For L_2 = 1 To DTS_POS_2A.DTS_Q_number_of_tracked_locations
                             Memory_Main(L, L_2) = current_sht.Cells(row, col).value
-                            col = DTS_POS.DTS_I_part_number_col + L_2
+                            col = DTS_POS_2A.DTS_I_part_number_col + L_2
                         Next L_2
-                        row = DTS_POS.DTS_I_part_number_row + L + 1
-                        col = DTS_POS.DTS_I_part_number_col
+                        row = DTS_POS_2A.DTS_I_part_number_row + L + 1
+                        col = DTS_POS_2A.DTS_I_part_number_col
                     Next L
                 'cleanup
                     row = -1
@@ -498,10 +495,10 @@ incoding_of_table_names:
                                     Lookup(L, 3) = L
                                 Else
                                     'fall through marker
-                                        Lookup(L, 0) = DTS_V1_DEV.get_global_unit_cost_refresh_ignore_trigger
-                                        Lookup(L, 1) = DTS_V1_DEV.get_global_unit_cost_refresh_ignore_trigger
-                                        Lookup(L, 2) = DTS_V1_DEV.get_global_unit_cost_refresh_ignore_trigger
-                                        Lookup(L, 3) = DTS_V1_DEV.get_global_unit_cost_refresh_ignore_trigger
+                                        Lookup(L, 0) = DTS_V2A.get_global_unit_cost_refresh_ignore_trigger
+                                        Lookup(L, 1) = DTS_V2A.get_global_unit_cost_refresh_ignore_trigger
+                                        Lookup(L, 2) = DTS_V2A.get_global_unit_cost_refresh_ignore_trigger
+                                        Lookup(L, 3) = DTS_V2A.get_global_unit_cost_refresh_ignore_trigger
                                 End If
                             End If
                         'section for table b
@@ -515,10 +512,10 @@ incoding_of_table_names:
                                 Else
                                     'fall through marker
                                         If (L > size_of_sp_A) Then
-                                            Lookup(L, 0) = DTS_V1_DEV.get_global_unit_cost_refresh_ignore_trigger
-                                            Lookup(L, 1) = DTS_V1_DEV.get_global_unit_cost_refresh_ignore_trigger
-                                            Lookup(L, 2) = DTS_V1_DEV.get_global_unit_cost_refresh_ignore_trigger
-                                            Lookup(L, 3) = DTS_V1_DEV.get_global_unit_cost_refresh_ignore_trigger
+                                            Lookup(L, 0) = DTS_V2A.get_global_unit_cost_refresh_ignore_trigger
+                                            Lookup(L, 1) = DTS_V2A.get_global_unit_cost_refresh_ignore_trigger
+                                            Lookup(L, 2) = DTS_V2A.get_global_unit_cost_refresh_ignore_trigger
+                                            Lookup(L, 3) = DTS_V2A.get_global_unit_cost_refresh_ignore_trigger
                                         End If
                                 End If
                             End If
@@ -540,7 +537,7 @@ incoding_of_table_names:
                     For L = 1 To (UBound(Lookup(), 1) - LBound(Lookup(), 1))
                         'value to search by
                             'if set to empty skip
-                                If (Lookup(L, 1) = DTS_V1_DEV.get_global_unit_cost_refresh_ignore_trigger) Then
+                                If (Lookup(L, 1) = DTS_V2A.get_global_unit_cost_refresh_ignore_trigger) Then
                                     GoTo Run_unit_cost_refresh_v0_ignore_entry
                                 End If
                         'compair against all other entrys
@@ -576,22 +573,22 @@ Run_unit_cost_refresh_v0_ignore_entry:
                     Set current_sht = wb.Sheets(error)
                     error = ""
                 On Error GoTo 0
-                row = DTS_POS.DTS_I_part_number_row
-                col = DTS_POS.DTS_I_part_number_col
+                row = DTS_POS_2A.DTS_I_part_number_row
+                col = DTS_POS_2A.DTS_I_part_number_col
                 L = 0
                 L_2 = 0
             'run
                 'iterate thru memory main
                     For L = 1 To size_of_dts
                         'change pos
-                            row = DTS_POS.DTS_I_part_number_row + L
+                            row = DTS_POS_2A.DTS_I_part_number_row + L
                         'set smart code
                             s = Memory_Main(L, 2)
                         'check for empty or ignore trigger
-                            If ((s <> DTS_V1_DEV.get_global_unit_cost_refresh_ignore_trigger) And (s <> "")) Then
+                            If ((s <> DTS_V2A.get_global_unit_cost_refresh_ignore_trigger) And (s <> "")) Then
                                 'decode smart code
 Run_unit_cost_refresh_v0_part_numb_check:
-                                    s = String_V1.Disassociate_by_Char_V1(DTS_V1_DEV.get_global_decoder_symbol, s, Left_C, True)
+                                    s = String_V1.Disassociate_by_Char_V1(DTS_V2A.get_global_decoder_symbol, s, Left_C, True)
                                 'search for key in lookup array
                                     For L_2 = 1 To (size_of_sp_A + size_of_sp_B)
                                         If (s = Lookup(L_2, 0)) Then
@@ -675,7 +672,7 @@ End Function
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
 
-Public Function Get_V0(ByVal operation As get_choices_v0, Optional more_instructions As String) As Variant
+Public Function Get_V0(ByVal operation As get_choices_v1, Optional more_instructions As String) As Variant
 'currently functional as of (10/14/20) checked by: (Zachary Daugherty)
     'Created By (Zachary Daugherty)(10/14/20)
     'Purpose Case & notes:
@@ -703,8 +700,8 @@ Public Function Get_V0(ByVal operation As get_choices_v0, Optional more_instruct
             MsgBox ("need to add notation for fallthrough statement")
             Stop
             Select Case operation
-                Case get_choices_v0.get_size
-                    Get_V0 = DTS_V1_DEV.get_size_V0
+                Case get_choices_v1.get_size
+                    Get_V0 = DTS_V2A.get_size_V0
                     GoTo get_v0_exit
                 Case Else
                     Stop
@@ -763,8 +760,8 @@ get_size_V0_restart:               'goto flag
                 Set current_sht = wb.Sheets("DTS")      'setting name
             On Error GoTo 0                             'returns error handler to default
         'move to start location
-            row = DTS_POS.DTS_I_part_number_row     'fetching indexed information from enumeration
-            col = DTS_POS.DTS_I_part_number_col     'fetching indexed information from enumeration
+            row = DTS_POS_2A.DTS_I_part_number_row     'fetching indexed information from enumeration
+            col = DTS_POS_2A.DTS_I_part_number_col     'fetching indexed information from enumeration
             s = current_sht.Cells(row, col).value   'fetching indexed information from enumeration
         'get lenght to bottom
             On Error GoTo dts_cant_find_goalpost                    'goto error handler
@@ -780,7 +777,7 @@ get_size_V0_restart:               'goto flag
                 row = row + 1
                 s = current_sht.Cells(row, col)
                 If (s = "") Then    'check the other cols in the row to see if any data is stored.
-                    For i_2 = 1 To DTS_POS.DTS_Q_number_of_tracked_locations - 1
+                    For i_2 = 1 To DTS_POS_2A.DTS_Q_number_of_tracked_locations - 1
                         s = current_sht.Cells(row, col + 1)
                         If (s <> "") Then
                             arr(i) = False  'row does not need to be deleted as it has values in fields other than part number
@@ -803,8 +800,8 @@ get_size_V0_restart:               'goto flag
                     Application.ScreenUpdating = False
                     Application.DisplayAlerts = False
                 'move to start location
-                    row = DTS_POS.DTS_I_part_number_row
-                    col = DTS_POS.DTS_I_part_number_col
+                    row = DTS_POS_2A.DTS_I_part_number_row
+                    col = DTS_POS_2A.DTS_I_part_number_col
                     s = current_sht.Cells(row, col).value
                 'iterate through to find empty then delete by moving everything up eliminating the blank space
                     For i = 1 To dist_to_goalpost
@@ -943,7 +940,7 @@ Private Function Check_DTS_Table_V0_01A(Optional more_instructions As String) As
                 Stop 'debug
             'setup arr
                 'redefine size of the arr
-                    ReDim arr(1 To DTS_POS.DTS_Q_number_of_tracked_locations, 1 To 5) 'see line below for definitions
+                    ReDim arr(1 To DTS_POS_2A.DTS_Q_number_of_tracked_locations, 1 To 5) 'see line below for definitions
                         'arr memory assignments
                             '(<specific index>,<1 to 5>)
                             '(<specific index>,<1:row of enum>)
@@ -966,8 +963,8 @@ Private Function Check_DTS_Table_V0_01A(Optional more_instructions As String) As
                             On Error GoTo 0 'reset error handler
                                 arr(i, 1) = CStr(ref_rng.row)       'get range row pos
                                 arr(i, 2) = CStr(ref_rng.Column)    'get range col pos
-                                arr(i, 3) = DTS_POS.DTS_I_part_number_row    'get enum row pos
-                                arr(i, 4) = DTS_POS.DTS_I_part_number_col    'get enum col pos
+                                arr(i, 3) = DTS_POS_2A.DTS_I_part_number_row    'get enum row pos
+                                arr(i, 4) = DTS_POS_2A.DTS_I_part_number_col    'get enum col pos
                                 If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then   'compair rows to rows and cols to cols
                                     arr(i, 5) = s & ": " & True 'if true report text
                                 Else
@@ -982,8 +979,8 @@ Private Function Check_DTS_Table_V0_01A(Optional more_instructions As String) As
                             On Error GoTo 0
                                 arr(i, 1) = CStr(ref_rng.row)
                                 arr(i, 2) = CStr(ref_rng.Column)
-                                arr(i, 3) = DTS_POS.DTS_I_AKA_row
-                                arr(i, 4) = DTS_POS.DTS_I_AKA_col
+                                arr(i, 3) = DTS_POS_2A.DTS_I_AKA_row
+                                arr(i, 4) = DTS_POS_2A.DTS_I_AKA_col
                                 If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
                                     arr(i, 5) = s & ": " & True
                                 Else
@@ -998,24 +995,8 @@ Private Function Check_DTS_Table_V0_01A(Optional more_instructions As String) As
                             On Error GoTo 0
                                 arr(i, 1) = CStr(ref_rng.row)
                                 arr(i, 2) = CStr(ref_rng.Column)
-                                arr(i, 3) = DTS_POS.DTS_I_Description_row
-                                arr(i, 4) = DTS_POS.DTS_I_Description_col
-                                If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
-                                    arr(i, 5) = s & ": " & True
-                                Else
-                                    arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
-                                    condition = True
-                                End If
-                        'compair <DTS_Unit_list> expected location
-                            s = "DTS_Unit_list"
-                            i = i + 1
-                            On Error GoTo ERROR_FATAL_check_dts_range_error
-                            Set ref_rng = Range(s)
-                            On Error GoTo 0
-                                arr(i, 1) = CStr(ref_rng.row)
-                                arr(i, 2) = CStr(ref_rng.Column)
-                                arr(i, 3) = DTS_POS.DTS_I_Unit_list_row
-                                arr(i, 4) = DTS_POS.DTS_I_Unit_list_col
+                                arr(i, 3) = DTS_POS_2A.DTS_I_Description_row
+                                arr(i, 4) = DTS_POS_2A.DTS_I_Description_col
                                 If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
                                     arr(i, 5) = s & ": " & True
                                 Else
@@ -1030,8 +1011,8 @@ Private Function Check_DTS_Table_V0_01A(Optional more_instructions As String) As
                             On Error GoTo 0
                                 arr(i, 1) = CStr(ref_rng.row)
                                 arr(i, 2) = CStr(ref_rng.Column)
-                                arr(i, 3) = DTS_POS.DTS_I_Unit_cost_row
-                                arr(i, 4) = DTS_POS.DTS_I_Unit_cost_col
+                                arr(i, 3) = DTS_POS_2A.DTS_I_Unit_cost_row
+                                arr(i, 4) = DTS_POS_2A.DTS_I_Unit_cost_col
                                 If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
                                     arr(i, 5) = s & ": " & True
                                 Else
@@ -1046,8 +1027,8 @@ Private Function Check_DTS_Table_V0_01A(Optional more_instructions As String) As
                             On Error GoTo 0
                                 arr(i, 1) = CStr(ref_rng.row)
                                 arr(i, 2) = CStr(ref_rng.Column)
-                                arr(i, 3) = DTS_POS.DTS_I_Adjusted_unit_cost_row
-                                arr(i, 4) = DTS_POS.DTS_I_Adjusted_unit_cost_col
+                                arr(i, 3) = DTS_POS_2A.DTS_I_Adjusted_unit_cost_row
+                                arr(i, 4) = DTS_POS_2A.DTS_I_Adjusted_unit_cost_col
                                 If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
                                     arr(i, 5) = s & ": " & True
                                 Else
@@ -1062,8 +1043,8 @@ Private Function Check_DTS_Table_V0_01A(Optional more_instructions As String) As
                             On Error GoTo 0
                                 arr(i, 1) = CStr(ref_rng.row)
                                 arr(i, 2) = CStr(ref_rng.Column)
-                                arr(i, 3) = DTS_POS.DTS_I_Unit_weight_row
-                                arr(i, 4) = DTS_POS.DTS_I_Unit_weight_col
+                                arr(i, 3) = DTS_POS_2A.DTS_I_Unit_weight_row
+                                arr(i, 4) = DTS_POS_2A.DTS_I_Unit_weight_col
                                 If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
                                     arr(i, 5) = s & ": " & True
                                 Else
@@ -1078,8 +1059,8 @@ Private Function Check_DTS_Table_V0_01A(Optional more_instructions As String) As
                             On Error GoTo 0
                                 arr(i, 1) = CStr(ref_rng.row)
                                 arr(i, 2) = CStr(ref_rng.Column)
-                                arr(i, 3) = DTS_POS.DTS_I_Shop_origin_row
-                                arr(i, 4) = DTS_POS.DTS_I_Shop_origin_col
+                                arr(i, 3) = DTS_POS_2A.DTS_I_Shop_origin_row
+                                arr(i, 4) = DTS_POS_2A.DTS_I_Shop_origin_col
                                 If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
                                     arr(i, 5) = s & ": " & True
                                 Else
@@ -1094,8 +1075,8 @@ Private Function Check_DTS_Table_V0_01A(Optional more_instructions As String) As
                             On Error GoTo 0
                                 arr(i, 1) = CStr(ref_rng.row)
                                 arr(i, 2) = CStr(ref_rng.Column)
-                                arr(i, 3) = DTS_POS.DTS_I_Status_row
-                                arr(i, 4) = DTS_POS.DTS_I_Status_col
+                                arr(i, 3) = DTS_POS_2A.DTS_I_Status_row
+                                arr(i, 4) = DTS_POS_2A.DTS_I_Status_col
                                 If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
                                     arr(i, 5) = s & ": " & True
                                 Else
@@ -1110,8 +1091,8 @@ Private Function Check_DTS_Table_V0_01A(Optional more_instructions As String) As
                             On Error GoTo 0
                                 arr(i, 1) = CStr(ref_rng.row)
                                 arr(i, 2) = CStr(ref_rng.Column)
-                                arr(i, 3) = DTS_POS.DTS_I_Job_other_info_row
-                                arr(i, 4) = DTS_POS.DTS_I_Job_other_info_col
+                                arr(i, 3) = DTS_POS_2A.DTS_I_Job_other_info_row
+                                arr(i, 4) = DTS_POS_2A.DTS_I_Job_other_info_col
                                 If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
                                     arr(i, 5) = s & ": " & True
                                 Else
@@ -1126,8 +1107,8 @@ Private Function Check_DTS_Table_V0_01A(Optional more_instructions As String) As
                             On Error GoTo 0
                                 arr(i, 1) = CStr(ref_rng.row)
                                 arr(i, 2) = CStr(ref_rng.Column)
-                                arr(i, 3) = DTS_POS.DTS_I_Vendor_info_row
-                                arr(i, 4) = DTS_POS.DTS_I_Vendor_info_col
+                                arr(i, 3) = DTS_POS_2A.DTS_I_Vendor_info_row
+                                arr(i, 4) = DTS_POS_2A.DTS_I_Vendor_info_col
                                 If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
                                     arr(i, 5) = s & ": " & True
                                 Else
@@ -1142,8 +1123,8 @@ Private Function Check_DTS_Table_V0_01A(Optional more_instructions As String) As
                             On Error GoTo 0
                                 arr(i, 1) = CStr(ref_rng.row)
                                 arr(i, 2) = CStr(ref_rng.Column)
-                                arr(i, 3) = DTS_POS.DTS_I_Vendor_phone_row
-                                arr(i, 4) = DTS_POS.DTS_I_Vendor_phone_col
+                                arr(i, 3) = DTS_POS_2A.DTS_I_Vendor_phone_row
+                                arr(i, 4) = DTS_POS_2A.DTS_I_Vendor_phone_col
                                 If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
                                     arr(i, 5) = s & ": " & True
                                 Else
@@ -1158,8 +1139,8 @@ Private Function Check_DTS_Table_V0_01A(Optional more_instructions As String) As
                             On Error GoTo 0
                                 arr(i, 1) = CStr(ref_rng.row)
                                 arr(i, 2) = CStr(ref_rng.Column)
-                                arr(i, 3) = DTS_POS.DTS_I_Vendor_fax_row
-                                arr(i, 4) = DTS_POS.DTS_I_Vendor_fax_col
+                                arr(i, 3) = DTS_POS_2A.DTS_I_Vendor_fax_row
+                                arr(i, 4) = DTS_POS_2A.DTS_I_Vendor_fax_col
                                 If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
                                     arr(i, 5) = s & ": " & True
                                 Else
@@ -1174,8 +1155,8 @@ Private Function Check_DTS_Table_V0_01A(Optional more_instructions As String) As
                             On Error GoTo 0
                                 arr(i, 1) = CStr(ref_rng.row)
                                 arr(i, 2) = CStr(ref_rng.Column)
-                                arr(i, 3) = DTS_POS.DTS_I_Vendor_part_number_row
-                                arr(i, 4) = DTS_POS.DTS_I_Vendor_part_number_col
+                                arr(i, 3) = DTS_POS_2A.DTS_I_Vendor_part_number_row
+                                arr(i, 4) = DTS_POS_2A.DTS_I_Vendor_part_number_col
                                 If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
                                     arr(i, 5) = s & ": " & True
                                 Else
@@ -1190,14 +1171,15 @@ Private Function Check_DTS_Table_V0_01A(Optional more_instructions As String) As
                             On Error GoTo 0
                                 arr(i, 1) = CStr(ref_rng.row)
                                 arr(i, 2) = CStr(ref_rng.Column)
-                                arr(i, 3) = DTS_POS.DTS_I_Inflation_Const_row
-                                arr(i, 4) = DTS_POS.DTS_I_Inflation_Const_col
+                                arr(i, 3) = DTS_POS_2A.DTS_I_Inflation_Const_row
+                                arr(i, 4) = DTS_POS_2A.DTS_I_Inflation_Const_col
                                 If ((arr(i, 1) = arr(i, 3)) And (arr(i, 2) = arr(i, 4))) Then
                                     arr(i, 5) = s & ": " & True
                                 Else
                                     arr(i, 5) = s & ": " & False & vbCrLf & "____please check and compair"
                                     condition = True
                                 End If
+                                Stop
                         '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
                         '__________________________________________END of CODE BLOCK___________________________________________
                         '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
@@ -1256,7 +1238,7 @@ FATAL_ERROR_CHECK_DTS_SET_DTS_ENV:
 ERROR_CHECK_DTS_FAILED_POS_CHECK:
             Call MsgBox("check dts_table using log replace", , "check dts_table using log")
             'Call dev_v1_dev.log(dev_v1_dev.get_username, "ERROR: MODULE: (DTS_VX)FUNCTION: (CHECK_DTS_TABLE) FAILED POSITIONAL CHECK REPORT LISTED BELOW A FAIL IS LISTED AS FALSE: " & vbCrLf & vbCrLf & arr(1, 5) & vbCrLf & arr(2, 5) & vbCrLf & arr(3, 5) & vbCrLf & arr(4, 5) & vbCrLf & arr(5, 5) & vbCrLf & arr(6, 5) & vbCrLf & arr(7, 5) & vbCrLf & arr(8, 5) & vbCrLf & arr(9, 5) & vbCrLf & arr(10, 5) & vbCrLf & arr(11, 5) & vbCrLf & arr(12, 5) & vbCrLf & arr(13, 5) & vbCrLf & arr(14, 5) & vbCrLf & arr(15, 5))
-            Call MsgBox("ERROR: MODULE: (DTS_VX)FUNCTION: (CHECK_DTS_TABLE) FAILED POSITIONAL CHECK REPORT LISTED BELOW A FAIL IS LISTED AS FALSE: " & vbCrLf & vbCrLf & arr(1, 5) & vbCrLf & arr(2, 5) & vbCrLf & arr(3, 5) & vbCrLf & arr(4, 5) & vbCrLf & arr(5, 5) & vbCrLf & arr(6, 5) & vbCrLf & arr(7, 5) & vbCrLf & arr(8, 5) & vbCrLf & arr(9, 5) & vbCrLf & arr(10, 5) & vbCrLf & arr(11, 5) & vbCrLf & arr(12, 5) & vbCrLf & arr(13, 5) & vbCrLf & arr(14, 5) & vbCrLf & arr(15, 5))
+            Call MsgBox("ERROR: MODULE: (DTS_VX)FUNCTION: (CHECK_DTS_TABLE) FAILED POSITIONAL CHECK REPORT LISTED BELOW A FAIL IS LISTED AS FALSE: " & vbCrLf & vbCrLf & arr(1, 5) & vbCrLf & arr(2, 5) & vbCrLf & arr(3, 5) & vbCrLf & arr(4, 5) & vbCrLf & arr(5, 5) & vbCrLf & arr(6, 5) & vbCrLf & arr(7, 5) & vbCrLf & arr(8, 5) & vbCrLf & arr(9, 5) & vbCrLf & arr(10, 5) & vbCrLf & arr(11, 5) & vbCrLf & arr(12, 5) & vbCrLf & arr(13, 5) & vbCrLf & arr(14, 5))
             Stop
             Exit Function
         'end error handle code
@@ -1300,7 +1282,7 @@ Private Function check(Optional dont_show_information As Boolean, Optional more_
         'define variables
             Dim condition As Boolean
         'run
-            condition = DTS_V1_DEV.Check_DTS_Table_V0_01A
+            condition = DTS_V2A.Check_DTS_Table_V0_01A
             If (condition = True) Then
                 condition = False
                 condition = SP_V1_DEV.Check_SP_A_Table_V0_01A
