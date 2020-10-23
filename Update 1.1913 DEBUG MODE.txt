@@ -1,0 +1,25 @@
+update 1.1912 Debug mode
+
+boots_main
+	'make_DIR' moved to Boots_report and renamed to "DIR_Make"
+
+boots_report
+	'make_DIR' moved to Boots_report and renamed to "DIR_Make"	
+		refs changed to use "DIR_make"
+
+	inside function "DIR_flush"
+		added a on error resume for finding the DIR_Search page:
+			becasue if the page already does not exist throws error rather than rolling over it.
+
+Root
+	changed version number from 1.1912 to 1.1913
+
+	changed call for "make_dir" to "Dir_Make" and changed the pointer to boots_Report module
+
+	made changes to "on_startup"
+		added DIR search code
+		added arr
+		added pointer for debug.txt file
+		added condition for if debug.txt is found to stop running the code.
+
+	

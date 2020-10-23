@@ -12,7 +12,7 @@ Public Function get_project_name() As String
 End Function
 
 Public Function get_version() As Double
-    get_version = 1.1912
+    get_version = 1.1913
 End Function
 
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
@@ -30,24 +30,76 @@ Public Function On_startup() As Variant
         Dim i As Long
         Dim j As Long
         Dim s As String
+        Dim s_2 As String
         Dim arr() As Variant
+        'dir
+            Dim DIR_row As Long
+            Dim DIR_col As Long
     'sets
         Set wb = ActiveWorkbook
 
     'create Master DIR
-        Call Boots_Main_V_alpha.Make_Dir(root.get_save_location, root.get_drive_location)
-        Call Boots_Main_V_alpha.Make_Dir(root.get_project_name, root.get_drive_location & root.get_save_location)
+        Call Boots_Report_v_Alpha.DIR_Make(root.get_save_location, root.get_drive_location)
+        Call Boots_Report_v_Alpha.DIR_Make(root.get_project_name, root.get_drive_location & root.get_save_location)
         'make version DIR
-            Call Boots_Main_V_alpha.Make_Dir(root.get_version & "\", root.get_drive_location & root.get_save_location & root.get_project_name)
+            Call Boots_Report_v_Alpha.DIR_Make(root.get_version & "\", root.get_drive_location & root.get_save_location & root.get_project_name)
             'make user DIR
-                Call Boots_Main_V_alpha.Make_Dir("Users\", root.get_drive_location & root.get_save_location & root.get_project_name & root.get_version & "\")
+                Call Boots_Report_v_Alpha.DIR_Make("Users\", root.get_drive_location & root.get_save_location & root.get_project_name & root.get_version & "\")
                     'make 'this' specific user DIR
-                        Call Boots_Main_V_alpha.Make_Dir(Boots_Main_V_alpha.get_username & "\", root.get_drive_location & root.get_save_location & root.get_project_name & root.get_version & "\" & "Users\")
+                        Call Boots_Report_v_Alpha.DIR_Make(Boots_Main_V_alpha.get_username & "\", root.get_drive_location & root.get_save_location & root.get_project_name & root.get_version & "\" & "Users\")
     'check for debug mode
-        Boots_Report_v_Alpha.DIR_GET_vA (root.get_drive_location & root.get_save_location)
-        Set sht = wb.Sheets(Boots_Main_V_alpha.get_username & "_DIR_Search")
-        ReDim arr(1 To sht.Range("A1").End(xlDown).row, 1 To sht.Range("A1").End(xlToRight).Column)
-        MsgBox ("change the above function into a DIR function")
-        Stop
+        'create DIR search
+            Boots_Report_v_Alpha.DIR_GET_vA (root.get_drive_location & root.get_save_location)
+            Set sht = wb.Sheets(Boots_Main_V_alpha.get_username & "_DIR_Search")
+            'get dir lengths
+                DIR_row = sht.Range("A1").End(xlDown).row
+                DIR_col = sht.Range("A1").End(xlToRight).Column
+                If (sht.Cells(2, 1).value = "") Then
+                    DIR_row = 1
+                End If
+            'set dir
+                ReDim arr(1 To DIR_row, 1 To DIR_col)
+            'load arr
+                For i = 1 To DIR_row
+                    For j = 1 To DIR_col
+                        arr(i, j) = sht.Cells(i, j).value
+                    Next j
+                Next i
+                'cleanup
+                    i = 0
+                    j = 0
+        'search through
+            'setup search value
+                s = root.get_drive_location & root.get_save_location & root.get_project_name & root.get_version & "\" & "users\" & Boots_Main_V_alpha.get_username & "\debug.txt"
+            'do search
+                For i = 1 To DIR_row
+                    s_2 = arr(i, 2)
+                    If (UCase(s_2) = UCase(s)) Then
+                        Boots_Report_v_Alpha.DIR_Flush
+                        MsgBox ("Debug Mode Enabled: TO Disable remove:" & Chr(10) & s & Chr(10) & "From file")
+                        End
+                    End If
+                Next i
+                Boots_Report_v_Alpha.DIR_Flush
+            Stop
 End Function
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

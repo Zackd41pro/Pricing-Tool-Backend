@@ -483,17 +483,17 @@ Private Function Log_Flush_Line_pvt_v0(ByVal LogMessage As String) As Boolean
     Dim LogFileName As String
     
     'check for locations existance if not make
-        Call Boots_Main_V_alpha.Make_Dir(root.get_save_location, root.get_drive_location)
-        Call Boots_Main_V_alpha.Make_Dir(root.get_project_name, root.get_drive_location & root.get_save_location)
-        Call Boots_Main_V_alpha.Make_Dir(root.get_version & "\", root.get_drive_location & root.get_save_location & root.get_project_name)
-        Call Boots_Main_V_alpha.Make_Dir("Users\", root.get_drive_location & root.get_save_location & root.get_project_name & root.get_version & "\")
-        Call Boots_Main_V_alpha.Make_Dir(Boots_Main_V_alpha.get_username & "\", root.get_drive_location & root.get_save_location & root.get_project_name & root.get_version & "\" & "Users\")
+        Call Boots_Report_v_Alpha.DIR_Make(root.get_save_location, root.get_drive_location)
+        Call Boots_Report_v_Alpha.DIR_Make(root.get_project_name, root.get_drive_location & root.get_save_location)
+        Call Boots_Report_v_Alpha.DIR_Make(root.get_version & "\", root.get_drive_location & root.get_save_location & root.get_project_name)
+        Call Boots_Report_v_Alpha.DIR_Make("Users\", root.get_drive_location & root.get_save_location & root.get_project_name & root.get_version & "\")
+        Call Boots_Report_v_Alpha.DIR_Make(Boots_Main_V_alpha.get_username & "\", root.get_drive_location & root.get_save_location & root.get_project_name & root.get_version & "\" & "Users\")
         
     
     s_2 = root.get_drive_location & root.get_save_location & root.get_project_name & root.get_version & "\" & "Users\" & Boots_Main_V_alpha.get_username & "\" & "Log-" & Month(Date) & "-" & Day(Date) & "-" & Year(Date) & ".log"
     LogFileName = s_2
 
-    'boots_main_v_alpha.Make_Dir(
+    'Boots_report_v_alpha.DIR_Make(
     Dim FileNum As Integer
         
     FileNum = FreeFile ' next file number
@@ -511,9 +511,33 @@ End Function
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
 
+Public Function DIR_Make(strDir As String, strPath As String)
+'https://stackoverflow.com/questions/43658276/create-folder-path-if-does-not-exist-saving-issue
+'requires reference to Microsoft Scripting Runtime
+Dim fso As New FileSystemObject
+Dim path As String
+
+'examples for what are the input arguments
+'strDir = "Folder"
+'strPath = "C:\"
+
+path = strPath & strDir
+
+If Not fso.FolderExists(path) Then
+
+' doesn't exist, so create the folder
+          fso.CreateFolder path
+
+End If
+
+End Function
+
 Public Function DIR_Flush() As Variant
     Application.DisplayAlerts = False
     Application.ScreenUpdating = False
+        On Error Resume Next
+            ActiveWorkbook.Sheets(Boots_Main_V_alpha.get_username & "_DIR_Search").visible = -1
+        On Error GoTo 0
         On Error Resume Next
             ActiveWorkbook.Sheets(Boots_Main_V_alpha.get_username & "_DIR_Search").Delete
         On Error GoTo 0

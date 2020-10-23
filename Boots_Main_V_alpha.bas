@@ -241,28 +241,6 @@ End Function
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-
-'boots functions public
-
-'https://stackoverflow.com/questions/43658276/create-folder-path-if-does-not-exist-saving-issue
-'requires reference to Microsoft Scripting Runtime
-Public Function Make_Dir(strDir As String, strPath As String)
-Dim fso As New FileSystemObject
-Dim path As String
-
-'examples for what are the input arguments
-'strDir = "Folder"
-'strPath = "C:\"
-
-path = strPath & strDir
-
-If Not fso.FolderExists(path) Then
-
-' doesn't exist, so create the folder
-          fso.CreateFolder path
-
-End If
-
-End Function
 
 Public Function make_sheet(ByVal wb As Workbook, ByVal sheet_name As String, Optional visible As Long, Optional dont_show_instructions As Boolean) As Boolean
     MsgBox ("boots_main.make_sheet needs to have green text added & instructions")
