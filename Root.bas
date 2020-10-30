@@ -12,7 +12,7 @@ Public Function get_project_name() As String
 End Function
 
 Public Function get_version() As Double
-    get_version = 1.2
+    get_version = 1.201
 End Function
 
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
@@ -25,19 +25,22 @@ End Function
 
 Public Function On_startup() As Variant
     'dims
+        'addresses
         Dim wb As Workbook
         Dim sht As Worksheet
-        Dim i As Long
-        Dim j As Long
-        Dim s As String
-        Dim s_2 As String
-        Dim arr() As Variant
+        'containers
+            Dim i As Long
+            Dim j As Long
+            Dim s As String
+            Dim s_2 As String
+            Dim arr() As Variant
         'dir
             Dim DIR_row As Long
             Dim DIR_col As Long
     'sets
         Set wb = ActiveWorkbook
-
+    'start boots
+        Boots_Main_V_alpha.run_on_start
     'create Master DIR
         Call Boots_Report_v_Alpha.DIR_Make(root.get_save_location, root.get_drive_location)
         Call Boots_Report_v_Alpha.DIR_Make(root.get_project_name, root.get_drive_location & root.get_save_location)

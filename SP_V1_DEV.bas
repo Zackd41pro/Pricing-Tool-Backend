@@ -522,7 +522,7 @@ ERROR_CHECK_sp_FAILED_POS_CHECK_For_B:
         End Function
     
 
-        Public Function get_size_A() As Long
+        Public Function get_size_A(Optional more_instructions As String) As Variant
         'currently functional as of (9/2/2020) checked by: (Zachary Daugherty)
             'Created By (Zachary daugherty)(8/28/2020)
             'Purpose Case & notes:
@@ -540,8 +540,17 @@ ERROR_CHECK_sp_FAILED_POS_CHECK_For_B:
                     'na
             'returned outputs
                 'returns the size as a length
+            'check for log reporting
+                If (more_instructions = "Log_Report") Then
+                    get_size_A = "get_size_A - Public - Stable"
+                    Exit Function
+                End If
             'code start
+                Call Boots_Report_v_Alpha.Log_Push(text, "get_size_A Start...")
+                Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
                 'define variables
+                    Call Boots_Report_v_Alpha.Log_Push(text, "Define Variables...")
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
                     'positional
                         Dim wb As Workbook
                         Dim home_pos As Worksheet
@@ -557,9 +566,16 @@ ERROR_CHECK_sp_FAILED_POS_CHECK_For_B:
                 'setup variables
                     Set wb = ActiveWorkbook
                     Set home_pos = ActiveSheet
+                    
+                    Stop 'debug
+                        MsgBox ("DEV NOTE TESTING THE 'SP_get_size_A_cant_find_SP_SHEET' FUNCTION WILL FAIL TO REMOVE. REMOVE THIS DEV CODE.")
+                    Stop 'debug
+                    
+                    
                     On Error GoTo SP_get_size_A_cant_find_SP_SHEET
                         Set current_sht = wb.Sheets("STEEL PRESETS")
                     On Error GoTo 0
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
                 'move to start location
                     row = SP_POS.SP_I_A_Prefix_row
                     col = SP_POS.SP_I_A_Prefix_col

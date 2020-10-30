@@ -1,0 +1,99 @@
+Update 1.201 DTS FIX (DTS_VX.get_size_v0 set)
+
+	thisworkbook.cls
+		changed the workbook close function to mantain error protection.
+		moved boots.run on start to root
+		removed some notes
+	
+	sp_v1_DEV.bas
+		get_size_a function had log reporting added to it.
+			added some log notes but there is still some to add to cover all accounts
+		
+	root.bas
+		updated version fro 1.2 to 1.201
+		added ref to boots.run_on_start
+		
+	dts_v2A.bas
+		LOG_push_version
+			now has log reporting 
+		
+		LOG_push_project_file_requirements
+			now has log reporting 
+
+		LOG_Push_Functions_v1
+			now has log reporting 
+			added reporting for the 'log report functions'
+			added utility statment log detection
+
+		Log_Push_restart_size_check
+			now reports to the log on run
+			cleaned up redundant code
+
+		Run_unit_cost_refresh_v0
+			now has log reporting
+			now reports to the log on run
+			still has some old code to remove on run
+			added dim 'line'
+			changed 'inflation value' on storage to be actuall rather than value 'x*100'
+			changed 'STRUCTURAL_value' on storage to be actuall rather than value 'x*100'
+			added code to get the size of the array each time. [matrix_v2.matrix_dimensions]
+				changed how the max size is found using matrix_v2
+				and how that is stored [line]
+
+		Get_V0
+			changed log report information
+			updated dts_get_cant_find_DTS_SHEET: error report to handle with the log feature
+			updated dts_cant_find_goalpost: error report to handle with the log feature
+			
+	dev_v1_dev
+		further migration of code aways from this old module (still scheduled for removal)
+	
+
+	boots_report
+		Log_get_indent_value_V0
+			added to the enviorment
+
+		Log_Initalize
+			added the flush code operation
+			added wait procedure to prevent missing sheets on set operation
+			added end of initalize procedure statement
+
+		log_push
+			changed the output to variant
+			added error detection for setting sht
+			changed out the find length of the log code for function called 'Boots_Report_v_Alpha.Log_get_length_of_log_list'
+			added ref to Boots_Report_v_Alpha.Log_Before_Close_or_Error
+			added first steps of error reporting
+			added proper action:save_exit code 
+
+		Log_Before_Close_or_Error
+			added to project
+			need to add log
+			need to add error reporting
+			need to add version
+
+		boots_main
+			added bool check for sheet existance
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+update 1.2 DTS FIX
+
+	Boots_main
+		changed function "global_get_project_files_not_tracked_filename" into
+			Const "global_get_project_files_not_tracked_filename" As String = "Na"
+
+		function "run_on_start"
+			had dev notes removed and green text added
+
+	dts_v1_dev
+		removed
+
+	dts_v2A
+		added and updated for use removed old ref to the missing ranges previously
+
+	matrix_V2
+		changed out code in "matrix_dimensions" old green text and explination
+
+	root
+		changed version from 1.1913 to 1.2

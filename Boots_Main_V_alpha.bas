@@ -250,6 +250,7 @@ Public Function make_sheet(ByVal wb As Workbook, ByVal sheet_name As String, Opt
     'define variables
         Dim home As Worksheet
         Dim sht As Worksheet
+        Dim bool As Boolean
     'setup variables
         'check visible
             If ((visible <> -1) And (visible <> 2)) Then
@@ -260,18 +261,22 @@ Public Function make_sheet(ByVal wb As Workbook, ByVal sheet_name As String, Opt
             End If
         'setup other variables
             Set home = ActiveSheet
-    'run
-        'make screen updating off
-            Application.ScreenUpdating = False
-            Application.DisplayAlerts = False
-            wb.Sheets.Add    'add new sheet
-            Set sht = ActiveSheet  'set cursor to active
-            sht.Name = sheet_name   'rename active sheet
-            sht.visible = visible    'make dev hidden code lvl permission
-            home.Activate 'return to home position
-        'make screen updating on
-            Application.DisplayAlerts = True
-            Application.ScreenUpdating = True
+    'check if the sheet already exists
+        bool = Boots_Main_V_alpha.sheet_exist(wb, sheet_name)
+        If (bool = False) Then
+        'run
+            'make screen updating off and then do steps
+                Application.ScreenUpdating = False
+                Application.DisplayAlerts = False
+                wb.Sheets.Add    'add new sheet
+                Set sht = ActiveSheet  'set cursor to active
+                sht.Name = sheet_name   'rename active sheet
+                sht.visible = visible    'make dev hidden code lvl permission
+                home.Activate 'return to home position
+        End If
+            'make screen updating on
+                Application.DisplayAlerts = True
+                Application.ScreenUpdating = True
 End Function
 
 Public Function sheet_exist(ByVal wb As Workbook, ByVal sheet As String, Optional more_instructions As String) As Boolean

@@ -167,7 +167,7 @@ restart_on_startup:
                 End If
         'make log post
             If dont_report = False Then
-                Call MsgBox("to remove logging feature moving to more stable process", , "On_Startup_V0_01 using log")
+                'Call MsgBox("to remove logging feature moving to more stable process", , "On_Startup_V0_01 using log")
                 'Call dev_v1_dev.log(dev_v1_dev.get_username, "condition check") 'check started and seeing values
             End If
         'if dev page dont exist then make page now
@@ -294,28 +294,6 @@ Restart_if_exist_check:
                 s = proj_workbook.Sheets(i).Name
             'check if the sheet name is DEV
                 If (s = "DEV") Then
-                    'if not in index position 1 move to 1
-                        MsgBox ("need to remove the reorder as causing crash")
-                        Stop
-'                        If (i > 1) Then
-'                            proj_workbook.Sheets(i).Move _
-'                                Before:=ActiveWorkbook.Sheets(1)
-'                            anti_loop = anti_loop + 1
-'                                If dont_report = False Then
-'                                    Call MsgBox("Dev_page_exist using log replace with new report", , "Dev_page_exist using log")
-'                                    'Call dev_v1_dev.log(dev_v1_dev.get_username, "anti loop triggered")
-'                                End If
-'                            If (anti_loop < 6) Then
-'                                GoTo Restart_if_exist_check
-'                            Else
-'                                If dont_report = False Then
-'                                    Call MsgBox("Dev_page_exist using log replace with new report", , "Dev_page_exist using log")
-'                                    'Call dev_v1_dev.log(dev_v1_dev.get_username, "ERROR CODE STUCK IN LOOP PROTECTION TRIGGERED")
-'                                End If
-'                                MsgBox ("ERROR CODE STUCK IN LOOP PROTECTION TRIGGERED")
-'                                Stop
-'                            End If
-'                        End If
                     'enviorment exists exit
                         DEV_page_Exist = True
                         GoTo page_exist_exit
@@ -336,7 +314,7 @@ page_exist_exit:
 End Function
 
 Private Function format_Dev(ByVal wb As Workbook) As Boolean
-    Call MsgBox("<private>dev_vx.format_dev needs green text added", , "<private>dev_vx.format_dev")
+    'Call MsgBox("<private>dev_vx.format_dev needs green text added", , "<private>dev_vx.format_dev")
     'define variables
         Dim sht As Worksheet
         Dim home As Worksheet

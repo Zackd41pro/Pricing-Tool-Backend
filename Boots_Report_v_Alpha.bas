@@ -51,7 +51,7 @@ Enum Push_selection
     table_close
     Variable
     Trigger_S
-    Trigger_E
+    Trigger_e
     Flag
     Error_
     Display_now
@@ -69,6 +69,17 @@ Public Function status()
 '    Chr(10) & "Private functions:" & Chr(10) & _
 '    "" & Chr(10) & _
 '    "", , "showing status for Boots_Report_Vx")
+End Function
+
+Public Function Log_get_indent_value_V0() As Long
+    Dim wb As Workbook
+    Dim sht As Worksheet
+    
+    Set wb = ActiveWorkbook
+    On Error Resume Next
+        Set sht = wb.Sheets("LOG_" & Boots_Main_V_alpha.get_username)
+    On Error Resume Next
+        Log_get_indent_value_V0 = sht.Cells(Boots_Report_v_Alpha.Log_get_length_of_log_list, 1).value
 End Function
 
 Public Function Log_get_length_of_log_list() As Long
@@ -116,16 +127,19 @@ Public Function Log_Initalize(Optional Further_definitions As String) As Boolean
             Set wb = ActiveWorkbook
             Set home_sht = ActiveSheet
             'create log session or update log session
-                If (Boots_Main_V_alpha.sheet_exist(ActiveWorkbook, "LOG_" & Boots_Main_V_alpha.get_username) = False) Then 'if the log page dont exist make it
+                s = "LOG_" & Boots_Main_V_alpha.get_username
+                Application.Wait (Now + TimeValue("0:00:05"))
+                If (Boots_Main_V_alpha.sheet_exist(wb, s) = False) Then 'if the log page dont exist make it
                 'make sheet
-                    Call Boots_Main_V_alpha.make_sheet(ActiveWorkbook, "LOG_" & Boots_Main_V_alpha.get_username, -1, True)
+                    Call Boots_Main_V_alpha.make_sheet(wb, s, -1, True)
                 Else
                 'sheet exist
-                    MsgBox ("merge or flush the old code")
-                    Stop
+                    Call Boots_Report_v_Alpha.Log_Flush(Save)
+                    Call Boots_Report_v_Alpha.Log_Flush(Delete)
+                    Call Boots_Main_V_alpha.make_sheet(wb, s, -1, True)
                 End If
-                'set sht
-                    Set sht = wb.Sheets("LOG_" & Boots_Main_V_alpha.get_username)
+            'set sht
+                Set sht = wb.Sheets(s)
         'containers
             s = "Empty"
             i = -1
@@ -180,7 +194,7 @@ Public Function Log_Initalize(Optional Further_definitions As String) As Boolean
                                                 'pull out variables
                                                     Call Boots_Report_v_Alpha.Log_Push(text, s)
                                                 'de-indent line
-                                                    Call Boots_Report_v_Alpha.Log_Push(Trigger_E)
+                                                    Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
                                             'cleanup
                                                 s = "Empty"
                                         'get registered function stability status
@@ -201,9 +215,9 @@ Public Function Log_Initalize(Optional Further_definitions As String) As Boolean
                                                     s = s + ".LOG_Push_Functions_v1"
                                                     s = Run(s)
                                                 'de-indent line
-                                                    Call Boots_Report_v_Alpha.Log_Push(Trigger_E)
+                                                    Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
                                         'de-indent line for project file end
-                                            Call Boots_Report_v_Alpha.Log_Push(Trigger_E)
+                                            Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
                                     End If
                     'cleanup
                         s = "Empty"
@@ -220,9 +234,17 @@ Public Function Log_Initalize(Optional Further_definitions As String) As Boolean
                     s = "empty"
             'table close
                 Boots_Report_v_Alpha.Log_Push (table_close)
+            'programs start
+                Call Boots_Report_v_Alpha.Log_Push(text, ".")
+                Call Boots_Report_v_Alpha.Log_Push(text, ".")
+                Call Boots_Report_v_Alpha.Log_Push(text, ".")
+                Call Boots_Report_v_Alpha.Log_Push(text, ".")
+                Call Boots_Report_v_Alpha.Log_Push(text, ".")
+                Call Boots_Report_v_Alpha.Log_Push(text, "__________Finished Object Name Declare!...")
+                Call Boots_Report_v_Alpha.Log_Push(text, "__________Program Start!...")
 End Function
 
-Public Function Log_Push(ByVal Action As Push_selection, Optional text As String) As Boolean
+Public Function Log_Push(ByVal Action As Push_selection, Optional text As String) As Variant
     'this function is made to push all log entrys to a sheet stored in the project so that if there are errors it is easy to report infomration on what went wrong, or ect.
     
     'define variables
@@ -237,14 +259,11 @@ Public Function Log_Push(ByVal Action As Push_selection, Optional text As String
     'set variables
         Set wb = ActiveWorkbook
         Set home_sht = ActiveSheet
-        Set sht = wb.Sheets("LOG_" & Boots_Main_V_alpha.get_username)
+        On Error GoTo Log_Push_Error_Unable_To_Find_Log
+            Set sht = wb.Sheets("LOG_" & Boots_Main_V_alpha.get_username)
+        On Error GoTo 0
     'find open position on the table
-Log_Push_restart_size_check:
-        i = i + 1
-        s = sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value
-        If (s <> "") Then
-            GoTo Log_Push_restart_size_check
-        End If
+        i = Boots_Report_v_Alpha.Log_get_length_of_log_list
     'check if there is an indent mark in the empty pos
         If (sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value <> "") Then
             Stop
@@ -265,7 +284,18 @@ Log_Push_restart_size_check:
                 End If
         Else
         'get indent value from line above
-            sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value
+            'check for a valid grab position
+                'MsgBox ("need to add a proper check for row overflow")
+                If ((i <= 0) Or (i >= 1048577)) Then 'meaning the row value is 0 or greater than the max on a sheet
+                    If (i <= 0) Then
+                        i = 1
+                    End If
+                    If (i >= 1048577) Then
+                        Stop
+                    End If
+                End If
+            'get indent value
+                sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value
             'check if indent is x<0 then make zero
                 If (sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value < 0) Then
                     sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = 0
@@ -277,6 +307,8 @@ Log_Push_exit_indent:
     'run action
         Select Case Action
         Case Push_selection.Display_now
+            'final text
+                Boots_Report_v_Alpha.Log_Before_Close_or_Error
             'compress log removes blank lines
                 Boots_Report_v_Alpha.Log_compress_blank_space
             'export
@@ -325,7 +357,7 @@ Log_Push_exit_indent:
                     i = i + 1
         Case Push_selection.text
             sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = text
-        Case Push_selection.Trigger_E
+        Case Push_selection.Trigger_e
             sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value - 1
             sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = ""
             'check if indent is x<0 then make zero
@@ -360,6 +392,11 @@ Log_Push_exit_indent:
         End Select
     'cleanup
         Log_Push = True
+        Exit Function
+    'error reporting
+Log_Push_Error_Unable_To_Find_Log:
+        Call MsgBox("ERROR: Boots_report_Vx.log_push was unable to find the log sheet. the log could of been flushed or removed", , "ERROR: Boots_report_Vx.log_push was unable to find the log sheet.")
+        'Boots_Report_v_Alpha.Push_notification_message ("ERROR: Boots_report_Vx.log_push was unable to find the log sheet. the log could of been flushed or removed creating new session now...")
 End Function
 
 Public Function Log_Flush(ByVal Action As Flush_selection, Optional Further_definitions As String)
@@ -379,7 +416,15 @@ Public Function Log_Flush(ByVal Action As Flush_selection, Optional Further_defi
         line = 0
     'check for delete action
         If (Action = Delete) Then
-            sht.Delete
+            Application.DisplayAlerts = False
+            Application.ScreenUpdating = False
+                On Error Resume Next
+                    sht.visible = xlSheetVisible
+                On Error Resume Next
+                    sht.Delete
+                On Error GoTo 0
+            Application.DisplayAlerts = True
+            Application.ScreenUpdating = True
             Exit Function
         End If
     'check for cleanup to exit
@@ -388,7 +433,7 @@ Public Function Log_Flush(ByVal Action As Flush_selection, Optional Further_defi
             Exit Function
         End If
     'post to log and delete lines that are posted
-        If ((Action = Save) Or (Action = Save_Exit)) Then
+        If (Action = Save) Then
             'get line for posting then delete that line from log page
                 For line = 0 To i - 1
                     'get date
@@ -410,7 +455,28 @@ Public Function Log_Flush(ByVal Action As Flush_selection, Optional Further_defi
         End If
     'delete log page as saving happens in the action group above
         If (Action = Save_Exit) Then
-            sht.Delete
+            'close or error text
+                Boots_Report_v_Alpha.Log_Before_Close_or_Error
+            'get line for posting then delete that line from log page
+                For line = 0 To i - 1
+                    'get date
+                        s = sht.Cells(boots_report_pos.p_time_row + line, boots_report_pos.p_time_col).value & " == "
+                    'find indent value and add in front of text
+                    For j = 1 To sht.Cells(boots_report_pos.p_indent_row + line, boots_report_pos.p_indent_col).value
+                        s = s + Log_indent_spaces
+                    Next j
+                    'install line to post
+                        s = s & sht.Cells(boots_report_pos.p_text_row + line, boots_report_pos.p_text_col).value
+                        Boots_Report_v_Alpha.Log_Flush_Line_pvt_v0 (s)
+                    'delete line
+                        sht.Cells(boots_report_pos.p_indent_row + line, boots_report_pos.p_indent_col).value = ""
+                        sht.Cells(boots_report_pos.p_time_row + line, boots_report_pos.p_time_col).value = ""
+                        sht.Cells(boots_report_pos.p_text_row + line, boots_report_pos.p_text_col).value = ""
+                    'cleanup for line get
+                        s = ""
+                Next line
+            'sht delete
+                sht.Delete
         End If
     
 End Function
@@ -501,6 +567,25 @@ Private Function Log_Flush_Line_pvt_v0(ByVal LogMessage As String) As Boolean
         Print #FileNum, LogMessage ' write information at the end of the text file
     Close #FileNum ' close the file
 
+End Function
+ 
+Public Function Log_Before_Close_or_Error() As Variant
+    'log
+        For i = 1 To Boots_Report_v_Alpha.Log_get_indent_value_V0
+            Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
+        Next i
+        Call Boots_Report_v_Alpha.Log_Push(text, ".")
+        Call Boots_Report_v_Alpha.Log_Push(text, ".")
+        Call Boots_Report_v_Alpha.Log_Push(text, ".")
+        Call Boots_Report_v_Alpha.Log_Push(text, ".")
+        Call Boots_Report_v_Alpha.Log_Push(text, ".")
+        Call Boots_Report_v_Alpha.Log_Push(text, "--------------------------------------------------------------------------------------------------------------------")
+        Call Boots_Report_v_Alpha.Log_Push(text, "--------------------------------------------------------------------------------------------------------------------")
+        Call Boots_Report_v_Alpha.Log_Push(text, "End of workbook session...")
+        Call Boots_Report_v_Alpha.Log_Push(text, "Preping Save to file for log...")
+        Call Boots_Report_v_Alpha.Log_Push(text, "Finished...")
+        Call Boots_Report_v_Alpha.Log_Push(text, "--------------------------------------------------------------------------------------------------------------------")
+        Call Boots_Report_v_Alpha.Log_Push(text, "--------------------------------------------------------------------------------------------------------------------")
 End Function
 
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
@@ -711,11 +796,10 @@ End Sub
 'from alpha send to notpad now
 
 'how to send to notpad as a post
-Sub test_a()
+Sub Push_notification_message(ByVal text_to_display As String)
     Dim myApp As String
     Dim s As String
-    s = "test" & Chr(10) & "hi"
     myApp = Shell("Notepad", vbNormalFocus)
-    SendKeys "test", True
-    SendKeys s, True
+    SendKeys "___________________________________This is an Automated message from the terminal___________________________________" & Chr(10), True
+    SendKeys text_to_display, True
 End Sub
