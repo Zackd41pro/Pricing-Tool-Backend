@@ -61,13 +61,7 @@ Private Sub Workbook_Open()
         'na
     'run root
         root.On_startup
-    'run on startup
-        DEV_V1_DEV.On_Startup_V0_01
     'run DTS Procedure
         DTS_V2A.run_V0 (update_unit_cost)
 'code end
  End Sub
-
-Private Sub Workbook_SheetActivate(ByVal Sh As Object)
-    'Boots_Main_V_alpha.get_sheet_list
-End Sub

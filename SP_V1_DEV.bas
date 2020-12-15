@@ -25,11 +25,6 @@ Attribute VB_Name = "SP_V1_DEV"
                                                                         'CODE START
 '----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-'GLOBALS
-    'DEFINE PRIVATE GLOBALS
-        'na
-    
-    'DEFINE PUBLIC GLOBALS
         Public Enum SP_POS
         'currently functional as of (8/7/2020) checked by: (zdaugherty)
             'Created By (Zachary Daugherty)(8/6/2020)
@@ -91,43 +86,53 @@ Attribute VB_Name = "SP_V1_DEV"
             " Check_SP_B_Table: Stable" & Chr(10) & _
             "    get_sheet_name: Stable" & Chr(10) & _
             "              get_size_A: Stable" & Chr(10) & _
-            "              get_size_B: Stable" & Chr(10) & _
+            "              get_size_B_V1: Stable" & Chr(10) & _
             Chr(10) & "Private functions:" & Chr(10) & _
             "na" & Chr(10) & _
             "", , "showing status for SP_v1_dev")
         End Function
         
-        
-        Public Function get_sheet_name(Optional dont_show_instructions As Boolean) As String
-            'currently functional as of (9/3/2020) checked by: (zachary daugherty)
-            'Created By (Zachary Daugherty)(9/3/2020)
-            'Purpose Case & notes:
-                'returns the sheet name associated with this module
-            'Library Refrences required
-                'workbook.object
-            'Modules Required
-                'string_v1
-            'inputs
-                'Internal:
-                    'na
-                'required:
-                    'na
-                'optional:
-                    'na
-            'returned outputs
-                'returns:
-                    'name of sheet as string
+    Public Function get_sheet_name(Optional more_instructions As Variant) As Variant
+        'currently functional as of (9/3/2020) checked by: (zachary daugherty)
+        'Created By (Zachary Daugherty)(9/3/2020)
+        'Purpose Case & notes:
+            'returns the sheet name associated with this module
+        'Library Refrences required
+            'workbook.object
+        'Modules Required
+            'string_v1
+        'inputs
+            'Internal:
+                'na
+            'required:
+                'na
+            'optional:
+                'na
+        'returned outputs
+            'returns:
+                'name of sheet as string
+'            'check for instructions
+'                If (dont_show_instructions = False) Then
+'                    MsgBox ("Showning instructions for: SP_Vx:get_expected_sheet_name.__ this function is designed to return the expected name of the sheet associated with this module")
+'                    Stop
+'                    Exit Function
+'                End If
+        'check for log reporting
+            If (more_instructions = "Log_Report") Then
+                get_size_B_V1 = "get_size_B_V1 - Public - Stable with logs 11/12/2020 - Missing help file"
+                Exit Function
+            End If
         'code start
-            'check for instructions
-                If (dont_show_instructions = False) Then
-                    MsgBox ("Showning instructions for: SP_Vx:get_expected_sheet_name.__ this function is designed to return the expected name of the sheet associated with this module")
-                    Stop
-                    Exit Function
-                End If
-            get_sheet_name = "Steel Presets"
+            If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "sp_v1_dev.get_sheet_name starting...")
+                If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                get_sheet_name = "Steel Presets"
+            If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "sp_v1_dev.get_sheet_name Finish...")
+            If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+            If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+            Exit Function
         End Function
         
-        Public Function Check_SP_A_Table_V0_01A() As Boolean
+        Public Function Check_SP_A_Table_V1(Optional more_instructions As String) As Variant
         'currently functional as of (8/11/2020) checked by: (zachary daugherty)
             'Created By (Zachary Daugherty)(8/11/2020)
             'Purpose Case & notes:
@@ -150,7 +155,16 @@ Attribute VB_Name = "SP_V1_DEV"
                 'returns:
                     'true: if all positions match up
                     'false: if any positions do not match up
+        'check for log reporting
+            If (more_instructions = "Log_Report") Then
+                Check_SP_A_Table_V1 = "Check_SP_A_Table_V1 - Public - Stable - no log reporting & no help file"
+                Exit Function
+            End If
         'code start
+            'devnote
+                Boots_Report_v_Alpha.Push_notification_message ("SP_V1_dev.Check_SP_A_Table_V1 has old error codes and must be refactored...")
+                Boots_Report_v_Alpha.Push_notification_message ("SP_V1_dev.Check_SP_A_Table_V1 has no log reporting & no help file...")
+                Boots_Report_v_Alpha.Push_notification_message ("DTS_V2A.CHECK_DTS_TABLE_V0_01A: Needs to have an error code added for the matrix array size as it can fail if the sizes are not set right see 'HP_V3_stable.DO_Check_HP_A_Table_V1' for an example....")
             'define varables
                 'memory
                     Dim arr() As String             'designed as ram storage
@@ -304,7 +318,7 @@ Attribute VB_Name = "SP_V1_DEV"
                 'return true
                     Call MsgBox("check sp a table using log replace", , "check sp a table using log")
                     'Call dev_v1_dev.log(dev_v1_dev.get_username, "Check_SP_A_Table Finished")
-                    Check_SP_A_Table_V0_01A = True   'passed all checks
+                    Check_SP_A_Table_V1 = True   'passed all checks
                     Exit Function
         'code end
         'error handle
@@ -348,6 +362,10 @@ Public Function Check_SP_B_Table_V0_01A() As Boolean
                 'returns:
                     'true: if all positions match up
                     'false: if any positions do not match up
+        'devnote
+            Boots_Report_v_Alpha.Push_notification_message ("SP_V1_dev.Check_SP_B_Table_V0_01A has old error codes and must be refactored...")
+            Boots_Report_v_Alpha.Push_notification_message ("SP_V1_dev.Check_SP_B_Table_V0_01A has no log reporting & no help file...")
+            Boots_Report_v_Alpha.Push_notification_message ("DTS_V2A.CHECK_DTS_TABLE_V0_01A: Needs to have an error code added for the matrix array size as it can fail if the sizes are not set right see 'HP_V3_stable.DO_Check_HP_A_Table_V1' for an example....")
         'code start
             'define varables
                 'memory
@@ -546,11 +564,11 @@ ERROR_CHECK_sp_FAILED_POS_CHECK_For_B:
                     Exit Function
                 End If
             'code start
-                Call Boots_Report_v_Alpha.Log_Push(text, "get_size_A Start...")
-                Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
+                Call Boots_Report_v_Alpha.Log_Push(text, "SP_v1_dev.get_size_A Start...")
+                Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                 'define variables
-                    Call Boots_Report_v_Alpha.Log_Push(text, "Define Variables...")
-                    Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
+                    Call Boots_Report_v_Alpha.Log_Push(text, "Setup Variables...")
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                     'positional
                         Dim wb As Workbook
                         Dim home_pos As Worksheet
@@ -563,41 +581,153 @@ ERROR_CHECK_sp_FAILED_POS_CHECK_For_B:
                         Dim dist_to_goalpost As Long
                     'containers
                         Dim s As String
-                'setup variables
-                    Set wb = ActiveWorkbook
-                    Set home_pos = ActiveSheet
-                    
-                    Stop 'debug
-                        MsgBox ("DEV NOTE TESTING THE 'SP_get_size_A_cant_find_SP_SHEET' FUNCTION WILL FAIL TO REMOVE. REMOVE THIS DEV CODE.")
-                    Stop 'debug
-                    
-                    
-                    On Error GoTo SP_get_size_A_cant_find_SP_SHEET
-                        Set current_sht = wb.Sheets("STEEL PRESETS")
-                    On Error GoTo 0
+                    'setup variables
+                        Set wb = ActiveWorkbook
+                        Set home_pos = ActiveSheet
+                        On Error GoTo SP_get_size_A_cant_find_SP_SHEET
+                            Set current_sht = wb.Sheets("STEEL PRESETS")
+                        On Error GoTo 0
                     Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
-                'move to start location
-                    row = SP_POS.SP_I_A_Prefix_row
-                    col = SP_POS.SP_I_A_Prefix_col
-                    s = current_sht.Cells(row, col).value
-                'get lenght to bottom
-                    On Error GoTo sp_A_cant_find_goalpost
-                        dist_to_goalpost = Range("SP_GENERAL_GOALPOST").row - row
-                    On Error GoTo 0
+            'Seting start location
+                Call Boots_Report_v_Alpha.Log_Push(text, "Setting Start location...")
+                row = SP_POS.SP_I_A_Prefix_row
+                col = SP_POS.SP_I_A_Prefix_col
+                s = current_sht.Cells(row, col).value
+            'get lenght to bottom
+            Call Boots_Report_v_Alpha.Log_Push(text, "Browsing for the Goalpost position...")
+            Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                On Error GoTo sp_A_cant_find_goalpost
+                    dist_to_goalpost = Range("SP_GENERAL_GOALPOST").row - row
+                On Error GoTo 0
                 'get size
+                    Call Boots_Report_v_Alpha.Log_Push(text, "Returning result...")
                     get_size_A = dist_to_goalpost
+            Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
             'code end
-                Exit Function
+                'cleanup
+                            Call Boots_Report_v_Alpha.Log_Push(text, "SP_V1_dev.get_size_A Finished...")
+                        Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+                'return
+                    Exit Function
             'error handling
 SP_get_size_A_cant_find_SP_SHEET:
-                MsgBox ("Error: SP_VX: FUNCTION  GET_SIZE_A: was unable to find the sheet named 'Steel Presets', please check your code.")
-                Stop
+                'SP_get_size_A_cant_find_SP_SHEET:
+                    'set error report
+                        Call Boots_Report_v_Alpha.Log_Push(Error_, "")
+                        Call Boots_Report_v_Alpha.Log_Push(Flag, "")
+                            Call Boots_Report_v_Alpha.Log_Push(text, "FATAL ERROR!: SP_V1_DEV.get_size_A was unable to find the sheet named 'Steel Presets'")
+                        Call Boots_Report_v_Alpha.Log_Push(table_close)
+                    'generate and store required information
+                        Call Boots_Report_v_Alpha.Log_Push(text, "generating sheet list...")
+                            Call Boots_Main_V_alpha.get_sheet_list
+                        'push generated information
+                            Call Boots_Report_v_Alpha.Log_Push(table_open)
+                                Call Boots_Report_v_Alpha.Log_Push(text, "Displaying All existing sheets...")
+                                For z = 1 To (wb.Sheets("boots").Cells(boots_pos.p_sheet_name_row, boots_pos.p_sheet_name_col).End(xlDown).row - wb.Sheets("boots").Cells(boots_pos.p_sheet_name_row, boots_pos.p_sheet_name_col).row)
+                                    Call Boots_Report_v_Alpha.Log_Push(Variable, "Sheet List: " & wb.Sheets("boots").Cells(boots_pos.p_sheet_name_row + z, boots_pos.p_sheet_name_col).value & _
+                                        " ='visible stat': " & wb.Sheets("boots").Cells(boots_pos.p_sheet_visible_status_row + z, boots_pos.p_sheet_visible_status_col).value)
+                                Next z
+                            Call Boots_Report_v_Alpha.Log_Push(table_close)
+                    'showing important stored vars
+                        Call Boots_Report_v_Alpha.Log_Push(text, "Showing important Variables...")
+                            Call Boots_Report_v_Alpha.Log_Push(table_open)
+                                'wb
+                                    If wb Is Nothing Then
+                                        Call Boots_Report_v_Alpha.Log_Push(Variable, "wb: 'NOTHING' as workbook")
+                                    Else
+                                        Call Boots_Report_v_Alpha.Log_Push(Variable, "wb: '" & wb.path & "\" & wb.Name & "' as workbook")
+                                    End If
+                                'home_pos
+                                    If home_pos Is Nothing Then
+                                        Call Boots_Report_v_Alpha.Log_Push(Variable, "home_pos: 'NOTHING' as worksheet")
+                                    Else
+                                        Call Boots_Report_v_Alpha.Log_Push(Variable, "home_pos: '" & home_pos.Parent.path & "\" & home_pos.Parent.Name & " == " & home_pos.index & ": " & home_pos.Name & "' as worksheet")
+                                    End If
+                                'current_sht
+                                    If current_sht Is Nothing Then
+                                        Call Boots_Report_v_Alpha.Log_Push(Variable, "current_sht: 'NOTHING' as worksheet")
+                                    Else
+                                        Call Boots_Report_v_Alpha.Log_Push(Variable, "current_sht: '" & current_sht.Parent.path & "\" & current_sht.Parent.Name & " == " & current_sht.index & ": " & current_sht.Name & "' as worksheet")
+                                    End If
+                                'activeworkbook
+                                    If ActiveWorkbook Is Nothing Then
+                                        Call Boots_Report_v_Alpha.Log_Push(Variable, "Activeworkbook: 'NOTHING' as workbook")
+                                    Else
+                                        Call Boots_Report_v_Alpha.Log_Push(Variable, "Activeworkbook: '" & ActiveWorkbook.path & "\" & ActiveWorkbook.Name & "' as workbook")
+                                    End If
+                                'more_instructions
+                                    Call Boots_Report_v_Alpha.Log_Push(Variable, "more_instructions: '" & more_instructions & "' as string")
+                                
+                            Call Boots_Report_v_Alpha.Log_Push(table_close)
+                    'close error code
+                        Call Boots_Report_v_Alpha.Log_Push(table_close)
+                    'exit
+                        'indent out
+                            For z = 1 To Boots_Report_v_Alpha.Log_get_indent_value_V0
+                                Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
+                            Next z
+                        'call end statement
+                            Call Boots_Report_v_Alpha.Log_Push(Display_now, "")
+                            End
 sp_A_cant_find_goalpost:
-                MsgBox ("Error: SP_VX: FUNCTION  GET_SIZE_A: was unable to findd the range named 'SP_GENERAL_GOALPOST'. please check your code.")
-                Stop
+                'sp_A_cant_find_goalpost
+                    'set error report
+                        Call Boots_Report_v_Alpha.Log_Push(Error_, "")
+                        Call Boots_Report_v_Alpha.Log_Push(Flag, "")
+                            Call Boots_Report_v_Alpha.Log_Push(text, "FATAL ERROR!: SP_VX: FUNCTION  GET_SIZE_A: was unable to find the range named 'SP_GENERAL_GOALPOST'.")
+                        Call Boots_Report_v_Alpha.Log_Push(table_close)
+                    'generate and store required information
+                        Call Boots_Report_v_Alpha.Log_Push(text, "generating sheet list...")
+                            Call Boots_Main_V_alpha.get_sheet_list
+                        'push generated information
+                            Call Boots_Report_v_Alpha.Log_Push(table_open)
+                                Call Boots_Report_v_Alpha.Log_Push(text, "Displaying All existing sheets...")
+                                For z = 1 To (wb.Sheets("boots").Cells(boots_pos.p_sheet_name_row, boots_pos.p_sheet_name_col).End(xlDown).row - wb.Sheets("boots").Cells(boots_pos.p_sheet_name_row, boots_pos.p_sheet_name_col).row)
+                                    Call Boots_Report_v_Alpha.Log_Push(Variable, "Sheet List: " & wb.Sheets("boots").Cells(boots_pos.p_sheet_name_row + z, boots_pos.p_sheet_name_col).value & _
+                                        " ='visible stat': " & wb.Sheets("boots").Cells(boots_pos.p_sheet_visible_status_row + z, boots_pos.p_sheet_visible_status_col).value)
+                                Next z
+                            Call Boots_Report_v_Alpha.Log_Push(table_close)
+                    'give addresses
+                        Call Boots_Report_v_Alpha.Log_Push(text, "generating Address list...")
+                        Call Boots_Report_v_Alpha.Log_Push(table_open)
+                        'home_pos
+                            If home_pos Is Nothing Then
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "home_pos: 'NOTHING' as worksheet")
+                            Else
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "home_pos: '" & home_pos.Parent.path & "\" & home_pos.Parent.Name & " == " & home_pos.index & ": " & home_pos.Name & "' as worksheet")
+                            End If
+                        'current_sht
+                            If current_sht Is Nothing Then
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "current_sht: 'NOTHING' as worksheet")
+                            Else
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "current_sht: '" & current_sht.Parent.path & "\" & current_sht.Parent.Name & " == " & current_sht.index & ": " & current_sht.Name & "' as worksheet")
+                            End If
+                        'wb
+                            If wb Is Nothing Then
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "wb: 'NOTHING' as workbook")
+                            Else
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "wb: '" & wb.path & "\" & wb.Name & "' as workbook")
+                            End If
+                        'activeworkbook
+                            If ActiveWorkbook Is Nothing Then
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "Activeworkbook: 'NOTHING' as workbook")
+                            Else
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "Activeworkbook: '" & ActiveWorkbook.path & "\" & ActiveWorkbook.Name & "' as workbook")
+                            End If
+                        Call Boots_Report_v_Alpha.Log_Push(table_close)
+                    'TABLE CLOSE
+                        Call Boots_Report_v_Alpha.Log_Push(table_close)
+                        'end procedure
+                            For z = 1 To Boots_Report_v_Alpha.Log_get_indent_value_V0
+                                Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
+                            Next z
+                        'call end statement
+                            Call Boots_Report_v_Alpha.Log_Push(Display_now, "")
+                            End
         End Function
         
-        Public Function get_size_B() As Long
+        Public Function get_size_B_V1(Optional more_instructions As String) As Variant
         'currently functional as of (9/2/2020) checked by: (Zachary Daugherty)
             'Created By (Zachary daugherty)(8/28/2020)
             'Purpose Case & notes:
@@ -615,8 +745,17 @@ sp_A_cant_find_goalpost:
                     'na
             'returned outputs
                 'returns the size as a length
+            'check for log reporting
+                If (more_instructions = "Log_Report") Then
+                    get_size_B_V1 = "get_size_B_V1 - Public - Stable"
+                    Exit Function
+                End If
             'code start
+                Call Boots_Report_v_Alpha.Log_Push(text, "Sp_v1_dev.get_size_B_V1 Start...")
+                Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                 'define variables
+                    Call Boots_Report_v_Alpha.Log_Push(text, "Setup variables...")
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                     'positional
                         Dim wb As Workbook
                         Dim home_pos As Worksheet
@@ -629,29 +768,155 @@ sp_A_cant_find_goalpost:
                         Dim dist_to_goalpost As Long
                     'containers
                         Dim s As String
-                'setup variables
-                    Set wb = ActiveWorkbook
-                    Set home_pos = ActiveSheet
-                    On Error GoTo SP_get_size_B_cant_find_SP_SHEET
-                        Set current_sht = wb.Sheets("STEEL PRESETS")
-                    On Error GoTo 0
+                    'setup variables
+                        Set wb = ActiveWorkbook
+                        Set home_pos = ActiveSheet
+                        On Error GoTo SP_get_size_B_V1_cant_find_SP_SHEET
+                            Set current_sht = wb.Sheets("STEEL PRESETS")
+                        On Error GoTo 0
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
                 'move to start location
+                    Call Boots_Report_v_Alpha.Log_Push(text, "moving to start location...")
                     row = SP_POS.SP_I_B_Prefix_row
                     col = SP_POS.SP_I_B_Prefix_col
                     s = current_sht.Cells(row, col).value
                 'get lenght to bottom
+                    Call Boots_Report_v_Alpha.Log_Push(text, "getting length to the bottom...")
                     On Error GoTo sp_B_cant_find_goalpost
                         dist_to_goalpost = Range("SP_PROPRIETARY_GOALPOST").row - row
                     On Error GoTo 0
                 'get size
-                    get_size_B = dist_to_goalpost
+                    get_size_B_V1 = dist_to_goalpost
+                    Call Boots_Report_v_Alpha.Log_Push(text, "Sp_v1_dev.get_size_B_V1 finish...")
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
             'code end
                 Exit Function
             'error handling
-SP_get_size_B_cant_find_SP_SHEET:
-                MsgBox ("Error: SP_VX: FUNCTION  GET_SIZE_B: was unable to find the sheet named 'Steel Presets', please check your code.")
-                Stop
+SP_get_size_B_V1_cant_find_SP_SHEET:
+                'SP_get_size_B_V1_cant_find_SP_SHEET
+                    'set error report
+                        Call Boots_Report_v_Alpha.Log_Push(Error_, "")
+                        Call Boots_Report_v_Alpha.Log_Push(Flag, "")
+                            Call Boots_Report_v_Alpha.Log_Push(text, "FATAL ERROR!: SP_V1_dev.get_size_B_V1: was unable to find the sheet named 'Steel Presets'")
+                        Call Boots_Report_v_Alpha.Log_Push(table_close)
+                    'generate and store required information
+                        Call Boots_Report_v_Alpha.Log_Push(text, "generating sheet list...")
+                        Call Boots_Main_V_alpha.get_sheet_list
+                    'push generated information
+                        Call Boots_Report_v_Alpha.Log_Push(table_open)
+                            Call Boots_Report_v_Alpha.Log_Push(text, "Displaying All existing sheets...")
+                            For z = 1 To (wb.Sheets("boots").Cells(boots_pos.p_sheet_name_row, boots_pos.p_sheet_name_col).End(xlDown).row - wb.Sheets("boots").Cells(boots_pos.p_sheet_name_row, boots_pos.p_sheet_name_col).row)
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "Sheet List: " & wb.Sheets("boots").Cells(boots_pos.p_sheet_name_row + z, boots_pos.p_sheet_name_col).value & _
+                                    " ='visible stat': " & wb.Sheets("boots").Cells(boots_pos.p_sheet_visible_status_row + z, boots_pos.p_sheet_visible_status_col).value)
+                            Next z
+                        Call Boots_Report_v_Alpha.Log_Push(table_close)
+                    'give addresses
+                        Call Boots_Report_v_Alpha.Log_Push(text, "generating Address list...")
+                        Call Boots_Report_v_Alpha.Log_Push(table_open)
+                        'home_pos
+                            If home_pos Is Nothing Then
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "home_pos: 'NOTHING' as worksheet")
+                            Else
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "home_pos: '" & home_pos.Parent.path & "\" & home_pos.Parent.Name & " == " & home_pos.index & ": " & home_pos.Name & "' as worksheet")
+                            End If
+                        'current_sht
+                            If current_sht Is Nothing Then
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "current_sht: 'NOTHING' as worksheet")
+                            Else
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "current_sht: '" & current_sht.Parent.path & "\" & current_sht.Parent.Name & " == " & current_sht.index & ": " & current_sht.Name & "' as worksheet")
+                            End If
+                        'wb
+                            If wb Is Nothing Then
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "wb: 'NOTHING' as workbook")
+                            Else
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "wb: '" & wb.path & "\" & wb.Name & "' as workbook")
+                            End If
+                        'activeworkbook
+                            If ActiveWorkbook Is Nothing Then
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "Activeworkbook: 'NOTHING' as workbook")
+                            Else
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "Activeworkbook: '" & ActiveWorkbook.path & "\" & ActiveWorkbook.Name & "' as workbook")
+                            End If
+                        Call Boots_Report_v_Alpha.Log_Push(table_close)
+                    'TABLE CLOSE
+                        Call Boots_Report_v_Alpha.Log_Push(table_close)
+                        'end procedure
+                            For z = 1 To Boots_Report_v_Alpha.Log_get_indent_value_V0
+                                Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
+                            Next z
+                        'call end statement
+                            Call Boots_Report_v_Alpha.Log_Push(Display_now, "")
+                            End
 sp_B_cant_find_goalpost:
-                MsgBox ("Error: SP_VX: FUNCTION  GET_SIZE_B: was unable to findd the range named 'SP_GENERAL_GOALPOST'. please check your code.")
-                Stop
+                'SP_get_size_B_V1_cant_find_SP_SHEET
+                    'set error report
+                        Call Boots_Report_v_Alpha.Log_Push(Error_, "")
+                        Call Boots_Report_v_Alpha.Log_Push(Flag, "")
+                            Call Boots_Report_v_Alpha.Log_Push(text, "FATAL ERROR!: SP_V1_dev.get_size_B_V1: was unable to find the range named 'SP_GENERAL_GOALPOST'. please check your code.")
+                        Call Boots_Report_v_Alpha.Log_Push(table_close)
+                    'generate and store required information
+                        Call Boots_Report_v_Alpha.Log_Push(text, "generating sheet list...")
+                        Call Boots_Main_V_alpha.get_sheet_list
+                    'push generated information
+                        Call Boots_Report_v_Alpha.Log_Push(table_open)
+                            Call Boots_Report_v_Alpha.Log_Push(text, "Displaying All existing sheets...")
+                            For z = 1 To (wb.Sheets("boots").Cells(boots_pos.p_sheet_name_row, boots_pos.p_sheet_name_col).End(xlDown).row - wb.Sheets("boots").Cells(boots_pos.p_sheet_name_row, boots_pos.p_sheet_name_col).row)
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "Sheet List: " & wb.Sheets("boots").Cells(boots_pos.p_sheet_name_row + z, boots_pos.p_sheet_name_col).value & _
+                                    " ='visible stat': " & wb.Sheets("boots").Cells(boots_pos.p_sheet_visible_status_row + z, boots_pos.p_sheet_visible_status_col).value)
+                            Next z
+                        Call Boots_Report_v_Alpha.Log_Push(table_close)
+                    'give addresses
+                        Call Boots_Report_v_Alpha.Log_Push(text, "generating Address list...")
+                        Call Boots_Report_v_Alpha.Log_Push(table_open)
+                        'home_pos
+                            If home_pos Is Nothing Then
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "home_pos: 'NOTHING' as worksheet")
+                            Else
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "home_pos: '" & home_pos.Parent.path & "\" & home_pos.Parent.Name & " == " & home_pos.index & ": " & home_pos.Name & "' as worksheet")
+                            End If
+                        'current_sht
+                            If current_sht Is Nothing Then
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "current_sht: 'NOTHING' as worksheet")
+                            Else
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "current_sht: '" & current_sht.Parent.path & "\" & current_sht.Parent.Name & " == " & current_sht.index & ": " & current_sht.Name & "' as worksheet")
+                            End If
+                        'wb
+                            If wb Is Nothing Then
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "wb: 'NOTHING' as workbook")
+                            Else
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "wb: '" & wb.path & "\" & wb.Name & "' as workbook")
+                            End If
+                        'activeworkbook
+                            If ActiveWorkbook Is Nothing Then
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "Activeworkbook: 'NOTHING' as workbook")
+                            Else
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "Activeworkbook: '" & ActiveWorkbook.path & "\" & ActiveWorkbook.Name & "' as workbook")
+                            End If
+                        Call Boots_Report_v_Alpha.Log_Push(table_close)
+                    'TABLE CLOSE
+                        Call Boots_Report_v_Alpha.Log_Push(table_close)
+                        'end procedure
+                            For z = 1 To Boots_Report_v_Alpha.Log_get_indent_value_V0
+                                Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
+                            Next z
+                        'call end statement
+                            Call Boots_Report_v_Alpha.Log_Push(Display_now, "")
+                            End
         End Function
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

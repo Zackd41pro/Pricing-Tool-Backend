@@ -29,6 +29,9 @@ Enum boots_report_pos
     'make date
         i_date_made_row = 1
             i_date_made_col = 10
+    'log len
+        log_row_length_row = 1
+            log_row_lenght_col = 11
     'data
         p_indent_row = 1
             p_indent_col = 1
@@ -79,10 +82,10 @@ Public Function Log_get_indent_value_V0() As Long
     On Error Resume Next
         Set sht = wb.Sheets("LOG_" & Boots_Main_V_alpha.get_username)
     On Error Resume Next
-        Log_get_indent_value_V0 = sht.Cells(Boots_Report_v_Alpha.Log_get_length_of_log_list, 1).value
+        Log_get_indent_value_V0 = sht.Cells(Boots_Report_v_Alpha.Log_get_length_of_log_list_V1, 1).value
 End Function
 
-Public Function Log_get_length_of_log_list() As Long
+Public Function Log_get_length_of_log_list_V1() As Long
     'define variables
         'addresses
             Dim wb As Workbook
@@ -98,20 +101,18 @@ Public Function Log_get_length_of_log_list() As Long
                 Set sht = wb.Sheets("LOG_" & Boots_Main_V_alpha.get_username)
         'containers
             s = "Empty"
-            Log_get_length_of_log_list = 0
+            Log_get_length_of_log_list_V1 = 0
+        'alpha check container
+            If (sht.Cells(boots_report_pos.log_row_length_row, boots_report_pos.log_row_lenght_col).value = "") Then
+                sht.Cells(boots_report_pos.log_row_length_row, boots_report_pos.log_row_lenght_col).Formula = "=COUNT(A:A)"
+            End If
     'fetch length of the log
-restart_log_get_length_of_log_list:
-        s = sht.Cells(boots_report_pos.p_indent_row + Log_get_length_of_log_list, boots_report_pos.p_indent_col).value
-        If (s <> "") Then
-            Log_get_length_of_log_list = Log_get_length_of_log_list + 1
-            GoTo restart_log_get_length_of_log_list
-        End If
+        Log_get_length_of_log_list_V1 = sht.Cells(boots_report_pos.log_row_length_row, boots_report_pos.log_row_lenght_col).value
     'cleanup
         s = "Empty"
 End Function
 
 Public Function Log_Initalize(Optional Further_definitions As String) As Boolean
-    MsgBox ("add check for on close code and if not add it")
     'define variables
         'addresses
             Dim wb As Workbook
@@ -131,12 +132,12 @@ Public Function Log_Initalize(Optional Further_definitions As String) As Boolean
                 Application.Wait (Now + TimeValue("0:00:05"))
                 If (Boots_Main_V_alpha.sheet_exist(wb, s) = False) Then 'if the log page dont exist make it
                 'make sheet
-                    Call Boots_Main_V_alpha.make_sheet(wb, s, -1, True)
+                    Call Boots_Main_V_alpha.make_sheet_V1(wb, s, -1, "d_report")
                 Else
                 'sheet exist
                     Call Boots_Report_v_Alpha.Log_Flush(Save)
                     Call Boots_Report_v_Alpha.Log_Flush(Delete)
-                    Call Boots_Main_V_alpha.make_sheet(wb, s, -1, True)
+                    Call Boots_Main_V_alpha.make_sheet_V1(wb, s, -1, "d_report")
                 End If
             'set sht
                 Set sht = wb.Sheets(s)
@@ -163,14 +164,14 @@ Public Function Log_Initalize(Optional Further_definitions As String) As Boolean
                         Call Boots_Report_v_Alpha.Log_Push(text, Boots_Main_V_alpha.get_project_files(get_index, count))
                         'get the plugins required for this module
                             'get length of list
-                                j = Boots_Report_v_Alpha.Log_get_length_of_log_list
+                                j = Boots_Report_v_Alpha.Log_get_length_of_log_list_V1
                             'determine if needed to look for function list in the specified project file E.G. meaning the version reported back was not 'NA'
                                 s = sht.Cells(boots_report_pos.p_text_row + j - 1, boots_report_pos.p_text_col).value
                                 'parse
-                                    s = String_V1.Disassociate_by_Char_V1(">", s, Right_C, True)
-                                        s = String_V1.Disassociate_by_Char_V1(">", s, Right_C, True)
-                                            s = String_V1.Disassociate_by_Char_V1("<", s, Right_C, True)
-                                                s = String_V1.Disassociate_by_Char_V1(">", s, Left_C, True)
+                                    s = String_V1.Disassociate_by_Char_V2(">", s, Right_C, "d_report")
+                                        s = String_V1.Disassociate_by_Char_V2(">", s, Right_C, "d_report")
+                                            s = String_V1.Disassociate_by_Char_V2("<", s, Right_C, "d_report")
+                                                s = String_V1.Disassociate_by_Char_V2(">", s, Left_C, "d_report")
                                 'check the entry for not NA entry
                                     If (UCase(s) <> "NA") Then
                                         'Get module dependancy
@@ -178,9 +179,9 @@ Public Function Log_Initalize(Optional Further_definitions As String) As Boolean
                                                 'get the namespace of the ENV for modules
                                                     s = sht.Cells(boots_report_pos.p_text_row + j - 1, boots_report_pos.p_text_col).value
                                                     'parse for namespace
-                                                        s = String_V1.Disassociate_by_Char_V1(">", s, Right_C, True)
-                                                            s = String_V1.Disassociate_by_Char_V1("<", s, Right_C, True)
-                                                                s = String_V1.Disassociate_by_Char_V1(">", s, Left_C, True)
+                                                        s = String_V1.Disassociate_by_Char_V2(">", s, Right_C, "d_report")
+                                                            s = String_V1.Disassociate_by_Char_V2("<", s, Right_C, "d_report")
+                                                                s = String_V1.Disassociate_by_Char_V2(">", s, Left_C, "d_report")
                                                 'fetch Module dependables
                                                     s = s + ".LOG_push_project_file_requirements"
                                                     s = Run(s)
@@ -207,9 +208,9 @@ Public Function Log_Initalize(Optional Further_definitions As String) As Boolean
                                                 'get the namespace of the ENV for modules
                                                     s = sht.Cells(boots_report_pos.p_text_row + j - 1, boots_report_pos.p_text_col).value
                                                     'parse for namespace
-                                                        s = String_V1.Disassociate_by_Char_V1(">", s, Right_C, True)
-                                                            s = String_V1.Disassociate_by_Char_V1("<", s, Right_C, True)
-                                                                s = String_V1.Disassociate_by_Char_V1(">", s, Left_C, True)
+                                                        s = String_V1.Disassociate_by_Char_V2(">", s, Right_C, "d_report")
+                                                            s = String_V1.Disassociate_by_Char_V2("<", s, Right_C, "d_report")
+                                                                s = String_V1.Disassociate_by_Char_V2(">", s, Left_C, "d_report")
                                             'paste log lines for function stability status
                                                 'push functions log list
                                                     s = s + ".LOG_Push_Functions_v1"
@@ -244,159 +245,169 @@ Public Function Log_Initalize(Optional Further_definitions As String) As Boolean
                 Call Boots_Report_v_Alpha.Log_Push(text, "__________Program Start!...")
 End Function
 
-Public Function Log_Push(ByVal Action As Push_selection, Optional text As String) As Variant
+Public Function Log_Push(ByVal Action As Push_selection, Optional text As String, Optional more_instructions As String) As Variant
     'this function is made to push all log entrys to a sheet stored in the project so that if there are errors it is easy to report infomration on what went wrong, or ect.
-    
-    'define variables
-        'addresses
-            Dim wb As Workbook
-            Dim sht As Worksheet
-            Dim home_sht As Worksheet
-            Dim Logfile_Env
-        'container
-            Dim i As Long
-            Dim s As String
-    'set variables
-        Set wb = ActiveWorkbook
-        Set home_sht = ActiveSheet
-        On Error GoTo Log_Push_Error_Unable_To_Find_Log
-            Set sht = wb.Sheets("LOG_" & Boots_Main_V_alpha.get_username)
-        On Error GoTo 0
-    'find open position on the table
-        i = Boots_Report_v_Alpha.Log_get_length_of_log_list
-    'check if there is an indent mark in the empty pos
-        If (sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value <> "") Then
-            Stop
-            'check if it is plus
-                If (sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = "+") Then
-                    sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value + 1
-                    GoTo Log_Push_exit_indent
-                End If
-            'check if it is minus
-                If (sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = "-") Then
-                    sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value - 1
-                    'check is indent is now negative if so make 0
-                        If (s < 0) Then
-                            sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = 0
-                            MsgBox ("Log_Push Error: indent '-' made the indent value less than zero now made zero")
-                        End If
-                        GoTo Log_Push_exit_indent
-                End If
-        Else
-        'get indent value from line above
-            'check for a valid grab position
-                'MsgBox ("need to add a proper check for row overflow")
-                If ((i <= 0) Or (i >= 1048577)) Then 'meaning the row value is 0 or greater than the max on a sheet
-                    If (i <= 0) Then
-                        i = 1
-                    End If
-                    If (i >= 1048577) Then
-                        Stop
-                    End If
-                End If
-            'get indent value
-                sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value
-            'check if indent is x<0 then make zero
-                If (sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value < 0) Then
-                    sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = 0
-                End If
+    'check for log reporting
+        If (more_instructions = "Log_Report") Then
+            Log_Push = "Log_Push - Public - Stable 10/30/2020"
+            Exit Function
         End If
+    
+    'code start
+        'define variables
+            'addresses
+                Dim wb As Workbook
+                Dim sht As Worksheet
+                Dim home_sht As Worksheet
+                Dim Logfile_Env
+            'container
+                Dim i As Long
+                Dim s As String
+        'set variables
+            Set wb = ActiveWorkbook
+            Set home_sht = ActiveSheet
+            On Error GoTo Log_Push_Error_Unable_To_Find_Log
+                Set sht = wb.Sheets("LOG_" & Boots_Main_V_alpha.get_username)
+            On Error GoTo 0
+        'find open position on the table
+            i = Boots_Report_v_Alpha.Log_get_length_of_log_list_V1
+        'check if there is an indent mark in the empty pos
+            If (sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value <> "") Then
+                Stop
+                'check if it is plus
+                    If (sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = "+") Then
+                        sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value + 1
+                        GoTo Log_Push_exit_indent
+                    End If
+                'check if it is minus
+                    If (sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = "-") Then
+                        sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value - 1
+                        'check is indent is now negative if so make 0
+                            If (s < 0) Then
+                                sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = 0
+                                MsgBox ("Log_Push Error: indent '-' made the indent value less than zero now made zero")
+                            End If
+                            GoTo Log_Push_exit_indent
+                    End If
+            Else
+            'get indent value from line above
+                'check for a valid grab position
+                    'MsgBox ("need to add a proper check for row overflow")
+                    If ((i <= 0) Or (i >= 1048577)) Then 'meaning the row value is 0 or greater than the max on a sheet
+                        If (i <= 0) Then
+                            i = 1
+                        End If
+                        If (i >= 1048577) Then
+                            Stop
+                        End If
+                    End If
+                'get indent value
+                    sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value
+                'check if indent is x<0 then make zero
+                    If (sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value < 0) Then
+                        sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = 0
+                    End If
+            End If
 Log_Push_exit_indent:
-        'set now
-            sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
-    'run action
-        Select Case Action
-        Case Push_selection.Display_now
-            'final text
-                Boots_Report_v_Alpha.Log_Before_Close_or_Error
-            'compress log removes blank lines
-                Boots_Report_v_Alpha.Log_compress_blank_space
-            'export
-                Boots_Report_v_Alpha.Log_Flush (Save)
-            'display now
-                s = "C:\WINDOWS\notepad.exe " & root.get_drive_location & root.get_save_location & root.get_project_name & root.get_version & "\" & "Users\" & Boots_Main_V_alpha.get_username & "\" & "Log-" & Month(Date) & "-" & Day(Date) & "-" & Year(Date) & ".log"
-                Logfile_Env = Shell(s, 1)
-                Application.DisplayAlerts = False
-                Application.ScreenUpdating = False
-                    sht.visible = xlSheetVisible
-                    sht.Delete
-                Application.DisplayAlerts = True
-                Application.ScreenUpdating = True
-                ActiveWorkbook.Close
-        Case Push_selection.Error_
-            'get indent
-                sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value + 1
-                    sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-                        i = i + 1
-                            sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value
-                                sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-                                        sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
-                                            i = i + 1
-            'open a new error report FLAG
-                sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value
-                    sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = "________________________________ERROR TRIGGERED_______________________________"
-                        sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
-                            i = i + 1
-        Case Push_selection.Flag
-            'open new flag
+            'set now
+                sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
+        'run action
+            Select Case Action
+            Case Push_selection.Display_now
+                'final text
+                    Boots_Report_v_Alpha.Log_Before_Close_or_Error
+                'compress log removes blank lines
+                    Boots_Report_v_Alpha.Log_compress_blank_space
+                'export
+                    Boots_Report_v_Alpha.Log_Flush (Save)
+                'display now
+                    s = "C:\WINDOWS\notepad.exe " & root.get_drive_location & root.get_save_location & root.get_project_name & root.get_version & "\" & "Users\" & Boots_Main_V_alpha.get_username & "\" & "Log-" & Month(Date) & "-" & Day(Date) & "-" & Year(Date) & ".log"
+                    Logfile_Env = Shell(s, 1)
+                    Application.DisplayAlerts = False
+                    Application.ScreenUpdating = False
+                        sht.visible = xlSheetVisible
+                        sht.Delete
+                    Application.DisplayAlerts = True
+                    Application.ScreenUpdating = True
+                    ActiveWorkbook.Close
+            Case Push_selection.Error_
                 'get indent
                     sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value + 1
-                sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = "????????????????????????????????????????????????????????????????????????????????"
-                i = i + 1
-                'new flag line
+                        sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+                            i = i + 1
+                                sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value
+                                    sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+                                            sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
+                                                i = i + 1
+                'open a new error report FLAG
+                    sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value
+                        sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = "________________________________ERROR TRIGGERED_______________________________"
+                            sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
+                                i = i + 1
+            Case Push_selection.Flag
+                'open new flag
+                    'get indent
+                        sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value + 1
+                    sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = "????????????????????????????????????????????????????????????????????????????????"
+                    i = i + 1
+                    'new flag line
+                        'get indent
+                            sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value
+                        'set now
+                            sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
+                        'title
+                            sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = "????????????????????????????????????????????????????????????????????????????????"
+                'Flag Text
                     'get indent
                         sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value
-                    'set now
-                        sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
-                    'title
-                        sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = "????????????????????????????????????????????????????????????????????????????????"
-            'Flag Text
-                'get indent
-                    sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value + 1
-                    sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = "_________________________________FLAG TRIGGERED_______________________________"
+                        sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = "_________________________________FLAG TRIGGERED_______________________________"
+                        i = i + 1
+            Case Push_selection.text
+                sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = text
+            Case Push_selection.Trigger_e
+                sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value - 1
+                sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = ""
+                'check if indent is x<0 then make zero
+                    If (sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value < 0) Then
+                        sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = 0
+                    End If
+            Case Push_selection.Trigger_S
+                sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value + 1
+                sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = ""
+            Case Push_selection.Variable
+                sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = "____Displaying Variable: " & text & "____"
+            Case Push_selection.table_close
+                'set text
+                    sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = "________________________________________________________________________________"
                     i = i + 1
-        Case Push_selection.text
-            sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = text
-        Case Push_selection.Trigger_e
-            sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value - 1
-            sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = ""
-            'check if indent is x<0 then make zero
-                If (sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value < 0) Then
-                    sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = 0
-                End If
-        Case Push_selection.Trigger_S
-            sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value + 1
-            sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = ""
-        Case Push_selection.Variable
-            sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = "____Displaying Variable: " & text & "____"
-        Case Push_selection.table_close
-            'set text
-                sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = "________________________________________________________________________________"
-                i = i + 1
-                sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = "-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/"
-                sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
-                sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value
-                i = i + 1
-                sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
-                sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value - 1
-        Case Push_selection.table_open
-            'set text
-                sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = "-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/"
-                i = i + 1
-                sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = "___________________________________NEW TABLE____________________________________"
-                sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
-                sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value + 1
-        Case Else
-            Call MsgBox("Fatal Error: Module 'Boots_Report' Called 'Push Log' and was unable to determine a action selection", , "Fatal Error: Module 'Boots_Report' Called 'Push Log'")
-            Stop
-        End Select
-    'cleanup
-        Log_Push = True
-        Exit Function
+                    sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = "-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/"
+                    sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
+                    sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value
+                    i = i + 1
+                    sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
+                    sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value - 1
+            Case Push_selection.table_open
+                'set text
+                    sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = "-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/"
+                    i = i + 1
+                    sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = "___________________________________NEW TABLE____________________________________"
+                    sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
+                    sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value + 1
+                    sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value + 1
+            Case Else
+                Call MsgBox("Fatal Error: Module 'Boots_Report' Called 'Push Log' and was unable to determine a action selection", , "Fatal Error: Module 'Boots_Report' Called 'Push Log'")
+                Stop
+            End Select
+    'code end
+        'cleanup
+            Log_Push = True
+            Exit Function
     'error reporting
 Log_Push_Error_Unable_To_Find_Log:
-        Call MsgBox("ERROR: Boots_report_Vx.log_push was unable to find the log sheet. the log could of been flushed or removed", , "ERROR: Boots_report_Vx.log_push was unable to find the log sheet.")
-        'Boots_Report_v_Alpha.Push_notification_message ("ERROR: Boots_report_Vx.log_push was unable to find the log sheet. the log could of been flushed or removed creating new session now...")
+        'Log_Push_Error_Unable_To_Find_Log:
+            Call Boots_Report_v_Alpha.Push_notification_message("Boots_report_v_alpha.log_push: ERROR! log_push was unable to find the log sheet. the log could of been flushed or removed...")
+            Stop
+            End
 End Function
 
 Public Function Log_Flush(ByVal Action As Flush_selection, Optional Further_definitions As String)
@@ -412,7 +423,7 @@ Public Function Log_Flush(ByVal Action As Flush_selection, Optional Further_defi
     Set sht = wb.Sheets("LOG_" & Boots_Main_V_alpha.get_username)
     
     'get log len
-        i = Log_get_length_of_log_list
+        i = Log_get_length_of_log_list_V1
         line = 0
     'check for delete action
         If (Action = Delete) Then
@@ -498,16 +509,16 @@ Private Sub Log_format_page()
         .Color = 65280
         .TintAndShade = 0
     End With
-    x = 2
+    X = 2
     Range("A1").Select
     Cells(1, 10).value = Date
     Cells(1, 1).value = 0
     Cells(1, 2).value = Now()
     Cells(1, 3).value = "LOG Session Created from " & ActiveWorkbook.Name
     
-    Cells(x, 3).value = "LOG_" & Boots_Main_V_alpha.get_username & " was created on " & Now()
-    Cells(x, 2).value = Now()
-    Cells(x, 1).value = 0
+    Cells(X, 3).value = "LOG_" & Boots_Main_V_alpha.get_username & " was created on " & Now()
+    Cells(X, 2).value = Now()
+    Cells(X, 1).value = 0
 End Sub
 
 Private Sub Log_compress_blank_space()
@@ -531,7 +542,7 @@ Private Sub Log_compress_blank_space()
             j = 0
             i = 0
             z = z + 1
-            If (z > 2000) Then
+            If (z > 1000) Then
                 j = 50
             End If
         Else
@@ -803,3 +814,40 @@ Sub Push_notification_message(ByVal text_to_display As String)
     SendKeys "___________________________________This is an Automated message from the terminal___________________________________" & Chr(10), True
     SendKeys text_to_display, True
 End Sub
+
+
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
+'depreciated and old code
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
+'-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
+
+
+
+Public Function Log_get_length_of_log_list_VA() As Long
+    'define variables
+        'addresses
+            Dim wb As Workbook
+            Dim sht As Worksheet
+            Dim home_sht As Worksheet
+        'containers
+            Dim s As String
+    'set variables
+        'addresses
+            Set wb = ActiveWorkbook
+            Set home_sht = ActiveSheet
+            'get namespace of the sheet
+                Set sht = wb.Sheets("LOG_" & Boots_Main_V_alpha.get_username)
+        'containers
+            s = "Empty"
+            Log_get_length_of_log_list_VA = 0
+    'fetch length of the log
+restart_Log_get_length_of_log_list_VA:
+        s = sht.Cells(boots_report_pos.p_indent_row + Log_get_length_of_log_list_VA, boots_report_pos.p_indent_col).value
+        If (s <> "") Then
+            Log_get_length_of_log_list_VA = Log_get_length_of_log_list_VA + 1
+            GoTo restart_Log_get_length_of_log_list_VA
+        End If
+    'cleanup
+        s = "Empty"
+End Function

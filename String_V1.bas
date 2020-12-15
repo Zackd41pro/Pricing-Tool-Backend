@@ -107,7 +107,7 @@ Sub status()
     "------------------------------------------------------------" & String_V1.get_Special_Char_V1(carriage_return, True) & _
     "is_same_V1: Functional" & String_V1.get_Special_Char_V1(carriage_return, True) & _
     "Has string inside_v1: Functional" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-    "Disassociate_by_Char_V1: Functional" & String_V1.get_Special_Char_V1(carriage_return, True) & _
+    "Disassociate_by_Char_V2: Functional" & String_V1.get_Special_Char_V1(carriage_return, True) & _
     "get_Special_Char_V1: Functional" & String_V1.get_Special_Char_V1(carriage_return, True) & _
     "------------------------------------------------------------" & String_V1.get_Special_Char_V1(carriage_return, True) & _
     "Shift_V1: Needs Updating" & String_V1.get_Special_Char_V1(carriage_return, True) & _
@@ -116,7 +116,7 @@ Sub status()
     "")
 End Sub
 
-Public Function is_same_V1(ByVal string_1 As String, ByVal string_2 As String, Optional dont_show_instructions As Boolean) As Boolean
+Public Function is_same_V1(ByVal string_1 As String, ByVal string_2 As String, Optional more_instructions As String) As Variant
 'currently functional as of (8/20/2020) checked by: (zachary Daugherty)
     'Created By (zachary daugherty)(8/20/20)
     'Purpose Case & notes:
@@ -136,24 +136,34 @@ Public Function is_same_V1(ByVal string_1 As String, ByVal string_2 As String, O
     'returned outputs
         'true if same
         'false if not
+    'check for show instructions check
+'        If (dont_show_instructions = False) Then
+'            MsgBox ("function is_same_V1 takes string_1 and compairs string_2 to see if they are identical if so the function returns 1 or true if not it returns 0 or false")
+'            Stop
+'            Exit Function
+'        End If
+    'check for log reporting
+        If (more_instructions = "Log_Report") Then
+            is_same_V1 = "is_same_V1 - Public - Stable with logs 11/19/2020 - no help file"
+            Exit Function
+        End If
     'code start
-        'check for show instructions check
-            If (dont_show_instructions = False) Then
-                MsgBox ("function is_same_V1 takes string_1 and compairs string_2 to see if they are identical if so the function returns 1 or true if not it returns 0 or false")
-                Stop
-                Exit Function
-            End If
+    If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "is_same_V1... Starting")
         'compair
             If (string_1 = string_2) Then
                 is_same = True
             Else
+                If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "is_same_V1... Finished")
+                If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
                 Exit Function
             End If
+            If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "is_same_V1... Finished")
+            If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
     'code finish
 End Function
 
-Public Function has_string_inside_V1(ByVal value As String, ByVal sequence As String, _
-    Optional give_pos As Boolean, Optional show_instructions As Boolean) As Long
+Public Function has_string_inside_V2(ByVal value As String, ByVal sequence As String, _
+    Optional give_pos As Boolean, Optional more_instructions As String) As Variant
 'currently NOT functional as of (8/21/20) checked by: (Zachary Daugherty)
     'Created By (zachary Daugherty)(8/20/20)
     'Purpose Case & notes:
@@ -173,44 +183,66 @@ Public Function has_string_inside_V1(ByVal value As String, ByVal sequence As St
             '(information not filled out)
     'returned outputs
         '(information not filled out)
+'    'check for instructions post
+'        If (show_instructions = True) Then
+'            MsgBox ("function has_string_inside_V2 checks to see if values are in the sequence reports position if give_pos is true. if give_pos is true and the value is not inside will return 0")
+'            Stop
+'            Exit Function
+'        End If
+    'check for log reporting
+        If (more_instructions = "Log_Report") Then
+            has_string_inside_V2 = "has_string_inside_V2 - Public - Stable with logs 11/11/2020 - no help file"
+            Exit Function
+        End If
     'code start
+        If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "String_V1.Has_string_inside_v2 Starting...")
+        If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
         'define variables
+            If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "Setup Variables...")
             Dim s As String 'string storage
             Dim i As Long    'int storage
             Dim len_val As Long
             Dim len_seq As Long
             Dim pos As Long  'count thru
-        'check for instructions post
-            If (show_instructions = True) Then
-                MsgBox ("function has_string_inside_V1 checks to see if values are in the sequence reports position if give_pos is true. if give_pos is true and the value is not inside will return 0")
-                Stop
-                Exit Function
-            End If
-        'setup variables
-            s = sequence
-            'find length of segment
-                len_val = Len(value)
-                len_seq = Len(sequence)
+            'setup variables
+                s = sequence
+                'find length of segment
+                    len_val = Len(value)
+                    len_seq = Len(sequence)
+                    
         'check if the value is bigger than the Sequence
             If (len_val > len_seq) Then
+                If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "Value is bigger than Sequence...")
                 'cleanup
-                    has_string_inside_V1 = False
+                    has_string_inside_V2 = False
                     s = "empty"
                     len_val = -1
                     len_seq = -1
                     i = -1
-                    Exit Function
+                    If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "String_V1.Has_string_inside_v2 Finished...")
+                If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+            If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+        Exit Function
             End If
         'scan
+            If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "Starting Scan...")
+            If give_pos = True Then If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "Finding Given Position...")
+            If give_pos = False Then If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "Finding If in string...")
             For i = 1 To len_seq
                 s = Mid(sequence, i, len_val)
                 If (value = s) Then
                     'solution found
                         If (give_pos = True) Then
-                            has_string_inside_V1 = i
-                            Exit Function
+                            has_string_inside_V2 = i
+                            If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "Position Found...")
+                            If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "String_V1.Has_string_inside_v2 Finished...")
+                            'exiting
+                If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+            If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+        Exit Function
                         Else
-                            has_string_inside_V1 = True
+                            has_string_inside_V2 = True
+                            If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "In String True...")
                         End If
                         Exit For
                 End If
@@ -223,12 +255,15 @@ Public Function has_string_inside_V1(ByVal value As String, ByVal sequence As St
             len_val = i
             len_seq = i
             pos = i
-            Exit Function
+            If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "String_V1.Has_string_inside_v2 Finished...")
+            If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+            If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+        Exit Function
     'code finish
 End Function
 
-Public Function Disassociate_by_Char_V1(ByVal seperator As String, ByVal sequence As String, _
-    ByVal Left_or_Right As Disassociate_by_Char_left_or_right, Optional dont_show_instructions As Boolean) As String
+Public Function Disassociate_by_Char_V2(ByVal seperator As String, ByVal sequence As String, _
+    ByVal Left_or_Right As Disassociate_by_Char_left_or_right, Optional more_instructions As String) As Variant
 'currently functional as of (8/21/20) checked by: (Zachary Daugherty)
     'Created By (Zachary Daugherty)(8/21/20)
     'Purpose Case & notes:
@@ -239,7 +274,7 @@ Public Function Disassociate_by_Char_V1(ByVal seperator As String, ByVal sequenc
         'na
     'Inputs
         'Internal:
-            'String_V1.has_string_inside_V1
+            'String_V1.has_string_inside_V2
         'required:
             'seperator: what is seperating your text
             'sequence: the full string you want to pull text from
@@ -255,58 +290,63 @@ Public Function Disassociate_by_Char_V1(ByVal seperator As String, ByVal sequenc
             'show_instructions: gives a walkthrough on how to use
     'returned outputs
         'disassociated string text after or before seperator
+    'check for log reporting
+        If (more_instructions = "Log_Report") Then
+            get_size_B_V1 = "get_size_B_V1 - Public - Stable with logs 11/12/2020 - Missing help file"
+            Exit Function
+        End If
     'code start
+        If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "String_V1.Disassociate_by_Char_V2 start...")
+        If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
         'define variables
+            If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "Setup variables...")
+            If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
             Dim Seperator_len As Long
             Dim seperator_pos As Variant
             Dim Sequence_len As Long
             Dim i As Long
-        'check for instructions
-            If (dont_show_instructions = False) Then
-                MsgBox ("Showning instructions for Disassociate_by_char_v1")
-                MsgBox ("Purpose Case & notes: takes input of sequence and returns the left or the right side of the seperator specified")
-                MsgBox ("Discription of variables:" & Chr(13) & _
-                "Internal: " & Chr(13) & _
-                    "String_V1.has_string_inside_V1" & Chr(13) & _
-                    "required: " & Chr(13) & _
-                    "seperator: what is seperating your text" & Chr(13) & _
-                    "sequence: the full string you want to pull text from" & Chr(13) & _
-                    "Left_or_right: specifys what side of the seperator to return")
-                MsgBox ("Example of use:" & Chr(13) & _
-                    "sequence: 'zack-daugherty'" & Chr(13) & _
-                    "seperator: '-'" & Chr(13) & _
-                    "Left_or_Right: 'Right'" & Chr(13) & _
-                    "will return: 'daugherty'")
-                Stop
-                Exit Function
-            End If
-        'setup variables
-            Sequence_len = Len(sequence)
-            Seperator_len = Len(seperator)
-            seperator_pos = String_V1.has_string_inside_V1(seperator, sequence, True, False)
+            'setup variables
+                Sequence_len = Len(sequence)
+                Seperator_len = Len(seperator)
+                If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "seperating matrix values...")
+                If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                    seperator_pos = String_V1.has_string_inside_V2(seperator, sequence, True, more_instructions)
         'check that Seperator has a value & seperator_pos is not 0 & sequence <> nothing
             If (Sequence_len > Seperator_len) Then
+                If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "Sequence is larger than Seperator...")
                 If (Seperator_len <= 0) Then
-                    Disassociate_by_Char_V1 = sequence
+                    Disassociate_by_Char_V2 = sequence
                 End If
                 If (seperator_pos = 0) Then
-                    Disassociate_by_Char_V1 = sequence
+                    Disassociate_by_Char_V2 = sequence
+                    If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+                    If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "String_V1.Disassociate_by_Char_V2 Finished...")
+                    If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
                     Exit Function
                 End If
             Else
-                Disassociate_by_Char_V1 = sequence
+                If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "Sequence is NOT larger than Seperator...")
+                Disassociate_by_Char_V2 = sequence
+                If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+                If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "String_V1.Disassociate_by_Char_V2 Finished...")
+                If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
                 Exit Function
             End If
         'breakup
             If (Left_or_Right = Left_C) Then
+                If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "Disassociate to the left...")
                 If (Seperator_len > 1) Then
                     Stop
                 End If
-                Disassociate_by_Char_V1 = Mid(sequence, 1, seperator_pos - 1)
+                Disassociate_by_Char_V2 = Mid(sequence, 1, seperator_pos - 1)
             Else
-                Disassociate_by_Char_V1 = Mid(sequence, seperator_pos + Seperator_len, Sequence_len)
+                If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "Disassociate to the right...")
+                Disassociate_by_Char_V2 = Mid(sequence, seperator_pos + Seperator_len, Sequence_len)
             End If
     'code end
+        If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+        If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "String_V1.Disassociate_by_Char_V2 Finished...")
+        If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
         Exit Function
     'error handler
         'na
@@ -330,14 +370,16 @@ Public Function get_Special_Char_V1(ByVal char As Get_Char, Optional dont_show_i
             'show_instructions
     'returned outputs
         '(information not filled out)
+    'devnotes
+        Boots_Report_v_Alpha.Push_notification_message ("String_v1.get_Special_Char_V1 devnote: need to update to remove 'dont show instructions' code and replace the information with modern code")
     'code start
         'check for show_instructions
-            If (dont_show_instructions = False) Then
-                MsgBox ("Showning instructions for get_Special_Char_V1")
-                MsgBox ("get_special_char fetches from memory not on normal ENG keyboard or allowed in code")
-                Stop
-                Exit Function
-            End If
+'            If (dont_show_instructions = False) Then
+'                MsgBox ("Showning instructions for get_Special_Char_V1")
+'                MsgBox ("get_special_char fetches from memory not on normal ENG keyboard or allowed in code")
+'                Stop
+'                Exit Function
+'            End If
         'get
             get_Special_Char_V1 = Chr(char)
     'code end
@@ -383,12 +425,12 @@ Public Function Shift_V1(ByVal selection_ As Shift_option, ByVal overwrite As Bo
                     End If
                 'local pos
                     'decode the positions
-                        row = String_V1.Disassociate_by_Char_V1(",", pos_right_bot, Left)
-                        col = String_V1.Disassociate_by_Char_V1(",", pos_right_bot, Right)
+                        row = String_V1.Disassociate_by_Char_V2(",", pos_right_bot, Left)
+                        col = String_V1.Disassociate_by_Char_V2(",", pos_right_bot, Right)
                         lower_row = row
                         lower_col = col
-                        row = String_V1.Disassociate_by_Char_V1(",", pos_left_up, Left)
-                        col = String_V1.Disassociate_by_Char_V1(",", pos_left_up, Right)
+                        row = String_V1.Disassociate_by_Char_V2(",", pos_left_up, Left)
+                        col = String_V1.Disassociate_by_Char_V2(",", pos_left_up, Right)
                         upper_row = row
                         upper_col = col
                         row = 1

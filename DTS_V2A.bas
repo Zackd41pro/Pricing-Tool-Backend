@@ -24,11 +24,11 @@ Attribute VB_Name = "DTS_V2A"
                                                                         'CODE START
 '----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Public Enum run_choices_V1
+Public Enum DTS_run_choices_V1
     'Purpose Case & notes:
         'gives the enumeration of choices that are setup for options
     'list
-        update_unit_cost
+        DTS_update_unit_cost
 End Enum
 Public Enum get_choices_v1
     'Purpose Case & notes:
@@ -157,12 +157,7 @@ End Enum
                     Set home = ActiveSheet
                     Set sht = wb.Sheets("LOG_" & Boots_Main_V_alpha.get_username)
             'find open position on the log table
-Log_Push_restart_size_check:
-                i = i + 1
-                s = sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value
-                If (s <> "") Then
-                    GoTo Log_Push_restart_size_check
-                End If
+                i = Boots_Report_v_Alpha.Log_get_length_of_log_list_V1
             'get each status
                 'log functions
                     'LOG header
@@ -196,8 +191,8 @@ Log_Push_restart_size_check:
                                     sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
                                         sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = s
                                             i = i + 1
-                    'run_choices_V1
-                        s = "ENUM: run_choices_V1 - Public"
+                    'DTS_run_choices_V1
+                        s = "ENUM: DTS_run_choices_V1 - Public"
                             sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value
                                 sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
                                     sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = s
@@ -247,7 +242,7 @@ Log_Push_restart_size_check:
                                         sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = s
                                             i = i + 1
                     'Run_unit_cost_refresh
-                        s = DTS_V2A.Run_unit_cost_refresh_v0("Log_Report")
+                        s = DTS_V2A.Run_DTS_unit_cost_refresh_v0("Log_Report")
                             sht.Cells(boots_report_pos.p_indent_row + i, boots_report_pos.p_indent_col).value = sht.Cells(boots_report_pos.p_indent_row + i - 1, boots_report_pos.p_indent_col).value
                                     sht.Cells(boots_report_pos.p_time_row + i, boots_report_pos.p_time_col).value = Now()
                                         sht.Cells(boots_report_pos.p_text_row + i, boots_report_pos.p_text_col).value = s
@@ -305,7 +300,7 @@ Log_Push_restart_size_check:
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
         
-        Public Function run_V0(ByVal choice As run_choices_V1, Optional more_instructions As String) As Variant
+        Public Function run_V0(ByVal choice As DTS_run_choices_V1, Optional more_instructions As String) As Variant
             'check for log reporting
                 If (more_instructions = "Log_Report") Then
                     run_V0 = "run_v0 - Public - Need Log report 10/28/20"
@@ -320,20 +315,19 @@ Log_Push_restart_size_check:
                     'na
                 'start check
                     MsgBox ("'dts_vx_dev.run' need to add boots check insted of the one used on dts as it can then use a standard check for a page exist.")
-                    Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                     condition = DTS_V2A.check(True)
                 'check for check pass and if so run command else throw error
                     Call Boots_Report_v_Alpha.Log_Push(text, "Checking if conditions are met to run any actions...")
                     If (condition = True) Then
                         Call Boots_Report_v_Alpha.Log_Push(text, "Passed!...")
                         Select Case choice
-                            Case update_unit_cost
-                                DTS_V2A.Run_unit_cost_refresh_v0
+                            Case DTS_update_unit_cost
+                                DTS_V2A.Run_DTS_unit_cost_refresh_v0 ("lS2bjzvsk4BmFl5vpN3W")
                         End Select
                     Else
                         Call Boots_Report_v_Alpha.Log_Push(text, "Failed!...")
                         GoTo Dts_error_run_check_not_passed
-                        Stop
                     End If
             'code end
                 run_V0 = True
@@ -343,13 +337,15 @@ Log_Push_restart_size_check:
             'error handling
 Dts_error_run_check_not_passed:
                 Call Boots_Report_v_Alpha.Log_Push(Error_, "")
-                Call Boots_Report_v_Alpha.Log_Push(text, "FATAL ERROR:...")
-                Call Boots_Report_v_Alpha.Log_Push(text, "Subroutine procedures set to check if operations could be complete failed required checks please see the log...")
+                    Call Boots_Report_v_Alpha.Log_Push(Flag)
+                        Call Boots_Report_v_Alpha.Log_Push(text, "FATAL ERROR:...")
+                        Call Boots_Report_v_Alpha.Log_Push(text, "Subroutine procedures set to check if operations could be complete failed required checks please see the log...")
+                    Call Boots_Report_v_Alpha.Log_Push(table_close, "")
+                    Call Boots_Report_v_Alpha.Log_Push(text, "__________CRASH!____________________")
+                    Call Boots_Report_v_Alpha.Log_Push(text, "__________CRASH!____________________")
+                    Call Boots_Report_v_Alpha.Log_Push(text, "__________CRASH!____________________")
+                    Call Boots_Report_v_Alpha.Log_Push(text, "__________CRASH!____________________")
                 Call Boots_Report_v_Alpha.Log_Push(table_close, "")
-                Call Boots_Report_v_Alpha.Log_Push(text, "__________CRASH!____________________")
-                Call Boots_Report_v_Alpha.Log_Push(text, "__________CRASH!____________________")
-                Call Boots_Report_v_Alpha.Log_Push(text, "__________CRASH!____________________")
-                Call Boots_Report_v_Alpha.Log_Push(text, "__________CRASH!____________________")
                 Call Boots_Report_v_Alpha.Log_Push(text, ".")
                 For i = 1 To Boots_Report_v_Alpha.Log_get_indent_value_V0
                     Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
@@ -359,43 +355,47 @@ Dts_error_run_check_not_passed:
 
         End Function
         
-Private Function Run_unit_cost_refresh_v0(Optional more_instructions As String) As Variant
-'currently functional as of (9/2/2020) checked by: (Zachary Daugherty)
+Private Function Run_DTS_unit_cost_refresh_v0(Optional more_instructions As String) As Variant
     'Created By (Zachary Daugherty)(8/25/20)
     'Purpose Case & notes:
-        'this function will address updating the dts page unit cost
-    'Library Refrences required
-        'workbook.object
-    'Modules Required
-        'SP_V1
-        'String_V1
-        'Matrix_V2
-    'Inputs
-        'Internal:
-            'na
-        'required:
-            'na
-        'optional:
-            'Na
-    'returned outputs
-        'na
+        If (more_instructions = "help") Then
+            Boots_Report_v_Alpha.Push_notification_message (Chr(13) & Chr(13) & "DTS_v2A.Run_DTS_unit_cost_refresh_v0: Help File Triggered..." & Chr(13) & _
+                "What is this function for? |updated:12-09-2020|:" & Chr(13) & _
+                "    Run_DTS_unit_cost_refresh_v0 is a private function called when all other checks are complete called from check functions WARNING!" & Chr(13) & _
+                "        this function should not be called directly always use the run function that is designated to the module. this is because" & Chr(13) & _
+                "        this function has no logic for proper procedure checks this is just the update function for the unit cost function. meaning" & Chr(13) & _
+                "        if called improperly stuff can get overwritten inproperly." & Chr(13) & _
+                "Should i call this function directly? |updated:12-09-2020|:" & Chr(13) & _
+                "    see question above." & Chr(13) & _
+                "What is returned from this function? |updated:12-09-2020|:" & Chr(13) & _
+                "    if function completes properly, true will be returned to prove that it was run correctly" & Chr(13) & _
+                "Listing off dependants of function |updated:12-09-2020|:" & Chr(13) & _
+                "    DTS_V2A." & Chr(13) & _
+                "        DTS_V2A.|parent module|" & Chr(13) & _
+                "    Boots_Main_V_alpha." & Chr(13) & _
+                "        Boots_Main_V_alpha.get_sheet_list" & Chr(13) & "    Boots_Report_v_Alpha." & Chr(13) & "        Boots_Report_v_Alpha.Log_Push" & Chr(13) & "        Boots_Report_v_Alpha.Push_notification_message" & Chr(13) & _
+                "    matrix_V2." & Chr(13) & _
+                "        matrix_V2.matrix_dimensions_v1" & Chr(13) & _
+                "    SP_V1_DEV." & Chr(13) & _
+                "        SP_V1_DEV.get_size_A" & Chr(13) & "        SP_V1_DEV.get_size_B_V1" & Chr(13) & "        SP_V1_DEV.get_sheet_name" & Chr(13) & _
+                "    String_V1." & Chr(13) & _
+                "        String_V1.Disassociate_by_Char_V2" & Chr(13) & "        String_V1.is_same_V1")
+            Exit Function
+        End If
     'check for log reporting
         If (more_instructions = "Log_Report") Then
-            Run_unit_cost_refresh_v0 = "Run_unit_cost_refresh_v0 - Private - Need Log report 10/28/20"
+            Run_DTS_unit_cost_refresh_v0 = "Run_DTS_unit_cost_refresh_v0 - Private - stable 12-09-2020 - Help file:Y"
             Exit Function
         End If
     'code start
-            Call Boots_Report_v_Alpha.Log_Push(text, "DTS_vX.Run_unit_cost_refresh_v0... Starting...")
-            Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
-        'check for show instructions
-            If (True = False) Then
-                MsgBox ("this Function is designed to:" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                "--------------------------------------------------------------------" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                "Take the indexed information from the Steel preset data tables and apply the new unit cost to the DTS table. " & _
-                "This function is private and should normally be called thru the RUN function to prevent mistakes" & String_V1.get_Special_Char_V1(carriage_return, True) & _
-                "")
-                Stop
-                Exit Function
+            Call Boots_Report_v_Alpha.Log_Push(text, "DTS_vX.Run_DTS_unit_cost_refresh_v0... Starting...")
+            Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+        'call protection
+            If (more_instructions <> "lS2bjzvsk4BmFl5vpN3W") Then 'random string
+                Boots_Report_v_Alpha.Push_notification_message (Chr(13) & Chr(13) & "DTS_v2A.Run_DTS_unit_cost_refresh_v0: Call Protection triggered..." & Chr(13) & _
+                "DTS_v2A.Run_DTS_unit_cost_refresh_v0 did not have the correct key sent to run this command this is in place to prevent this function being called by accident" & Chr(13) & _
+                "    if you did mean to call this function please enter the random string specified in the function in the more instructions field to bypass this protection...")
+                End
             End If
         'define variables
             'positional
@@ -425,12 +425,12 @@ Private Function Run_unit_cost_refresh_v0(Optional more_instructions As String) 
                 Dim error As String
                 Dim anti_loop As Long
         'setup variables
-            Call Boots_Report_v_Alpha.Log_Push(text, "Setting up variables... Start...")
-            Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
+            Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Setting up variables... Start...")
+            Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
             'setup pos
                 Set wb = ActiveWorkbook
                 Set home_pos = ActiveSheet
-                On Error GoTo dts_Run_unit_cost_refresh_v0_cant_find_SHEET         'goto error handler
+                On Error GoTo dts_Run_DTS_unit_cost_refresh_v0_cant_find_SHEET  'goto error handler
                     error = "DTS"
                     Set current_sht = wb.Sheets(error)                      'setting name
                     error = ""
@@ -447,21 +447,21 @@ Private Function Run_unit_cost_refresh_v0(Optional more_instructions As String) 
                 size_of_sp_A = -1
                 size_of_sp_B = -1
             'setup array tables
-                Call Boots_Report_v_Alpha.Log_Push(text, "Array table setup...")
-                Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
+                Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Array table setup... start")
+                Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                 'check for valid sizes and get sizes
                     'get size of DTS
                         Call Boots_Report_v_Alpha.Log_Push(text, "Fetching size of DTS TABLE...")
-                        Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
+                        Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                         size_of_dts = DTS_V2A.get_size_V0()
                     'get size of steel presets A
                         Call Boots_Report_v_Alpha.Log_Push(text, "Fetching size of Steel Presets Table A...")
-                        Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
+                        Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                         size_of_sp_A = SP_V1_DEV.get_size_A
                     'get size of steel presets B
                         Call Boots_Report_v_Alpha.Log_Push(text, "Fetching size of Steel Presets Table B...")
-                        Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
-                        size_of_sp_B = SP_V1_DEV.get_size_B
+                        Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                        size_of_sp_B = SP_V1_DEV.get_size_B_V1
                 'initialize arrays
                     Call Boots_Report_v_Alpha.Log_Push(text, "Initalizing Storage for Tables: Memory Main, Sp_decoder_A , Sp_decoder_B, Lookup...")
                     ReDim Memory_Main(0 To size_of_dts, 0 To DTS_POS_2A.DTS_Q_number_of_tracked_locations)
@@ -475,13 +475,14 @@ Private Function Run_unit_cost_refresh_v0(Optional more_instructions As String) 
                             Lookup(0, 2) = "What table its on"
                             Lookup(0, 3) = "address in array"
                 'end of array tables
-                    Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
+                    Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Array table setup... finish")
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
             'setup globals
-                Call Boots_Report_v_Alpha.Log_Push(text, "Setting Up Global values...")
-                Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
+                Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Setting Up Global values... start")
+                Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                 'dts
                     Call Boots_Report_v_Alpha.Log_Push(text, "Get DTS Sheet... Inflation Values")
-                    On Error GoTo dts_Run_unit_cost_refresh_v0_cant_find_SHEET
+                    On Error GoTo dts_Run_DTS_unit_cost_refresh_v0_cant_find_SHEET
                         error = "DTS"
                         Set current_sht = wb.Sheets(error)
                         error = ""
@@ -489,7 +490,7 @@ Private Function Run_unit_cost_refresh_v0(Optional more_instructions As String) 
                     DTS_Inflation_value = current_sht.Cells(DTS_POS_2A.DTS_I_Inflation_Const_row, DTS_POS_2A.DTS_I_Inflation_Const_col).value
                 'SP
                     Call Boots_Report_v_Alpha.Log_Push(text, "Get SP Sheet... Structural value & Plate value")
-                    On Error GoTo dts_Run_unit_cost_refresh_v0_cant_find_SHEET
+                    On Error GoTo dts_Run_DTS_unit_cost_refresh_v0_cant_find_SHEET
                         error = "STEEL PRESETS"
                         Set current_sht = wb.Sheets(error)
                         error = ""
@@ -498,18 +499,19 @@ Private Function Run_unit_cost_refresh_v0(Optional more_instructions As String) 
                     SP_GLOBAL_plate_value = current_sht.Cells(SP_POS.SP_I_Const_Plate_row, SP_POS.SP_I_Const_Plate_col).value
                 'return cursor to home
                     home_pos.Activate
-                    Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
+                    Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Setting Up Global values... finish")
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
             'setup complete
-                Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
-                Call Boots_Report_v_Alpha.Log_Push(text, "Setting Up Variables.. Finished")
+                Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+                Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Setting Up Variables.. Finished")
         'load tables
-            Call Boots_Report_v_Alpha.Log_Push(text, "Load table Info...")
-            Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
+            Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Load table Info... start")
+            Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
             'dts main
-                Call Boots_Report_v_Alpha.Log_Push(text, "Loading DTS Information to array... Start...")
-                Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
+                Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Loading DTS Information to array... Start")
+                Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                 'set focus
-                    On Error GoTo dts_Run_unit_cost_refresh_v0_cant_find_SHEET
+                    On Error GoTo dts_Run_DTS_unit_cost_refresh_v0_cant_find_SHEET
                         error = "DTS"
                             Set current_sht = wb.Sheets(error)
                         error = ""
@@ -533,13 +535,13 @@ Private Function Run_unit_cost_refresh_v0(Optional more_instructions As String) 
                     L = -1
                     L_2 = -1
                     Set current_sht = Nothing
-                    Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
-                    Call Boots_Report_v_Alpha.Log_Push(text, "Loading DTS Information to array... Finish...")
+                    Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Loading DTS Information to array... Finish")
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
             'SP_DECODER_A
-                Call Boots_Report_v_Alpha.Log_Push(text, "Loading Steel Presets A Information to array... Start...")
-                Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
+                Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Loading Steel Presets A Information to array... Start")
+                Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                 'set focus
-                    On Error GoTo dts_Run_unit_cost_refresh_v0_cant_find_SHEET
+                    On Error GoTo dts_Run_DTS_unit_cost_refresh_v0_cant_find_SHEET
                         error = "Steel Presets"
                             Set current_sht = wb.Sheets(error)
                         error = ""
@@ -562,13 +564,13 @@ Private Function Run_unit_cost_refresh_v0(Optional more_instructions As String) 
                     L = -1
                     L_2 = -1
                     Set current_sht = Nothing
-                    Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
-                    Call Boots_Report_v_Alpha.Log_Push(text, "Loading Steel Presets A Information to array... Finish...")
+                    Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Loading Steel Presets A Information to array... Finish")
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
             'SP_DECODER_B
-                Call Boots_Report_v_Alpha.Log_Push(text, "Loading Steel Presets B Information to array... Start...")
-                Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
+                Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Loading Steel Presets B Information to array... Start")
+                Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                 'set focus
-                    On Error GoTo dts_Run_unit_cost_refresh_v0_cant_find_SHEET
+                    On Error GoTo dts_Run_DTS_unit_cost_refresh_v0_cant_find_SHEET
                         error = "Steel Presets"
                             Set current_sht = wb.Sheets(error)
                         error = ""
@@ -592,37 +594,53 @@ Private Function Run_unit_cost_refresh_v0(Optional more_instructions As String) 
                     L_2 = -1
                     Set current_sht = Nothing
                     home_pos.Activate
-                    Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
-                    Call Boots_Report_v_Alpha.Log_Push(text, "Loading Steel Presets B Information to array... Finish...")
+                    Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Loading Steel Presets B Information to array... Finish")
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
             'assemble lookup table
-                Call Boots_Report_v_Alpha.Log_Push(text, "Loading Lookup Information to array... Start...")
-                Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
+                Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: assemble lookup table Information to array... Start")
+                Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                 'initialize variables
-                    Call Boots_Report_v_Alpha.Log_Push(text, "Setup Variables")
-                    Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
+                    Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: assemble lookup table initialize variables... Start")
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                     L = 0
                     L_2 = 1
                     line = 0
                     s = ""
-                    'setup Loop
-                        Call Boots_Report_v_Alpha.Log_Push(text, "Setting up loop")
-                        Call Boots_Report_v_Alpha.Log_Push(text, "Fetching lookup array dimension information...")
-                        Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
-                        s = matrix_V2.matrix_dimensions(Lookup())
-                        Call Boots_Report_v_Alpha.Log_Push(text, "resolve dimension information")
-                        line = CLng(String_V1.Disassociate_by_Char_V1(">", String_V1.Disassociate_by_Char_V1("<", String_V1.Disassociate_by_Char_V1("<", s, Right_C, True), Right_C, True), Left_C, True))
+                    'Fetching lookup array dimension information
+                        Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Fetching lookup array dimension information... matrix_V2.matrix_dimensions_v1... start")
+                        Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                            s = matrix_V2.matrix_dimensions_v1(Lookup(), "d_report")
+                        Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Fetching lookup array dimension information... matrix_V2.matrix_dimensions_v1... finish")
+                        Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+                    'parse matrix dim
+                    Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: resolve dimension information... start")
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                        Call Boots_Report_v_Alpha.Log_Push(text, "resolve dimension information (step1-3).... String_V1.Disassociate_by_Char_V2 running...")
+                            s = String_V1.Disassociate_by_Char_V2("<", s, Right_C, "d_report")
+                        Call Boots_Report_v_Alpha.Log_Push(text, "resolve dimension information (step2-3).... String_V1.Disassociate_by_Char_V2 running...")
+                            s = String_V1.Disassociate_by_Char_V2("<", s, Right_C, "d_report")
+                        Call Boots_Report_v_Alpha.Log_Push(text, "resolve dimension information (step3-3).... String_V1.Disassociate_by_Char_V2 running...")
+                            line = CLng(String_V1.Disassociate_by_Char_V2(">", s, Left_C, "d_report"))
+                    Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: resolve dimension information... finish")
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
                     'cleanup
-                        Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
-                        Stop
-                'start
-incoding_of_table_names:
+                        Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: assemble lookup table initialize variables... Finish")
+                        Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+                'Filling lookup table with all possible values and table positional data...
+DTS_incoding_of_table_names:
+                    Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Filling lookup table with all possible values and table positional data... start")
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                     For L = 0 To line
-                        'check to see where table data should be grabed from note will fill in table A first then B
+                        'check to see where table data should be grabed from, note will fill in table A first then B
                             'section for table a
                                 If (L > 0) Then
                                     If (L <= size_of_sp_A - 1) Then '-1 is included on the end to skip the goalpost of the table
                                         Lookup(L, 0) = SP_decoder_A(L, 1)
-                                        Lookup(L, 1) = SP_V1_DEV.get_sheet_name(True)
+                                                Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: fetching sheet name: SP_V1_DEV.get_sheet_name start")
+                                                    Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                                                    Lookup(L, 1) = SP_V1_DEV.get_sheet_name("d_report")
+                                                    Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: fetching sheet name: SP_V1_DEV.get_sheet_name finish")
+                                                Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
                                         Lookup(L, 2) = "A"
                                         Lookup(L, 3) = L
                                     Else
@@ -638,7 +656,11 @@ incoding_of_table_names:
                                     If ((L > size_of_sp_A) And (L < size_of_sp_A + size_of_sp_B)) Then
                                         L_2 = L - size_of_sp_A
                                         Lookup(L, 0) = SP_decoder_B(L_2, 1)
-                                        Lookup(L, 1) = SP_V1_DEV.get_sheet_name(True)
+                                        Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: fetching sheet name: SP_V1_DEV.get_sheet_name start")
+                                            Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                                            Lookup(L, 1) = SP_V1_DEV.get_sheet_name("d_report")
+                                            Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: fetching sheet name: SP_V1_DEV.get_sheet_name finish")
+                                        Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
                                         Lookup(L, 2) = "B"
                                         Lookup(L, 3) = L_2
                                     Else
@@ -657,52 +679,107 @@ incoding_of_table_names:
                     L_2 = -1
                     s = "empty"
                     line = -1
+                    Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Filling lookup table with all possible values and table positional data... finish")
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+                    Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: assemble lookup table Information to array... finish")
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+                    Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Load table Info... finish")
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
         'check lookup table for duplicate entrys
+            Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: check lookup table for duplicate entrys... start") '2-3
+            Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
             'initialize variable
                 L = 0
                 L_2 = 0
                 s = ""
                 condition = False
             'start
-                Stop 'NEED TO setup
-                matrix_V2.matrix_dimensions (Lookup())
-                Stop
-                'loop through lookup tbale
-                    For L = 1 To (UBound(Lookup(), 1) - LBound(Lookup(), 1))
+                'Get size of the matrix
+                    Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Get size of the matrix... start") '3-4
+                        Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                        Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Get size of the matrix: matrix_V2.matrix_dimensions_v1... |1-5| start") '4-5
+                            Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                            s = matrix_V2.matrix_dimensions_v1(Lookup(), "d_report")
+                            Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Get size of the matrix: matrix_V2.matrix_dimensions_v1... finish") '5-4
+                            Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+                        Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Get size of the matrix: String_V1.Disassociate_by_Char_V2... |2-5| start") '4-5
+                            Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                            s = String_V1.Disassociate_by_Char_V2(">", s, Right_C, "d_report")
+                            Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Get size of the matrix: String_V1.Disassociate_by_Char_V2... finish") '5-4
+                            Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+                        Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Get size of the matrix: String_V1.Disassociate_by_Char_V2... |3-5| start") '4-5
+                            Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                            s = String_V1.Disassociate_by_Char_V2(">", s, Right_C, "d_report")
+                            Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Get size of the matrix: String_V1.Disassociate_by_Char_V2... finish") '5-4
+                            Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+                        Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Get size of the matrix: String_V1.Disassociate_by_Char_V2... |4-5| start") '4-5
+                            Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                            s = String_V1.Disassociate_by_Char_V2("<", s, Right_C, "d_report")
+                            Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Get size of the matrix: String_V1.Disassociate_by_Char_V2... finish") '5-4
+                            Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+                            
+                        Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Get size of the matrix: String_V1.Disassociate_by_Char_V2... |5-5| start") '4-5
+                            Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                            line = String_V1.Disassociate_by_Char_V2(">", s, Left_C, "d_report")
+                            Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Get size of the matrix: String_V1.Disassociate_by_Char_V2... finish") '5-4
+                            Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+                    'cleanup
+                        s = "Empty"
+                        Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: Get size of the matrix... finish") '4-3
+                        Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+                        
+                'loop through lookup table
+                    Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: loop through lookup table for duplicate entrys... start") '3-4
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                    
+                    For L = 1 To (line - 1)
                         'value to search by
                             'if set to empty skip
                                 If (Lookup(L, 1) = DTS_V2A.get_global_unit_cost_refresh_ignore_trigger) Then
-                                    GoTo Run_unit_cost_refresh_v0_ignore_entry
+                                    GoTo Run_DTS_unit_cost_refresh_v0_ignore_entry
                                 End If
                         'compair against all other entrys
-                            For L_2 = 1 To (UBound(Lookup(), 1) - LBound(Lookup(), 1))
+                            For L_2 = 1 To (line - 1)
                                 'check to see if index is the same if so skip check
                                     If (L = L_2) Then
-                                        GoTo Run_unit_cost_refresh_v0_skip_check
+                                        GoTo Run_DTS_unit_cost_refresh_v0_skip_check
                                     End If
                                 'set value to check thru
                                     s = Lookup(L, 0)
                                 'do check
-                                    condition = String_V1.is_same_V1(s, Lookup(L_2, 0), True)
+                                    Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: loop through lookup table for duplicate entrys match possible: String_V1.is_same_V1... start") '4-5
+                                        Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                                        condition = String_V1.is_same_V1(s, Lookup(L_2, 0), "d_report")
+                                        Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: loop through lookup table for duplicate entrys match possible: String_V1.is_same_V1... finish") '5-4
+                                        Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
                                 'if condition is true then throw error
                                     If (condition = True) Then
                                         error = "in array: lookup:(" & L_2 & ",0) value:'" & Lookup(L_2, 0) & "'. is the same as the value in: lookupL(" & L & ",0)"
-                                        GoTo Run_unit_cost_refresh_v0_duplicate_lookups
+                                        GoTo Run_DTS_unit_cost_refresh_v0_duplicate_lookups
+                                    Else
+                                        
                                     End If
                                 'goto
-Run_unit_cost_refresh_v0_skip_check:
+Run_DTS_unit_cost_refresh_v0_skip_check:
                             Next L_2
                         'goto
-Run_unit_cost_refresh_v0_ignore_entry:
+Run_DTS_unit_cost_refresh_v0_ignore_entry:
                     Next L
+                    Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: loop through lookup table for duplicate entrys... finish") '4-3
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
             'cleanup
                 L = -1
                 L_2 = -1
                 s = "empty"
+                line = -1
                 condition = False
+                Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: check lookup table for duplicate entrys... finish") '3-2
+                Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
         'do update
+            Call Boots_Report_v_Alpha.Log_Push(text, "DTS_vX.Run_DTS_unit_cost_refresh_v0: run update Starting...") '2-3
+            Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
             'initalize variables
-                On Error GoTo dts_Run_unit_cost_refresh_v0_cant_find_SHEET
+                On Error GoTo dts_Run_DTS_unit_cost_refresh_v0_cant_find_SHEET
                     error = "DTS"
                     Set current_sht = wb.Sheets(error)
                     error = ""
@@ -711,67 +788,70 @@ Run_unit_cost_refresh_v0_ignore_entry:
                 col = DTS_POS_2A.DTS_I_part_number_col
                 L = 0
                 L_2 = 0
-            'run
-                'iterate thru memory main
-                    For L = 1 To size_of_dts
-                        'change pos
-                            row = DTS_POS_2A.DTS_I_part_number_row + L
-                        'set smart code
-                            s = Memory_Main(L, 2)
-                        'check for empty or ignore trigger
-                            If ((s <> DTS_V2A.get_global_unit_cost_refresh_ignore_trigger) And (s <> "")) Then
-                                'decode smart code
-Run_unit_cost_refresh_v0_part_numb_check:
-                                    s = String_V1.Disassociate_by_Char_V1(DTS_V2A.get_global_decoder_symbol, s, Left_C, True)
-                                'search for key in lookup array
-                                    For L_2 = 1 To (size_of_sp_A + size_of_sp_B)
-                                        If (s = Lookup(L_2, 0)) Then
-                                            'match found return value to sheet
-                                                'locate which chart
-                                                    If (Lookup(L_2, 2) = "A") Then
-                                                        'match found in decode table 'A'
+            'iterate thru memory main
+                Call Boots_Report_v_Alpha.Log_Push(text, "DTS_vX.Run_DTS_unit_cost_refresh_v0: run update: iterating thru memory main to find matches and return values...") '3-na
+                For L = 1 To size_of_dts
+                    'change pos
+                        row = DTS_POS_2A.DTS_I_part_number_row + L
+                    'set smart code
+                        s = Memory_Main(L, 2)
+                    'check for empty or ignore trigger
+                        If ((s <> DTS_V2A.get_global_unit_cost_refresh_ignore_trigger) And (s <> "")) Then
+                            'decode smart code
+Run_DTS_unit_cost_refresh_v0_part_numb_check:
+                                Call Boots_Report_v_Alpha.Log_Push(text, "DTS_vX.Run_DTS_unit_cost_refresh_v0: run update: String_V1.Disassociate_by_Char_V2 start...") '3-4
+                                Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                                    s = String_V1.Disassociate_by_Char_V2(DTS_V2A.get_global_decoder_symbol, s, Left_C, "d_report")
+                                    Call Boots_Report_v_Alpha.Log_Push(text, "DTS_vX.Run_DTS_unit_cost_refresh_v0: run update: String_V1.Disassociate_by_Char_V2 finish...") '4-3
+                                Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+                            'search for key in lookup array
+                                For L_2 = 1 To (size_of_sp_A + size_of_sp_B)
+                                    If (s = Lookup(L_2, 0)) Then
+                                        'match found return value to sheet
+                                            'locate which chart
+                                                If (Lookup(L_2, 2) = "A") Then
+                                                    'match found in decode table 'A'
+                                                        'return value to dts
+                                                            On Error GoTo dts_Run_DTS_unit_cost_refresh_v0_cant_find_range
+                                                                error = "DTS_Unit_cost"
+                                                                    current_sht.Range(error).Offset(L, 0).value = SP_decoder_A(CLng(Lookup(L_2, 3)), 4) 'paste to sheet name <current_sht> then move cursor to range <error> offset down to pos <L>: to get the value find in array <lookup> and return address of the match. convert to <long> variable and then user that long to look in array <sp_decoder_a> at the value of <long> then return that value to sheet
+                                                                error = ""
+                                                            On Error GoTo 0
+                                                Else
+                                                    If (Lookup(L_2, 2) = "B") Then
+                                                        'match found in decode table 'B'
                                                             'return value to dts
-                                                                On Error GoTo dts_Run_unit_cost_refresh_v0_cant_find_range
+                                                                On Error GoTo dts_Run_DTS_unit_cost_refresh_v0_cant_find_range
                                                                     error = "DTS_Unit_cost"
-                                                                        current_sht.Range(error).Offset(L, 0).value = SP_decoder_A(CLng(Lookup(L_2, 3)), 4) 'paste to sheet name <current_sht> then move cursor to range <error> offset down to pos <L>: to get the value find in array <lookup> and return address of the match. convert to <long> variable and then user that long to look in array <sp_decoder_a> at the value of <long> then return that value to sheet
+                                                                    current_sht.Range(error).Offset(L, 0).value = SP_decoder_B(CLng(Lookup(L_2, 3)), 4) 'paste to sheet name <current_sht> then move cursor to range <error> offset down to pos <L>: to get the value find in array <lookup> and return address of the match. convert to <long> variable and then user that long to look in array <sp_decoder_a> at the value of <long> then return that value to sheet
                                                                     error = ""
                                                                 On Error GoTo 0
                                                     Else
-                                                        If (Lookup(L_2, 2) = "B") Then
-                                                            'match found in decode table 'B'
-                                                                'return value to dts
-                                                                    On Error GoTo dts_Run_unit_cost_refresh_v0_cant_find_range
-                                                                        error = "DTS_Unit_cost"
-                                                                        current_sht.Range(error).Offset(L, 0).value = SP_decoder_B(CLng(Lookup(L_2, 3)), 4)
-                                                                        error = ""
-                                                                    On Error GoTo 0
-                                                        Else
-                                                            Stop 'throw error
-                                                            error = CStr(Lookup(L_2, 2))
-                                                            GoTo dts_Run_unit_cost_refresh_v0_cant_locate_table
-                                                        End If
+                                                        error = CStr(Lookup(L_2, 2))
+                                                        GoTo dts_Run_DTS_unit_cost_refresh_v0_cant_locate_table
                                                     End If
-                                        End If
-                                    Next L_2
-                                'fall through statement Smart code not found
-                            Else
-                                'check for non aka code
-                                    If (condition = False) Then
-                                        condition = True
-                                        s = Memory_Main(L, 1)
-                                        anti_loop = anti_loop + 1
-                                        If (anti_loop < 6) Then
-                                            GoTo Run_unit_cost_refresh_v0_part_numb_check
-                                        Else
-                                            MsgBox ("anti loop triggered please check code")
-                                            Stop
-                                        End If
+                                                End If
                                     End If
-                            End If
-                            'reset check
-                                condition = False
-                                anti_loop = 0
-                    Next L
+                                Next L_2
+                            'fall through statement Smart code not found
+                        Else
+                            'check for non aka code
+                                If (condition = False) Then
+                                    condition = True
+                                    s = Memory_Main(L, 1)
+                                    anti_loop = anti_loop + 1
+                                    If (anti_loop < 6) Then
+                                        GoTo Run_DTS_unit_cost_refresh_v0_part_numb_check
+                                    Else
+                                        MsgBox ("anti loop triggered please check code")
+                                        Stop
+                                    End If
+                                End If
+                        End If
+                        'reset check
+                            condition = False
+                            anti_loop = 0
+                Next L
             'cleanup
                 Set current_sht = Nothing
                 row = -1
@@ -780,21 +860,192 @@ Run_unit_cost_refresh_v0_part_numb_check:
                 s = "empty"
                 L_2 = -1
                 home_pos.Activate
+                Call Boots_Report_v_Alpha.Log_Push(text, "DTS_vX.Run_DTS_unit_cost_refresh_v0: run update finish...") '3-2
+                Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
     'code end
+        Run_DTS_unit_cost_refresh_v0 = True
+        Call Boots_Report_v_Alpha.Log_Push(text, "DTS_vX.Run_DTS_unit_cost_refresh_v0... finish...") '2-1
+            Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
         Exit Function
     'error handling
-dts_Run_unit_cost_refresh_v0_cant_find_SHEET:
-        Call MsgBox("FATAL Error: DTS_Vx: sub: Run_unit_cost_refresh_v0: was unaable to find the sheet named '" & error & "', please check your code.", , "FATAL Error: DTS_Vx: sub: Run_unit_cost_refresh_v0:: #1")
-        Stop
-Run_unit_cost_refresh_v0_duplicate_lookups:
-        Call MsgBox("FATAL Error: DTS_Vx: Function: Run_unit_cost_refresh_v0:" & Chr(10) & "During the assembly " & error & Chr(10) & " please make the nessasary changes to the tables to not have duplicate values", , "FATAL Error: DTS_Vx: Function: Run_unit_cost_refresh_v0: #2")
-        Stop
-dts_Run_unit_cost_refresh_v0_cant_find_range:
-        Call MsgBox("FATAL Error: Dts_vx: Function: Run_unit_cost_refresh_v0:" & Chr(10) & "Range(" & error & ") was unable to be located", , "FATAL Error: DTS_Vx: Function: Run_unit_cost_refresh_v0: #3")
-        Stop
-dts_Run_unit_cost_refresh_v0_cant_locate_table:
-        Call MsgBox("FATAL Error: Dts_vx: Function: Run_unit_cost_refresh_v0:" & Chr(10) & "Function was unable to locate the table named:'" & error & "'" & Chr(10) & "Please see the goto 'incoding_of_table_names' as this is where the table chars are assigned", , "FATAL Error: Dts_vx: Function: Run_unit_cost_refresh_v0: #4")
+dts_Run_DTS_unit_cost_refresh_v0_cant_find_SHEET:
+        'dts_Run_DTS_unit_cost_refresh_v0_cant_find_SHEET
+            Run_DTS_unit_cost_refresh_v0 = False
+                Call Boots_Report_v_Alpha.Log_Push(Error_, "")
+                Call Boots_Report_v_Alpha.Log_Push(text, "FATAL Error: DTS_Vx: sub: Run_DTS_unit_cost_refresh_v0: was unable to find the sheet named '" & error & "', please check your code.")
+                Call Boots_Report_v_Alpha.Log_Push(text, "Displaying Snapshot of Values:...")
+                'table
+                    Call Boots_Report_v_Alpha.Log_Push(table_open, "")
+                    'push generated sheet list
+                        Boots_Main_V_alpha.get_sheet_list
+                        Call Boots_Report_v_Alpha.Log_Push(text, "Posting sheet manager list...")
+                        Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                            For z = 1 To (wb.Sheets("boots").Cells(boots_pos.p_sheet_name_row, boots_pos.p_sheet_name_col).End(xlDown).row - wb.Sheets("boots").Cells(boots_pos.p_sheet_name_row, boots_pos.p_sheet_name_col).row)
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "Sheet List: " & wb.Sheets("boots").Cells(boots_pos.p_sheet_name_row + z, boots_pos.p_sheet_name_col).value & _
+                                    " ='visible stat': " & wb.Sheets("boots").Cells(boots_pos.p_sheet_visible_status_row + z, boots_pos.p_sheet_visible_status_col).value)
+                            Next z
+                        Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
+                    'adresses
+                        Call Boots_Report_v_Alpha.Log_Push(text, "Posting address mannager...")
+                        Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                            'home_pos
+                                If home_pos Is Nothing Then
+                                    Call Boots_Report_v_Alpha.Log_Push(Variable, "home_pos: 'NOTHING' as worksheet")
+                                Else
+                                    Call Boots_Report_v_Alpha.Log_Push(Variable, "home_pos: '" & home_pos.Parent.path & "\" & home_pos.Parent.Name & " == " & home_pos.index & ": " & home_pos.Name & "' as worksheet")
+                                End If
+                            'wb
+                                If wb Is Nothing Then
+                                    Call Boots_Report_v_Alpha.Log_Push(Variable, "Wb: 'NOTHING' as workbook")
+                                Else
+                                    Call Boots_Report_v_Alpha.Log_Push(Variable, "Wb: '" & wb.path & "\" & wb.Name & "' as workbook")
+                                End If
+                            'current_sht
+                                If current_sht Is Nothing Then
+                                    Call Boots_Report_v_Alpha.Log_Push(Variable, "current_sht: 'NOTHING' as worksheet")
+                                Else
+                                    Call Boots_Report_v_Alpha.Log_Push(Variable, "current_sht: '" & current_sht.Parent.path & "\" & current_sht.Parent.Name & " == " & current_sht.index & ": " & current_sht.Name & "' as worksheet")
+                                End If
+                            'activeworkbook
+                                If ActiveWorkbook Is Nothing Then
+                                    Call Boots_Report_v_Alpha.Log_Push(Variable, "Activeworkbook: 'NOTHING' as workbook")
+                                Else
+                                    Call Boots_Report_v_Alpha.Log_Push(Variable, "Activeworkbook: '" & ActiveWorkbook.path & "\" & ActiveWorkbook.Name & "' as workbook")
+                                End If
+                        Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+                    'TABLE CLOSE
+                        Call Boots_Report_v_Alpha.Log_Push(table_close)
+                        Call Boots_Report_v_Alpha.Log_Push(table_close)
+                    'end procedure
+                        For z = 1 To Boots_Report_v_Alpha.Log_get_indent_value_V0
+                            Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
+                        Next z
+                    'call end statement
+                        Call Boots_Report_v_Alpha.Log_Push(Display_now, "")
+                        End
+Run_DTS_unit_cost_refresh_v0_duplicate_lookups:
+        'Run_DTS_unit_cost_refresh_v0_duplicate_lookups
+            Run_DTS_unit_cost_refresh_v0 = False
+                Call Boots_Report_v_Alpha.Log_Push(Error_, "")
+                Call Boots_Report_v_Alpha.Log_Push(text, "FATAL Error: DTS_Vx: Function: Run_DTS_unit_cost_refresh_v0:During the assembly '" & error & "' please make the nessasary changes to the tables to not have duplicate values")
+                'table
+                     Call Boots_Report_v_Alpha.Log_Push(text, "Showing all values of lookup...")
+                    Call Boots_Report_v_Alpha.Log_Push(table_open, "")
+                        For z = 0 To (UBound(Lookup(), 1) - LBound(Lookup(), 1))
+                             Call Boots_Report_v_Alpha.Log_Push(Variable, "<" & Lookup(z, 0) & "><" & Lookup(z, 1) & "><" & Lookup(z, 2) & "><" & Lookup(z, 3) & ">")
+                        Next z
+                    'table close
+                        Call Boots_Report_v_Alpha.Log_Push(table_close)
+                    Call Boots_Report_v_Alpha.Log_Push(table_close)
+                    'end procedure
+                        For z = 1 To Boots_Report_v_Alpha.Log_get_indent_value_V0
+                            Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
+                        Next z
+                    'call end statement
+                        Call Boots_Report_v_Alpha.Log_Push(Display_now, "")
+                        End
+dts_Run_DTS_unit_cost_refresh_v0_cant_find_range:
+        'dts_Run_DTS_unit_cost_refresh_v0_cant_find_range:
+            Run_DTS_unit_cost_refresh_v0 = False
+                Call Boots_Report_v_Alpha.Log_Push(Error_, "")
+                Call Boots_Report_v_Alpha.Log_Push(text, "FATAL Error: Dts_vx: Function: Run_DTS_unit_cost_refresh_v0: Range(" & error & ") was unable to be located")
+                'table
+                    Call Boots_Report_v_Alpha.Log_Push(table_open, "")
+                        Boots_Main_V_alpha.get_sheet_list
+                    'sheets
+                        Call Boots_Report_v_Alpha.Log_Push(text, "Displaying Snapshot of Sheets:...")
+                        Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                            For z = 1 To (wb.Sheets("boots").Cells(boots_pos.p_sheet_name_row, boots_pos.p_sheet_name_col).End(xlDown).row - wb.Sheets("boots").Cells(boots_pos.p_sheet_name_row, boots_pos.p_sheet_name_col).row)
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "Sheet List: " & wb.Sheets("boots").Cells(boots_pos.p_sheet_name_row + z, boots_pos.p_sheet_name_col).value & _
+                                    " ='visible stat': " & wb.Sheets("boots").Cells(boots_pos.p_sheet_visible_status_row + z, boots_pos.p_sheet_visible_status_col).value)
+                            Next z
+                        Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+                        Call Boots_Report_v_Alpha.Log_Push(text, "...")
+                    'addresses
+                        Call Boots_Report_v_Alpha.Log_Push(text, "Displaying Snapshot of Addresses:...")
+                        Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                            'wb
+                                If wb Is Nothing Then
+                                    Call Boots_Report_v_Alpha.Log_Push(Variable, "wb: 'NOTHING' as workbook")
+                                Else
+                                    Call Boots_Report_v_Alpha.Log_Push(Variable, "wb: '" & wb.path & "\" & wb.Name & "' as workbook")
+                                End If
+                            'home_pos
+                                If home_pos Is Nothing Then
+                                    Call Boots_Report_v_Alpha.Log_Push(Variable, "home_pos: 'NOTHING' as worksheet")
+                                Else
+                                    Call Boots_Report_v_Alpha.Log_Push(Variable, "home_pos: '" & home_pos.Parent.path & "\" & home_pos.Parent.Name & " == " & home_pos.index & ": " & home_pos.Name & "' as worksheet")
+                                End If
+                            'current_sht
+                                If current_sht Is Nothing Then
+                                    Call Boots_Report_v_Alpha.Log_Push(Variable, "current_sht: 'NOTHING' as worksheet")
+                                Else
+                                    Call Boots_Report_v_Alpha.Log_Push(Variable, "current_sht: '" & current_sht.Parent.path & "\" & current_sht.Parent.Name & " == " & current_sht.index & ": " & current_sht.Name & "' as worksheet")
+                                End If
+                            'activeworkbook
+                                If ActiveWorkbook Is Nothing Then
+                                    Call Boots_Report_v_Alpha.Log_Push(Variable, "Activeworkbook: 'NOTHING' as workbook")
+                                Else
+                                    Call Boots_Report_v_Alpha.Log_Push(Variable, "Activeworkbook: '" & ActiveWorkbook.path & "\" & ActiveWorkbook.Name & "' as workbook")
+                                End If
+                        Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+                        Call Boots_Report_v_Alpha.Log_Push(text, "...")
+                'close table
+                    Call Boots_Report_v_Alpha.Log_Push(table_close)
+                    Call Boots_Report_v_Alpha.Log_Push(table_close)
+                     'end procedure
+                        For z = 1 To Boots_Report_v_Alpha.Log_get_indent_value_V0
+                            Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
+                        Next z
+                    'call end statement
+                        Call Boots_Report_v_Alpha.Log_Push(Display_now, "")
+                        End
+dts_Run_DTS_unit_cost_refresh_v0_cant_locate_table:
+        'dts_Run_DTS_unit_cost_refresh_v0_cant_locate_table:
+            Run_DTS_unit_cost_refresh_v0 = False
+                Call Boots_Report_v_Alpha.Log_Push(Error_, "")
+                Call Boots_Report_v_Alpha.Log_Push(text, "FATAL Error: Dts_vx: Function: Run_DTS_unit_cost_refresh_v0:(see next line)")
+                Call Boots_Report_v_Alpha.Log_Push(text, "Function was unable to locate the table named:'" & error & "'(see next line)")
+                Call Boots_Report_v_Alpha.Log_Push(text, "Please see the goto 'DTS_incoding_of_table_names' as this is where the table chars are assigned")
+            'table
+                Call Boots_Report_v_Alpha.Log_Push(text, "Displaying Snapshot of addresses:...")
+                Call Boots_Report_v_Alpha.Log_Push(table_open)
+                'wb
+                    If wb Is Nothing Then
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "wb: 'NOTHING' as workbook")
+                    Else
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "wb: '" & wb.path & "\" & wb.Name & "' as workbook")
+                    End If
+                'home_pos
+                    If home_pos Is Nothing Then
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "home_pos: 'NOTHING' as worksheet")
+                    Else
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "home_pos: '" & home_pos.Parent.path & "\" & home_pos.Parent.Name & " == " & home_pos.index & ": " & home_pos.Name & "' as worksheet")
+                    End If
+                'current_sht
+                    If current_sht Is Nothing Then
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "current_sht: 'NOTHING' as worksheet")
+                    Else
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "current_sht: '" & current_sht.Parent.path & "\" & current_sht.Parent.Name & " == " & current_sht.index & ": " & current_sht.Name & "' as worksheet")
+                    End If
+                'activeworkbook
+                    If ActiveWorkbook Is Nothing Then
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "Activeworkbook: 'NOTHING' as workbook")
+                    Else
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "Activeworkbook: '" & ActiveWorkbook.path & "\" & ActiveWorkbook.Name & "' as workbook")
+                    End If
+                'table close
+                    Call Boots_Report_v_Alpha.Log_Push(table_close)
+                    Call Boots_Report_v_Alpha.Log_Push(table_close)
+                    'end procedure
+                        For z = 1 To Boots_Report_v_Alpha.Log_get_indent_value_V0
+                            Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
+                        Next z
+                    'call end statement
+                        Call Boots_Report_v_Alpha.Log_Push(Display_now, "")
+                        End
 End Function
+
 
 
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/
@@ -870,19 +1121,19 @@ Private Function get_size_V0(Optional more_instructions As String) As Variant
         
         
         '<debug note>
-            Call Boots_Report_v_Alpha.Log_Push(Flag, "")
+            Call Boots_Report_v_Alpha.Log_Push(text, "-------------------------------------------------------------------------")
                 Call Boots_Report_v_Alpha.Log_Push(text, "The Calling of 'DTS_V2A.get_size_V0' is not properly setup for dev notes yet please fix: missing error reporting")
                 Call Boots_Report_v_Alpha.Log_Push(text, "The Calling of 'DTS_V2A.get_size_V0' is not properly setup for dev notes yet please fix: missing error reporting")
                 Call Boots_Report_v_Alpha.Log_Push(text, "The Calling of 'DTS_V2A.get_size_V0' is not properly setup for dev notes yet please fix: missing error reporting")
                 Call Boots_Report_v_Alpha.Log_Push(text, "The Calling of 'DTS_V2A.get_size_V0' is not properly setup for dev notes yet please fix: missing error reporting")
-            Call Boots_Report_v_Alpha.Log_Push(table_close, "")
+            Call Boots_Report_v_Alpha.Log_Push(text, "-------------------------------------------------------------------------")
         '<end of debug note>
         
         
         
     'code start
-        Call Boots_Report_v_Alpha.Log_Push(text, "DTS_VX.get_size_v0 Start...")
-        Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
+        Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.get_size_v0 Start...")
+        Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
         'define variables
             'positional
                 Dim wb As Workbook              'cursor position
@@ -904,7 +1155,7 @@ Private Function get_size_V0(Optional more_instructions As String) As Variant
 get_size_V0_restart:               'goto flag
         'setup variables
             Call Boots_Report_v_Alpha.Log_Push(text, "Setting Up Variables... ")
-            Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
+            Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
             Set wb = ActiveWorkbook
             Set home_pos = ActiveSheet
             On Error GoTo dts_get_cant_find_DTS_SHEET   'goto error handler
@@ -929,7 +1180,7 @@ get_size_V0_restart:               'goto flag
 
         'all rows with data if there is no data in cell location mark for removal
             Call Boots_Report_v_Alpha.Log_Push(text, "Removal of blank space... Start...")
-            Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
+            Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
             Call Boots_Report_v_Alpha.Log_Push(text, "____Discription: program to check the part number field first then check other cols if empty and will only display in the log if empty____")
             For i = 1 To dist_to_goalpost
                 row = row + 1
@@ -946,7 +1197,7 @@ get_size_V0_restart:               'goto flag
                     Next i_2
                     If (arr(i) = True) Then
                         Call Boots_Report_v_Alpha.Log_Push(text, "Row:'" & row & "' part number field was empty checking looking in other cols...")
-                        Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
+                        Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                         Call Boots_Report_v_Alpha.Log_Push(text, "Row:'" & row & "' has NO information stored inside mark for removal...")
                         Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
                     End If
@@ -963,7 +1214,7 @@ get_size_V0_restart:               'goto flag
         'check for delete condition to be true\
             If (delete_empty_rows_condition = True) Then
                 Call Boots_Report_v_Alpha.Log_Push(text, "Removing Blank space from the DTS page... Start...")
-                Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
+                Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                 'hide updating
                     Application.ScreenUpdating = False
                     Application.DisplayAlerts = False
@@ -974,7 +1225,7 @@ get_size_V0_restart:               'goto flag
                     s = current_sht.Cells(row, col).value
                 'iterate through to find empty then delete by moving everything up eliminating the blank space
                     Call Boots_Report_v_Alpha.Log_Push(text, "Loop through the rows and delete the marked locations... Start...")
-                    Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                     For i = 1 To dist_to_goalpost
                         row = row + 1
                         s = current_sht.Cells(row, col).value
@@ -1012,6 +1263,8 @@ get_size_V0_restart:               'goto flag
                     Call Boots_Report_v_Alpha.Log_Push(text, "DEVNOTE:'DTS_V2.GET_SIZE_V0' NEED TO UPDATE ERROR ANTILOOP TRIGGERED TO MODERN CALLING PROCEDURE")
                     Call Boots_Report_v_Alpha.Log_Push(table_close, "")
                     
+ActiveWorkbook.Sheets("LOG_" & Boots_Main_V_alpha.get_username).visible = -1
+Stop 'error code test for indent see inside the if statement
                     
                     If (delete_empty_rows_condition = True) Then
                         current_sht.visible = i_2
@@ -1033,9 +1286,13 @@ get_size_V0_restart:               'goto flag
                                 delete_empty_rows_condition = False
                             'do goto
                                 Call Boots_Report_v_Alpha.Log_Push(text, "Restart Procedure selected...")
-                            Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "") 'THIS IS HERE TO FIX INDENT FROM THE GOTO JUMP
-                            Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "") 'THIS IS HERE TO FIX INDENT FROM THE GOTO JUMP
-                            Call Boots_Report_v_Alpha.Log_Push(text, "Removing Blank space from the DTS page... Abandoned...")
+                                Call Boots_Report_v_Alpha.Log_Push(text, "Removing Blank space from the DTS page... Abandoned...")
+                                Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "") 'THIS IS HERE TO FIX INDENT FROM THE GOTO JUMP
+                                Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "") 'THIS IS HERE TO FIX INDENT FROM THE GOTO JUMP
+                            
+                            ActiveWorkbook.Sheets("LOG_" & Boots_Main_V_alpha.get_username).visible = -1
+                            Stop 'error code test for indent
+                            
                                 GoTo get_size_V0_restart
                         Else
                             MsgBox ("FATAL ERROR: ANTI_LOOP Triggered check code")
@@ -1054,7 +1311,8 @@ get_size_V0_restart:               'goto flag
             'get final size
                 get_size_V0 = dist_to_goalpost
     'cleanup
-        Call Boots_Report_v_Alpha.Log_Push(text, "DTS_VX.get_size_v0 Finish...")
+        Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.get_size_v0 Finish...")
+        Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
         Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
         Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
     'code end
@@ -1066,14 +1324,14 @@ dts_get_cant_find_DTS_SHEET:
                 Call Boots_Report_v_Alpha.Log_Push(Error_, "")
                 Call Boots_Report_v_Alpha.Log_Push(Flag, "")
                     Call Boots_Report_v_Alpha.Log_Push(text, "FATAL ERROR!: dts_vx.Get_size_v0 was unable to locate the DTS sheet please check the enviorment & Log...")
-                Call Boots_Report_v_Alpha.Log_Push(table_close, "")
+                Call Boots_Report_v_Alpha.Log_Push(table_close)
             'generate required information
                 Call Boots_Report_v_Alpha.Log_Push(text, "generating sheet list...")
-                Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
+                Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                     Call Boots_Main_V_alpha.get_sheet_list
             'push generated information
                 Call Boots_Report_v_Alpha.Log_Push(table_open, "")
-                Call Boots_Report_v_Alpha.Log_Push(Trigger_S, "")
+                Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                     For z = 1 To (wb.Sheets("boots").Cells(boots_pos.p_sheet_name_row, boots_pos.p_sheet_name_col).End(xlDown).row - wb.Sheets("boots").Cells(boots_pos.p_sheet_name_row, boots_pos.p_sheet_name_col).row)
                         Call Boots_Report_v_Alpha.Log_Push(Variable, "Sheet List: " & wb.Sheets("boots").Cells(boots_pos.p_sheet_name_row + z, boots_pos.p_sheet_name_col).value & _
                             " ='visible stat': " & wb.Sheets("boots").Cells(boots_pos.p_sheet_visible_status_row + z, boots_pos.p_sheet_visible_status_col).value)
@@ -1083,9 +1341,32 @@ dts_get_cant_find_DTS_SHEET:
                 Call Boots_Report_v_Alpha.Log_Push(text, "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_")
                 Call Boots_Report_v_Alpha.Log_Push(text, "-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_")
             'list local variables
-                Call Boots_Report_v_Alpha.Log_Push(Variable, "wb: '" & wb.path & "\" & wb.Name & "' as workbook")
-                Call Boots_Report_v_Alpha.Log_Push(Variable, "home_pos: '" & home_pos.Parent.path & "\" & home_pos.Parent.Name & " == " & home_pos.index & ": " & home_pos.Name & "' as worksheet")
-                Call Boots_Report_v_Alpha.Log_Push(Variable, "more_instructions: '" & more_instructions & "' as string")
+                'wb
+                    If wb Is Nothing Then
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "wb: 'NOTHING' as workbook")
+                    Else
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "wb: '" & wb.path & "\" & wb.Name & "' as workbook")
+                    End If
+                'home_pos
+                    If home_pos Is Nothing Then
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "home_pos: 'NOTHING' as worksheet")
+                    Else
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "home_pos: '" & home_pos.Parent.path & "\" & home_pos.Parent.Name & " == " & home_pos.index & ": " & home_pos.Name & "' as worksheet")
+                    End If
+                'current_sht
+                    If current_sht Is Nothing Then
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "current_sht: 'NOTHING' as worksheet")
+                    Else
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "current_sht: '" & current_sht.Parent.path & "\" & current_sht.Parent.Name & " == " & current_sht.index & ": " & current_sht.Name & "' as worksheet")
+                    End If
+                'activeworkbook
+                    If ActiveWorkbook Is Nothing Then
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "Activeworkbook: 'NOTHING' as workbook")
+                    Else
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "Activeworkbook: '" & ActiveWorkbook.path & "\" & ActiveWorkbook.Name & "' as workbook")
+                    End If
+                'other
+                    Call Boots_Report_v_Alpha.Log_Push(Variable, "more_instructions: '" & more_instructions & "' as string")
             'prep for post
                 'close error table
                                 Call Boots_Report_v_Alpha.Log_Push(Trigger_e, "")
@@ -1165,6 +1446,7 @@ Private Function Check_DTS_Table_V0_01A(Optional more_instructions As String) As
                     Exit Function
                 End If
         'code start
+            Boots_Report_v_Alpha.Push_notification_message ("DTS_V2A.CHECK_DTS_TABLE_V0_01A: Needs to have an error code added for the matrix array size as it can fail if the sizes are not set right see 'HP_V3_stable.DO_Check_HP_A_Table_V1' for an example....")
             'define varables
                 'memory
                     Dim arr() As String             'designed as ram storage
@@ -1179,11 +1461,10 @@ Private Function Check_DTS_Table_V0_01A(Optional more_instructions As String) As
                 'ref
                     Dim ref_rng As Range            'reference range in question
             'setup variables
-                'report to log
-                    Call MsgBox("check dts table using log replace", , "check dts table using log")
                     
                 'breakout
                 Set proj_wb = ActiveWorkbook
+                
                 On Error GoTo FATAL_ERROR_CHECK_DTS_SET_DTS_ENV 'set error handler
                     Set cursor_sheet = proj_wb.Sheets("DTS")
                 On Error GoTo 0 'set error handler back to norm
@@ -1443,27 +1724,50 @@ Private Function Check_DTS_Table_V0_01A(Optional more_instructions As String) As
                     End If
                 'return true
                     Check_DTS_Table_V0_01A = True   'passed all checks
-                    Call MsgBox("check dts_table using log replace", , "check dts_table using log")
-                    
                     Exit Function
         'code end
         'error handle
 ERROR_FATAL_check_dts_range_error:
+            'ERROR_FATAL_check_dts_range_error:
             Check_DTS_Table_V0_01A = False
                 Call Boots_Report_v_Alpha.Log_Push(Error_, "")
                 Call Boots_Report_v_Alpha.Log_Push(text, "FATAL ERROR: Displaying Snapshot of Values:...")
                 Call Boots_Report_v_Alpha.Log_Push(table_open, "")
-                    Call Boots_Report_v_Alpha.Log_Push(Variable, "Check_DTS_Table_V0_01A: '" & Check_DTS_Table_V0_01A & "' as variant")
-                    Call Boots_Report_v_Alpha.Log_Push(Variable, "More_instructions: '" & more_instructions & "' as string")
-                    Call Boots_Report_v_Alpha.Log_Push(Variable, "condition: '" & condition & "' as Boolean")
-                    Call Boots_Report_v_Alpha.Log_Push(Variable, "i: '" & i & "' as Long")
-                    Call Boots_Report_v_Alpha.Log_Push(Variable, "s: '" & s & "' as String")
-                    Call Boots_Report_v_Alpha.Log_Push(Variable, "Proj_wb: '" & proj_wb.path & "/" & proj_wb.Name & "' as Workbook")
-                    Call Boots_Report_v_Alpha.Log_Push(Variable, "cursor_sheet: '" & cursor_sheet.Name & " :visible = " & cursor_sheet.visible & "' as worksheet")
-                    Call Boots_Report_v_Alpha.Log_Push(Variable, "cursor_row: '" & cursor_row & "' as long")
-                    Call Boots_Report_v_Alpha.Log_Push(Variable, "cursor_col: '" & cursor_col & "' as long")
-                    Call Boots_Report_v_Alpha.Log_Push(Variable, "ref_rng: '" & ref_rng.Name & " value=" & ref_rng.value & "' as range")
-                    Call Boots_Report_v_Alpha.Log_Push(Variable, "arr: '<please check the array>' as string")
+                    'other
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "Check_DTS_Table_V0_01A: '" & Check_DTS_Table_V0_01A & "' as variant")
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "More_instructions: '" & more_instructions & "' as string")
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "condition: '" & condition & "' as Boolean")
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "i: '" & i & "' as Long")
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "s: '" & s & "' as String")
+                    'proj_wb
+                        If proj_wb Is Nothing Then
+                            Call Boots_Report_v_Alpha.Log_Push(Variable, "Proj_wb: 'NOTHING' as Workbook")
+                        Else
+                            Call Boots_Report_v_Alpha.Log_Push(Variable, "Proj_wb: '" & proj_wb.path & "/" & proj_wb.Name & "' as Workbook")
+                        End If
+                    'cursor_sht
+                        If cursor_sheet Is Nothing Then
+                            Call Boots_Report_v_Alpha.Log_Push(Variable, "cursor_sheet: 'NOTHING' as worksheet")
+                        Else
+                            Call Boots_Report_v_Alpha.Log_Push(Variable, "cursor_sheet: '" & cursor_sheet.Parent.path & "\" & cursor_sheet.Parent.Name & " == " & cursor_sheet.index & ": " & cursor_sheet.Name & "' as worksheet")
+                        End If
+                    'activeworkbook
+                        If ActiveWorkbook Is Nothing Then
+                            Call Boots_Report_v_Alpha.Log_Push(Variable, "Activeworkbook: 'NOTHING' as workbook")
+                        Else
+                            Call Boots_Report_v_Alpha.Log_Push(Variable, "Activeworkbook: '" & ActiveWorkbook.path & "\" & ActiveWorkbook.Name & "' as workbook")
+                        End If
+                    'other
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "cursor_row: '" & cursor_row & "' as long")
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "cursor_col: '" & cursor_col & "' as long")
+                    'ref rng
+                        If ref_rng Is Nothing Then
+                            Call Boots_Report_v_Alpha.Log_Push(Variable, "ref_rng: 'NOTHING' as range")
+                        Else
+                            Call Boots_Report_v_Alpha.Log_Push(Variable, "ref_rng: '" & ref_rng.Name & " value=" & ref_rng.value & "' as range")
+                        End If
+                    'other
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "arr: '<please check the array>' as string")
                 Call Boots_Report_v_Alpha.Log_Push(table_close, "")
                 Call Boots_Report_v_Alpha.Log_Push(Flag, "")
                     Call Boots_Report_v_Alpha.Log_Push(text, "FATAL ERROR: MODULE:(DTS_VX)FUNCTION:(CHECK_DTS_TABLE) UNABLE TO LOCATE THE SPECIFIED RANGE:<" & s & "> please check the name mannager for errors. fix and then re-run")
@@ -1472,13 +1776,12 @@ ERROR_FATAL_check_dts_range_error:
                     Call Boots_Report_v_Alpha.Log_Push(text, "CRASH!__________________________________________________________")
                     Call Boots_Report_v_Alpha.Log_Push(text, "CRASH!__________________________________________________________")
                     Call Boots_Report_v_Alpha.Log_Push(text, "CRASH!__________________________________________________________")
-                    For i = 1 To 10
-                        Call Boots_Report_v_Alpha.Log_Push(text, "________________________________________________________________")
-                    Next i
-                    
+                Call Boots_Report_v_Alpha.Log_Push(table_close)
+                For z = 1 To Boots_Report_v_Alpha.Log_get_indent_value_V0
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+                Next z
                 Call Boots_Report_v_Alpha.Log_Push(Display_now, "")
-                Stop
-            Exit Function
+                End
 FATAL_ERROR_CHECK_DTS_SET_DTS_ENV:
             Call MsgBox("check dts_table using log replace", , "check dts_table using log")
             'Call __________.log(__________.get_username, "FATAL_ERROR: MODULE: (DTS_VX)FUNCTION: (CHECK_DTS_TABLE) UNABLE TO FIND OR SET SHEET DTS IN THE PROJECT WORKBOOK PLEASE CHECK FOR RIGHT CALL OR POS OR WORKBOOK.")
@@ -1486,16 +1789,74 @@ FATAL_ERROR_CHECK_DTS_SET_DTS_ENV:
             Stop
             Exit Function
 ERROR_CHECK_DTS_FAILED_POS_CHECK:
+            'ERROR_CHECK_DTS_FAILED_POS_CHECK
+            Check_DTS_Table_V0_01A = False
+                Call Boots_Report_v_Alpha.Log_Push(Error_, "")
+                Call Boots_Report_v_Alpha.Log_Push(text, "FATAL ERROR: FAILED POSITIONAL CHECK REPORT LISTED BELOW A FAIL IS LISTED AS FALSE...")
+                Call Boots_Report_v_Alpha.Log_Push(text, "Displaying Snapshot of Values:...")
+                Call Boots_Report_v_Alpha.Log_Push(table_open, "")
+                'array values
+                    Call Boots_Report_v_Alpha.Log_Push(text, "Showing Array table values:...")
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                        For z = 1 To (UBound(arr, 1) - LBound(arr, 1))
+                            Call Boots_Report_v_Alpha.Log_Push(text, arr(z, 5))
+                        Next z
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+                'address information
+                    Call Boots_Report_v_Alpha.Log_Push(text, "Showing Address information:...")
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                    'proj_wb
+                        If proj_wb Is Nothing Then
+                            Call Boots_Report_v_Alpha.Log_Push(Variable, "proj_wb: 'NOTHING' as workbook")
+                        Else
+                            Call Boots_Report_v_Alpha.Log_Push(Variable, "proj_wb: '" & proj_wb.path & "\" & proj_wb.Name & "' as worksheet")
+                        End If
+                    'cursor_sheet
+                        If cursor_sheet Is Nothing Then
+                            Call Boots_Report_v_Alpha.Log_Push(Variable, "cursor_sheet: 'NOTHING' as worksheet")
+                        Else
+                            Call Boots_Report_v_Alpha.Log_Push(Variable, "cursor_sheet: '" & cursor_sheet.Parent.path & "\" & cursor_sheet.Parent.Name & " == " & cursor_sheet.index & ": " & cursor_sheet.Name & "' as worksheet")
+                        End If
+                    'activeworkbook
+                        If ActiveWorkbook Is Nothing Then
+                            Call Boots_Report_v_Alpha.Log_Push(Variable, "Activeworkbook: 'NOTHING' as workbook")
+                        Else
+                            Call Boots_Report_v_Alpha.Log_Push(Variable, "Activeworkbook: '" & ActiveWorkbook.path & "\" & ActiveWorkbook.Name & "' as workbook")
+                        End If
+                    'other
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "cursor_row: '" & cursor_row & "' as long")
+                        Call Boots_Report_v_Alpha.Log_Push(Variable, "cursor_col: '" & cursor_col & "' as long")
+                        'range
+                            Call Boots_Report_v_Alpha.Log_Push(text, "REF_RNG:...")
+                            Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "ref_rng: '" & ref_rng.Parent.Name & "' as Parent name")
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "ref_rng: '" & ref_rng.row & "' as row")
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "ref_rng: '" & ref_rng.Column & "' as column")
+                                Call Boots_Report_v_Alpha.Log_Push(Variable, "ref_rng: '" & ref_rng.value & "' as value")
+                            Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+                Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+            'close table
+                Call Boots_Report_v_Alpha.Log_Push(table_close)
+                Call Boots_Report_v_Alpha.Log_Push(table_close)
+            'end
+                For z = 1 To Boots_Report_v_Alpha.Log_get_indent_value_V0
+                    Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+                Next z
+                Call Boots_Report_v_Alpha.Log_Push(Display_now, "")
+                End
+                
+                
+                
+                
+                
             Call MsgBox("check dts_table using log replace", , "check dts_table using log")
-            'Call __________.log(__________.get_username, "ERROR: MODULE: (DTS_VX)FUNCTION: (CHECK_DTS_TABLE) FAILED POSITIONAL CHECK REPORT LISTED BELOW A FAIL IS LISTED AS FALSE: " & vbCrLf & vbCrLf & arr(1, 5) & vbCrLf & arr(2, 5) & vbCrLf & arr(3, 5) & vbCrLf & arr(4, 5) & vbCrLf & arr(5, 5) & vbCrLf & arr(6, 5) & vbCrLf & arr(7, 5) & vbCrLf & arr(8, 5) & vbCrLf & arr(9, 5) & vbCrLf & arr(10, 5) & vbCrLf & arr(11, 5) & vbCrLf & arr(12, 5) & vbCrLf & arr(13, 5) & vbCrLf & arr(14, 5) & vbCrLf & arr(15, 5))
+            
             Call MsgBox("ERROR: MODULE: (DTS_VX)FUNCTION: (CHECK_DTS_TABLE) FAILED POSITIONAL CHECK REPORT LISTED BELOW A FAIL IS LISTED AS FALSE: " & vbCrLf & vbCrLf & arr(1, 5) & vbCrLf & arr(2, 5) & vbCrLf & arr(3, 5) & vbCrLf & arr(4, 5) & vbCrLf & arr(5, 5) & vbCrLf & arr(6, 5) & vbCrLf & arr(7, 5) & vbCrLf & arr(8, 5) & vbCrLf & arr(9, 5) & vbCrLf & arr(10, 5) & vbCrLf & arr(11, 5) & vbCrLf & arr(12, 5) & vbCrLf & arr(13, 5) & vbCrLf & arr(14, 5))
             Stop
             Exit Function
         'end error handle code
         End Function
         
-
-    
 Private Function check(Optional dont_show_information As Boolean, Optional more_instructions As String) As Variant
     'currently functional as of (9/3/2020) checked by: (Zachary Daugherty)
     'Created By (Zachary Daugherty)(9/3/2020)
@@ -1535,7 +1896,7 @@ Private Function check(Optional dont_show_information As Boolean, Optional more_
             condition = DTS_V2A.Check_DTS_Table_V0_01A
             If (condition = True) Then
                 condition = False
-                condition = SP_V1_DEV.Check_SP_A_Table_V0_01A
+                condition = SP_V1_DEV.Check_SP_A_Table_V1
             End If
             If (condition = True) Then
                 condition = False

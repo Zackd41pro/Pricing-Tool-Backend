@@ -224,7 +224,7 @@ Public Function run_on_start()
     'does boots env exist
         bool = Boots_Main_V_alpha.sheet_exist(wb, "Boots")
         If (bool = False) Then
-            Call Boots_Main_V_alpha.make_sheet(wb, "Boots", -1, True)
+            Call Boots_Main_V_alpha.make_sheet_V1(wb, "Boots", -1, "d_report")
         End If
         'format boots
             Call Boots_Main_V_alpha.boots_format
@@ -241,42 +241,66 @@ End Function
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-
 '-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-
 
-Public Function make_sheet(ByVal wb As Workbook, ByVal sheet_name As String, Optional visible As Long, Optional dont_show_instructions As Boolean) As Boolean
-    MsgBox ("boots_main.make_sheet needs to have green text added & instructions")
-    If (dont_show_instructions = False) Then
-        'show instructions
-            Stop
-    End If
-    'define variables
-        Dim home As Worksheet
-        Dim sht As Worksheet
-        Dim bool As Boolean
-    'setup variables
-        'check visible
-            If ((visible <> -1) And (visible <> 2)) Then
-                If (visible <> 0) Then
-                    Call MsgBox("legal calls for 'make_sheet' are 0, -1, or 2")
-                End If
-                visible = 0
-            End If
-        'setup other variables
-            Set home = ActiveSheet
-    'check if the sheet already exists
-        bool = Boots_Main_V_alpha.sheet_exist(wb, sheet_name)
-        If (bool = False) Then
-        'run
-            'make screen updating off and then do steps
-                Application.ScreenUpdating = False
-                Application.DisplayAlerts = False
-                wb.Sheets.Add    'add new sheet
-                Set sht = ActiveSheet  'set cursor to active
-                sht.Name = sheet_name   'rename active sheet
-                sht.visible = visible    'make dev hidden code lvl permission
-                home.Activate 'return to home position
+Public Function make_sheet_V1(ByVal wb As Workbook, ByVal sheet_name As String, Optional visible As Long, Optional more_instructions As String) As Variant
+    'Purpose Case & notes:
+        If (more_instructions = "help") Then
+            Boots_Report_v_Alpha.Push_notification_message (Chr(13) & Chr(13) & "Boots_main_v_alpha.make_sheet_V1: Help File Triggered..." & Chr(13) & _
+                "What is this function for? (updated:12-15-2020):" & Chr(13) & _
+                "    make_sheet_V1 will creat new sheets for you and set them in the state asked for while also checking if they already exist." & Chr(13) & _
+                "Should i call this function directly?(updated:12-15-2020):" & Chr(13) & _
+                "    yes" & Chr(13) & _
+                "What is returned from this function?(updated:12-15-2020):" & Chr(13) & _
+                "    the created sheet and the state that you wanted it to be set in" & Chr(13) & _
+                "Listing Off dependants of Function (updated:12-15-2020):..." & Chr(13) & _
+                "    boots_main_v_alpha." & Chr(13) & _
+                "        boots_main_v_alpha.|parent module|" & Chr(13) & _
+                "    Boots_Report_v_Alpha.:" & Chr(13) & _
+                "        Boots_Report_v_Alpha.Log_Push" & Chr(13) & _
+                "        Boots_Report_v_Alpha.Push_notification_message")
+            Exit Function
         End If
-            'make screen updating on
-                Application.DisplayAlerts = True
-                Application.ScreenUpdating = True
+    'check for log reporting
+        If (more_instructions = "Log_Report") Then
+            make_sheet_V1 = "make_sheet_V1 - Public - Stable 12-15-20 - help file:Y"
+            Exit Function
+        End If
+    'code start
+        If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "Boots_main_v_alpha.make_sheet_V1 starting...")
+        If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+        'define variables
+            Dim home As Worksheet
+            Dim sht As Worksheet
+            Dim bool As Boolean
+        'setup variables
+            'check visible
+                If ((visible <> -1) And (visible <> 2)) Then
+                    If (visible <> 0) Then
+                        Boots_Report_v_Alpha.Push_notification_message (Chr(13) & Chr(13) & "Boots_main_v_alpha.make_sheet_V1: Soft Error..." & Chr(13) & "legal calls for 'Boots_main_v_alpha.make_sheet_V1' are 0, -1, or 2, since one of these was not selected was set to default of '0'")
+                    End If
+                    visible = 0
+                End If
+            'setup other variables
+                Set home = ActiveSheet
+        'check if the sheet already exists
+            bool = Boots_Main_V_alpha.sheet_exist(wb, sheet_name, "d_report")
+            If (bool = False) Then
+            'run
+                'make screen updating off and then do steps
+                    Application.ScreenUpdating = False
+                    Application.DisplayAlerts = False
+                    wb.Sheets.Add    'add new sheet
+                    Set sht = ActiveSheet  'set cursor to active
+                    sht.Name = sheet_name   'rename active sheet
+                    sht.visible = visible    'make dev hidden code lvl permission
+                    home.Activate 'return to home position
+            End If
+                'make screen updating on
+                    Application.DisplayAlerts = True
+                    Application.ScreenUpdating = True
+    'cleanup
+        If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(text, "Boots_main_v_alpha.make_sheet_V1 Finished...")
+        If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+        If more_instructions <> "d_report" Then Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
 End Function
 
 Public Function sheet_exist(ByVal wb As Workbook, ByVal sheet As String, Optional more_instructions As String) As Boolean
@@ -300,6 +324,7 @@ Public Function sheet_exist(ByVal wb As Workbook, ByVal sheet As String, Optiona
 End Function
 
 Public Function get_sheet_list() As Boolean
+    MsgBox ("need to add a mode for no report as this is used in error reporting")
     'this function fetches the names of all the sheets in the workbook and posts them to the 'boots' page to make referencing them easy also it posts the color status
         'and the color of the tab.
     'define variables
@@ -409,7 +434,10 @@ Public Function get_project_files(Optional Optional_more_instructions As get_pro
             'if the entry is not a number it will return the first position in the list
             'if the number is bigger than the index list it will return the last
             'once this is all determined a string of the asked for infomration will be returned in the return variable.
-            
+
+        MsgBox ("need to check out this code for geting functions and subs of a specific file 'https://stackoverflow.com/questions/2630872/how-to-get-the-list-of-function-and-sub-of-a-given-module-name-in-excel-vba'")
+        MsgBox ("https://www.vitoshacademy.com/vba-listing-all-procedures-in-all-modules/")
+
     'define varaibles
         Dim VBC                             'cursor selector to find and explore modules
         Dim type_ As vbext_ComponentType    'enumeration selection object
