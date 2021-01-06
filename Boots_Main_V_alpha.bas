@@ -435,9 +435,6 @@ Public Function get_project_files(Optional Optional_more_instructions As get_pro
             'if the number is bigger than the index list it will return the last
             'once this is all determined a string of the asked for infomration will be returned in the return variable.
 
-        MsgBox ("need to check out this code for geting functions and subs of a specific file 'https://stackoverflow.com/questions/2630872/how-to-get-the-list-of-function-and-sub-of-a-given-module-name-in-excel-vba'")
-        MsgBox ("https://www.vitoshacademy.com/vba-listing-all-procedures-in-all-modules/")
-
     'define varaibles
         Dim VBC                             'cursor selector to find and explore modules
         Dim type_ As vbext_ComponentType    'enumeration selection object
@@ -623,7 +620,7 @@ End Function
 'boots functions private
 
 Private Sub boots_format()
-    MsgBox ("<private>boots_main.boots_format needs green text & instructions")
+    Boots_Report_v_Alpha.Push_notification_message ("Boots_Report_v_Alpha.boots_format: devnote:" & Chr(13) & "<private>boots_main.boots_format needs green text & instructions")
     'define variables
         'address
             Dim wb As Workbook

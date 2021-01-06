@@ -249,7 +249,7 @@ Public Function Log_Push(ByVal Action As Push_selection, Optional text As String
     'this function is made to push all log entrys to a sheet stored in the project so that if there are errors it is easy to report infomration on what went wrong, or ect.
     'check for log reporting
         If (more_instructions = "Log_Report") Then
-            Log_Push = "Log_Push - Public - Stable 10/30/2020"
+            Log_Push = "Log_Push - Public - Stable 10/30/2020 - help file:N"
             Exit Function
         End If
     
@@ -509,16 +509,16 @@ Private Sub Log_format_page()
         .Color = 65280
         .TintAndShade = 0
     End With
-    X = 2
+    x = 2
     Range("A1").Select
     Cells(1, 10).value = Date
     Cells(1, 1).value = 0
     Cells(1, 2).value = Now()
     Cells(1, 3).value = "LOG Session Created from " & ActiveWorkbook.Name
     
-    Cells(X, 3).value = "LOG_" & Boots_Main_V_alpha.get_username & " was created on " & Now()
-    Cells(X, 2).value = Now()
-    Cells(X, 1).value = 0
+    Cells(x, 3).value = "LOG_" & Boots_Main_V_alpha.get_username & " was created on " & Now()
+    Cells(x, 2).value = Now()
+    Cells(x, 1).value = 0
 End Sub
 
 Private Sub Log_compress_blank_space()
@@ -812,7 +812,7 @@ Sub Push_notification_message(ByVal text_to_display As String)
     Dim s As String
     myApp = Shell("Notepad", vbNormalFocus)
     SendKeys "___________________________________This is an Automated message from the terminal___________________________________" & Chr(10), True
-    SendKeys text_to_display, True
+SendKeys text_to_display, True
 End Sub
 
 

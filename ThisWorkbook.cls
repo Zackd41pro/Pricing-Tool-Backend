@@ -39,14 +39,12 @@ Private Sub Workbook_BeforeClose(Cancel As Boolean)
 End Sub
 
 Private Sub Workbook_Open()
-'currently NOT functional as of (8/7/2020) checked by: (Zachary Daugherty)
-    'Created By (System)(8/7/2020)
+    'Created By (System)(12/15/2020)
     'Purpose Case & notes:
         'runs other operands on startup
     'Library Refrences required
         'workbook.object
     'Modules Required
-        'DEV_VX
     'Inputs
         'Internal:
             'na
@@ -62,6 +60,8 @@ Private Sub Workbook_Open()
     'run root
         root.On_startup
     'run DTS Procedure
-        DTS_V2A.run_V0 (update_unit_cost)
+        Call DTS_V2A.run_V0(update_unit_cost)
+    'alpha test of DTH
+        Call DTH_VA.run_V0(DTH_update_unit_cost, "")
 'code end
  End Sub

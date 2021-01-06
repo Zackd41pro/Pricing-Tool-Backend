@@ -314,7 +314,7 @@ End Enum
                 'setup variables
                     'na
                 'start check
-                    MsgBox ("'dts_vx_dev.run' need to add boots check insted of the one used on dts as it can then use a standard check for a page exist.")
+                    Call Boots_Report_v_Alpha.Log_Push(text, "DTS_vX.run_V0... Running Diagnostics for tables...")
                     Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                     condition = DTS_V2A.check(True)
                 'check for check pass and if so run command else throw error
@@ -654,15 +654,21 @@ DTS_incoding_of_table_names:
                             'section for table b
                                 If (L > 0) Then
                                     If ((L > size_of_sp_A) And (L < size_of_sp_A + size_of_sp_B)) Then
-                                        L_2 = L - size_of_sp_A
-                                        Lookup(L, 0) = SP_decoder_B(L_2, 1)
-                                        Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: fetching sheet name: SP_V1_DEV.get_sheet_name start")
-                                            Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
-                                            Lookup(L, 1) = SP_V1_DEV.get_sheet_name("d_report")
-                                            Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: fetching sheet name: SP_V1_DEV.get_sheet_name finish")
-                                        Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
-                                        Lookup(L, 2) = "B"
-                                        Lookup(L, 3) = L_2
+                                        'clear fields
+                                            Lookup(L, 0) = ""
+                                            Lookup(L, 1) = ""
+                                            Lookup(L, 2) = ""
+                                            Lookup(L, 3) = ""
+                                        'do add
+                                            L_2 = L - size_of_sp_A
+                                            Lookup(L, 0) = SP_decoder_B(L_2, 1)
+                                            Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: fetching sheet name: SP_V1_DEV.get_sheet_name start")
+                                                Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
+                                                Lookup(L, 1) = SP_V1_DEV.get_sheet_name("d_report")
+                                                Call Boots_Report_v_Alpha.Log_Push(text, "DTS_V2A.Run_DTS_unit_cost_refresh_v0: fetching sheet name: SP_V1_DEV.get_sheet_name finish")
+                                            Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
+                                            Lookup(L, 2) = "B"
+                                            Lookup(L, 3) = L_2
                                     Else
                                         'fall through marker
                                             If (L > size_of_sp_A) Then
@@ -789,7 +795,8 @@ Run_DTS_unit_cost_refresh_v0_ignore_entry:
                 L = 0
                 L_2 = 0
             'iterate thru memory main
-                Call Boots_Report_v_Alpha.Log_Push(text, "DTS_vX.Run_DTS_unit_cost_refresh_v0: run update: iterating thru memory main to find matches and return values...") '3-na
+                Call Boots_Report_v_Alpha.Log_Push(text, "DTS_vX.Run_DTS_unit_cost_refresh_v0: run update: iterating thru memory main to find matches and return values... start...")
+                Call Boots_Report_v_Alpha.Log_Push(Trigger_S)
                 For L = 1 To size_of_dts
                     'change pos
                         row = DTS_POS_2A.DTS_I_part_number_row + L
@@ -860,6 +867,8 @@ Run_DTS_unit_cost_refresh_v0_part_numb_check:
                 s = "empty"
                 L_2 = -1
                 home_pos.Activate
+                Call Boots_Report_v_Alpha.Log_Push(text, "DTS_vX.Run_DTS_unit_cost_refresh_v0: run update: iterating thru memory main to find matches and return values... finish...")
+                Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
                 Call Boots_Report_v_Alpha.Log_Push(text, "DTS_vX.Run_DTS_unit_cost_refresh_v0: run update finish...") '3-2
                 Call Boots_Report_v_Alpha.Log_Push(Trigger_e)
     'code end
